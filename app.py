@@ -193,22 +193,10 @@ def admin_logout():
 @app.before_request
 def create_tables():
     db.create_all()
-    old_names = ['Paneer Italiano Sandwich', 'Corn Ribs with Chilli Mayo', 'Mango Tres Leches']
-    for item in MenuItem.query.filter(MenuItem.name.in_(old_names)).all():
-        db.session.delete(item)
-    db.session.commit()
-    # Migrate: rename potato chicken skewers
-    skewer = MenuItem.query.filter_by(name='Potato-Wrapped Chicken Skewers').first()
-    if skewer:
-        skewer.name = 'Butterfly Chicken Bites'
-        skewer.description = 'Crispy butterfly-cut chicken bites — golden, crunchy & perfect for sharing!'
-    db.session.commit()
-    # Migrate: add bread pudding if missing
-    if not MenuItem.query.filter_by(name='Bread Pudding').first():
-        db.session.add(MenuItem(name='Bread Pudding', category='Dessert', description='Warm, soft bread pudding baked to perfection — comfort in every bite.', price=0, image='bread-pudding.jpg'))
-        db.session.commit()
+
+with app.app_context():
+    db.create_all()
     if not MenuItem.query.filter_by(name='Classic Tiramisu').first():
-        # DB is missing items - clear and reseed
         MenuItem.query.delete()
         db.session.commit()
         items = [
