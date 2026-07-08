@@ -251,7 +251,6 @@ img { max-width: 100%; display: block; }
 .menu-card:hover .menu-card-image img { transform: scale(1.08); }
 .menu-card-body { padding: 24px; }
 .menu-card-body h3 { font-size: 18px; margin-bottom: 6px; }
-.menu-card-body .price { font-size: 18px; font-weight: 700; color: var(--primary); margin-bottom: 10px; }
 .menu-card-body p { font-size: 14px; color: var(--body); opacity: 0.8; margin-bottom: 16px; line-height: 1.5; }
 .menu-card-body .btn { width: 100%; justify-content: center; padding: 12px; font-size: 14px; }
 
@@ -583,7 +582,6 @@ img { max-width: 100%; display: block; }
         <div class="menu-card-image"><img src="/static/{{ item.image }}" alt="{{ item.name }}"></div>
         <div class="menu-card-body">
           <h3>{{ item.name }}</h3>
-          <div class="price">₹{{ item.price }}</div>
           <p>{{ item.description or '' }}</p>
           <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="btn btn-primary">DM to Order</a>
         </div>
