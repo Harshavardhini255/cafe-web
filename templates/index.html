@@ -218,23 +218,10 @@ img { max-width: 100%; display: block; }
 .about-features .feat svg { flex-shrink: 0; color: var(--primary); }
 @media (max-width: 768px) { .about-grid { grid-template-columns: 1fr; gap: 40px; } .about-image img { height: 300px; } }
 
-/* DISCOVER GRID (Nuvo-style 3 col) */
+/* DISCOVER GRID */
 .discover { padding: 100px 0; background: linear-gradient(180deg,var(--bg) 0%,var(--soft-lavender) 100%); }
-.discover-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
-.discover-card {
-  border-radius: var(--radius); overflow: hidden; background: var(--card);
-  box-shadow: var(--shadow); transition: all 0.5s ease; cursor: pointer;
-}
-.discover-card:hover { transform: translateY(-8px); box-shadow: 0 12px 40px rgba(108,78,255,0.15); }
-.discover-card img { width: 100%; height: auto; display: block; transition: transform 0.6s ease; }
-.discover-card:hover img { transform: scale(1.05); }
-.discover-card-body { padding: 28px; }
-.discover-card-body .cat { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--primary); font-weight: 600; margin-bottom: 8px; }
-.discover-card-body h3 { font-size: 20px; margin-bottom: 12px; }
-.discover-card-body p { font-size: 14px; line-height: 1.7; opacity: 0.8; margin-bottom: 16px; }
-.discover-card-body a { font-size: 14px; font-weight: 600; color: var(--primary); display: inline-flex; align-items: center; gap: 6px; }
-@media (max-width: 900px) { .discover-grid { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 600px) { .discover-grid { grid-template-columns: 1fr; } }
+@media (max-width: 900px) { .menu-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) { .menu-grid { grid-template-columns: 1fr; } }
 
 /* MENU */
 .menu-section { padding: 100px 0; background: linear-gradient(180deg,var(--card) 0%,var(--bg) 100%); }
@@ -249,8 +236,9 @@ img { max-width: 100%; display: block; }
 .menu-card-image { width: 100%; }
 .menu-card-image img { width: 100%; height: auto; display: block; }
 .menu-card-body { padding: 24px; }
-.menu-card-body h3 { font-size: 18px; margin-bottom: 6px; }
-.menu-card-body p { font-size: 14px; color: var(--body); opacity: 0.8; margin-bottom: 16px; line-height: 1.5; }
+.menu-card-body .cat { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--primary); font-weight: 600; margin-bottom: 8px; }
+.menu-card-body h3 { font-size: 20px; margin-bottom: 12px; }
+.menu-card-body p { font-size: 14px; line-height: 1.7; opacity: 0.8; margin-bottom: 16px; }
 .menu-card-body .btn { width: 100%; justify-content: center; padding: 12px; font-size: 14px; }
 
 /* SERVICES / ATMOSPHERE */
@@ -529,34 +517,18 @@ img { max-width: 100%; display: block; }
       <h2>The WakeCup Experience</h2>
       <p>From morning brew to evening indulgence — every moment at WakeCup is crafted for you.</p>
     </div>
-    <div class="discover-grid">
-      <div class="discover-card reveal-scale">
-        <img src="/static/golden-crunch-burger.jpg" alt="Burgers">
-        <div class="discover-card-body">
-          <div class="cat">Savory</div>
-          <h3>Burgers & Sandwiches</h3>
-          <p>Golden Crunch Chicken Burger, Chicken Marinara Sandwich — crafted with love and the finest ingredients.</p>
-          <a href="#menu">Explore Menu →</a>
+    <div class="menu-grid">
+      {% for item in menu_items %}
+      <div class="menu-card reveal-scale">
+        <div class="menu-card-image"><img src="/static/{{ item.image }}" alt="{{ item.name }}"></div>
+        <div class="menu-card-body">
+          <div class="cat">{{ item.category }}</div>
+          <h3>{{ item.name }}</h3>
+          <p>{{ item.description or '' }}</p>
+          <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="btn btn-primary">DM to Order</a>
         </div>
       </div>
-      <div class="discover-card reveal-scale">
-        <img src="/static/classic-tiramisu.jpg" alt="Desserts">
-        <div class="discover-card-body">
-          <div class="cat">Sweet</div>
-          <h3>Indulgent Desserts</h3>
-          <p>Tiramisu three ways, Caramel Crunch, Mini Blueberry Bliss — each bite is pure bliss.</p>
-          <a href="#menu">Explore Menu →</a>
-        </div>
-      </div>
-      <div class="discover-card reveal-scale">
-        <img src="/static/bread-pudding.jpg" alt="Desserts">
-        <div class="discover-card-body">
-          <div class="cat">Desserts</div>
-          <h3>Sweet Treats</h3>
-          <p>Bread pudding, tiramisu & more — baked fresh daily.</p>
-          <a href="#menu">Explore Menu →</a>
-        </div>
-      </div>
+      {% endfor %}
     </div>
   </div>
 </section>
