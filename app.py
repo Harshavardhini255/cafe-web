@@ -193,6 +193,10 @@ def admin_logout():
 @app.before_request
 def create_tables():
     db.create_all()
+    old_names = ['Paneer Italiano Sandwich', 'Corn Ribs with Chilli Mayo', 'Butterfly Chicken Bites', 'Mango Tres Leches']
+    for item in MenuItem.query.filter(MenuItem.name.in_(old_names)).all():
+        db.session.delete(item)
+    db.session.commit()
     if MenuItem.query.count() == 0:
         items = [
             MenuItem(name='Chicken Marinara Sandwich', category='Sandwich', description='Slow-simmered in our in-house marinara, juicy chicken & melted cheese — just how it should be.', price=200, image='chicken-marinara.jpg'),
@@ -206,29 +210,8 @@ def create_tables():
             MenuItem(name='Caramel Crunch', category='Dessert', description='Irresistible caramel crunch dessert.', price=220, image='caramel-crunch.jpg'),
             MenuItem(name='Classic Affogato', category='Beverage', description='Espresso poured over vanilla ice cream — a classic Italian finish.', price=180, image='classic-affogato.jpg'),
             MenuItem(name='Cold Kaapi Scoop', category='Beverage', description='Refreshing cold coffee scoop — perfect pick-me-up.', price=160, image='cold-kaapi-scoop.jpg'),
-            MenuItem(name='Paneer Italiano Sandwich', category='Sandwich', description='Paneer tikka with Italian herbs, bell peppers & cheese.', price=180, image='product-2.png'),
-            MenuItem(name='Corn Ribs with Chilli Mayo', category='Snack', description='Crispy corn ribs served with smoky chilli mayo dip.', price=150, image='product-3.png'),
-            MenuItem(name='Butterfly Chicken Bites', category='Snack', description='Tender chicken bites, golden fried with seasoned coating.', price=140, image='product-4.png'),
-            MenuItem(name='Mango Tres Leches', category='Dessert', description='Three-milk cake topped with fresh mango cream.', price=280, image='product-6.png'),
         ]
         db.session.add_all(items)
-        db.session.commit()
-    elif MenuItem.query.count() < 15:
-        existing = {item.name for item in MenuItem.query.all()}
-        new_items = [
-            MenuItem(name='Golden Crunch Chicken Burger', category='Burger', description='Crispy golden chicken burger with premium toppings.', price=220, image='golden-crunch-burger.jpg'),
-            MenuItem(name='Potato-Wrapped Chicken Skewers', category='Snack', description='Succulent chicken marinated in-house, wrapped with thinly sliced potatoes, skewered & fried to golden perfection.', price=180, image='potato-chicken-skewers.jpg'),
-            MenuItem(name='Buttery Herbed Rice with Spicy Honey Glazed Chicken', category='Main', description='Hot, buttery herbed rice served with juicy, flavourful spicy honey glazed chicken — so comforting yet filling.', price=250, image='herbed-rice-chicken.jpg'),
-            MenuItem(name='Pistachio Tiramisu', category='Dessert', description='Layers of love & pistachio — a nutty twist on the classic.', price=280, image='pistachio-tiramisu.jpg'),
-            MenuItem(name='Choco Hazelnut Tiramisu', category='Dessert', description='Rich chocolate & hazelnut layered tiramisu.', price=280, image='choco-hazelnut-tiramisu.jpg'),
-            MenuItem(name='Mini Blueberry Bliss', category='Dessert', description='Delightful mini blueberry dessert — sweet & tangy.', price=200, image='mini-blueberry-bliss.jpg'),
-            MenuItem(name='Caramel Crunch', category='Dessert', description='Irresistible caramel crunch dessert.', price=220, image='caramel-crunch.jpg'),
-            MenuItem(name='Classic Affogato', category='Beverage', description='Espresso poured over vanilla ice cream — a classic Italian finish.', price=180, image='classic-affogato.jpg'),
-            MenuItem(name='Cold Kaapi Scoop', category='Beverage', description='Refreshing cold coffee scoop — perfect pick-me-up.', price=160, image='cold-kaapi-scoop.jpg'),
-        ]
-        for item in new_items:
-            if item.name not in existing:
-                db.session.add(item)
         db.session.commit()
 
 if __name__ == '__main__':
