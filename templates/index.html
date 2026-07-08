@@ -10,21 +10,21 @@
 <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
 <style>
 :root {
-  --primary: #6C4EFF;
-  --dark-purple: #4B2AC5;
-  --lavender: #BFA2FF;
-  --soft-lavender: #E9DFFF;
-  --bg: #FAF8FF;
+  --primary: #fe81d4;
+  --dark-purple: #d45a9e;
+  --lavender: #faacbf;
+  --soft-lavender: #fbc3c1;
+  --bg: #fffaf5;
   --card: #FFFFFF;
-  --heading: #1B133F;
+  --heading: #4a1a3a;
   --body: #666666;
   --gold: #FFB800;
-  --pastel-pink: #FFD6E0;
-  --pastel-peach: #FFE5D9;
+  --pastel-pink: #faacbf;
+  --pastel-peach: #fbc3c1;
   --pastel-mint: #D4F5E9;
   --pastel-lilac: #E8D5FF;
   --pastel-blue: #D5EEFF;
-  --pastel-yellow: #FFF5D6;
+  --pastel-yellow: #ffeabb;
   --radius: 16px;
   --shadow: 0 4px 30px rgba(108, 78, 255, 0.1);
 }
@@ -105,7 +105,7 @@ img { max-width: 100%; display: block; }
   font-family: 'Inter', sans-serif;
 }
 .btn-primary { background: var(--primary); color: white; }
-.btn-primary:hover { background: var(--dark-purple); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(108,78,255,0.35); }
+.btn-primary:hover { background: var(--dark-purple); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(254,129,212,0.35); }
 .btn-outline { background: transparent; color: var(--primary); border: 2px solid var(--primary); }
 .btn-outline:hover { background: var(--primary); color: white; transform: translateY(-2px); }
 .btn-gold { background: var(--gold); color: var(--heading); }
@@ -139,7 +139,7 @@ img { max-width: 100%; display: block; }
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(108, 78, 255, 0.06);
 }
-.navbar.scrolled { padding: 10px 0; box-shadow: 0 2px 40px rgba(108,78,255,0.08); }
+.navbar.scrolled { padding: 10px 0; box-shadow: 0 2px 40px rgba(254,129,212,0.08); }
 .nav-inner {
   display: flex; align-items: center; justify-content: space-between;
   max-width: 1280px; margin: 0 auto; padding: 0 24px;
@@ -172,7 +172,7 @@ img { max-width: 100%; display: block; }
 .hero-slide img { width: 100%; height: 100%; object-fit: cover; }
 .hero-overlay {
   position: absolute; inset: 0;
-  background: linear-gradient(135deg, rgba(27,19,63,0.65) 0%, rgba(108,78,255,0.3) 100%);
+  background: linear-gradient(135deg, rgba(74,26,58,0.65) 0%, rgba(254,129,212,0.3) 100%);
   z-index: 1;
 }
 .hero-content {
@@ -206,7 +206,7 @@ img { max-width: 100%; display: block; }
   position: absolute; bottom: 24px; left: 24px;
   background: var(--primary); color: white; padding: 16px 24px;
   border-radius: 12px; text-align: center; line-height: 1.3;
-  box-shadow: 0 4px 20px rgba(108,78,255,0.3);
+  box-shadow: 0 4px 20px rgba(254,129,212,0.3);
 }
 .about-image .exp strong { font-size: 28px; display: block; font-family: 'Playfair Display', serif; }
 .about-image .exp span { font-size: 13px; opacity: 0.9; }
@@ -225,7 +225,7 @@ img { max-width: 100%; display: block; }
   border-radius: var(--radius); overflow: hidden; background: var(--card);
   box-shadow: var(--shadow); transition: all 0.5s ease; cursor: pointer;
 }
-.discover-card:hover { transform: translateY(-8px); box-shadow: 0 12px 40px rgba(108,78,255,0.15); }
+.discover-card:hover { transform: translateY(-8px); box-shadow: 0 12px 40px rgba(254,129,212,0.15); }
 .discover-card img { width: 100%; height: auto; display: block; transition: transform 0.6s ease; }
 .discover-card:hover img { transform: scale(1.05); }
 .discover-card-body { padding: 28px; }
@@ -239,8 +239,8 @@ img { max-width: 100%; display: block; }
 /* CAKES */
 .cakes-section { padding: 100px 0; background: linear-gradient(180deg,var(--soft-lavender) 0%,var(--bg) 100%); }
 .cakes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
-.cake-card { border-radius: var(--radius); overflow: hidden; background: var(--card); box-shadow: 0 2px 20px rgba(108,78,255,0.06); border: 1px solid rgba(108,78,255,0.04); transition: all 0.5s ease; }
-.cake-card:hover { transform: translateY(-8px); box-shadow: 0 12px 40px rgba(108,78,255,0.15); }
+.cake-card { border-radius: var(--radius); overflow: hidden; background: var(--card); box-shadow: 0 2px 20px rgba(254,129,212,0.06); border: 1px solid rgba(254,129,212,0.04); transition: all 0.5s ease; }
+.cake-card:hover { transform: translateY(-8px); box-shadow: 0 12px 40px rgba(254,129,212,0.15); }
 .cake-card-image { width: 100%; }
 .cake-card-image img,
 .cake-card-image video { width: 100%; height: auto; display: block; }
@@ -251,11 +251,11 @@ img { max-width: 100%; display: block; }
 .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 32px; }
 .menu-card {
   background: var(--card); border-radius: var(--radius); overflow: hidden;
-  box-shadow: 0 2px 20px rgba(108,78,255,0.06);
-  border: 1px solid rgba(108,78,255,0.04);
+  box-shadow: 0 2px 20px rgba(254,129,212,0.06);
+  border: 1px solid rgba(254,129,212,0.04);
   transition: all 0.5s ease;
 }
-.menu-card:hover { transform: translateY(-8px); box-shadow: 0 12px 40px rgba(108,78,255,0.15); }
+.menu-card:hover { transform: translateY(-8px); box-shadow: 0 12px 40px rgba(254,129,212,0.15); }
 .menu-card-image { width: 100%; }
 .menu-card-image img { width: 100%; height: auto; display: block; }
 .menu-card-body { padding: 24px; }
@@ -344,7 +344,7 @@ img { max-width: 100%; display: block; }
 .insta-grid-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
 .insta-grid-item:hover img { transform: scale(1.08); }
 .insta-grid-item .overlay {
-  position: absolute; inset: 0; background: rgba(108,78,255,0.3);
+  position: absolute; inset: 0; background: rgba(254,129,212,0.3);
   display: flex; align-items: center; justify-content: center;
   opacity: 0; transition: opacity 0.4s ease; color: white;
 }
@@ -394,7 +394,7 @@ img { max-width: 100%; display: block; }
 
 /* INSTAGRAM GRID HOVER */
 .insta-grid a { display:block; border-radius:12px; overflow:hidden; position:relative; }
-.insta-grid a::after { content:'\279A'; position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(108,78,255,0.6); color:white; font-size:28px; opacity:0; transition:opacity 0.3s; }
+.insta-grid a::after { content:'\279A'; position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(254,129,212,0.6); color:white; font-size:28px; opacity:0; transition:opacity 0.3s; }
 .insta-grid a:hover::after { opacity:1; }
 .insta-grid img { width:100%; aspect-ratio:1; object-fit:cover; display:block; }
 
@@ -1146,3 +1146,4 @@ console.log('WakeCup Cafe || Theni — Full Stack with Flask + PostgreSQL.');
 </script>
 </body>
 </html>
+
