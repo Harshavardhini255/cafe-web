@@ -1,0 +1,209 @@
+import os
+import json
+from datetime import datetime
+from flask import Flask, render_template, request, jsonify, redirect, url_for, session
+from flask_cors import CORS
+from config import Config
+from models import db, MenuItem, Order, Reservation, Review, Subscriber, ContactMessage
+
+app = Flask(__name__)
+app.config.from_object(Config)
+CORS(app)
+db.init_app(app)
+
+@app.route('/')
+def index():
+    menu_items = MenuItem.query.filter_by(available=True).all()
+    reviews = Review.query.filter_by(approved=True).all()
+    return render_template('index.html', menu_items=menu_items, reviews=reviews)
+
+@app.route('/api/menu', methods=['GET'])
+def get_menu():
+    items = MenuItem.query.filter_by(available=True).all()
+    return jsonify([item.to_dict() for item in items])
+
+@app.route('/api/order', methods=['POST'])
+def place_order():
+    data = request.json
+    if not data or not data.get('items'):
+        return jsonify({'error': 'No items in order'}), 400
+    order = Order(
+        customer_name=data.get('name', 'Guest'),
+        customer_phone=data.get('phone', ''),
+        items=json.dumps(data['items']),
+        total=data.get('total', 0),
+        order_type=data.get('order_type', 'takeaway'),
+        notes=data.get('notes', ''),
+        status='pending'
+    )
+    db.session.add(order)
+    db.session.commit()
+    return jsonify({'success': True, 'order_id': order.id, 'message': 'Order placed! We\'ll DM you shortly.'})
+
+@app.route('/api/reserve', methods=['POST'])
+def make_reservation():
+    data = request.json
+    if not data or not data.get('name'):
+        return jsonify({'error': 'Name is required'}), 400
+    reservation = Reservation(
+        customer_name=data['name'],
+        customer_phone=data.get('phone', ''),
+        date=datetime.strptime(data['date'], '%Y-%m-%d').date(),
+        time=data.get('time', '7:00 PM'),
+        guests=data.get('guests', 2),
+        occasion=data.get('occasion', 'Casual Dining'),
+        notes=data.get('notes', ''),
+        status='pending'
+    )
+    db.session.add(reservation)
+    db.session.commit()
+    return jsonify({'success': True, 'reservation_id': reservation.id, 'message': 'Reservation request noted! We\'ll DM you to confirm.'})
+
+@app.route('/api/review', methods=['POST'])
+def submit_review():
+    data = request.json
+    if not data or not data.get('name') or not data.get('content'):
+        return jsonify({'error': 'Name and review are required'}), 400
+    review = Review(
+        customer_name=data['name'],
+        rating=data.get('rating', 5),
+        content=data['content'],
+        approved=False
+    )
+    db.session.add(review)
+    db.session.commit()
+    return jsonify({'success': True, 'message': 'Review submitted! Will appear after approval.'})
+
+@app.route('/api/subscribe', methods=['POST'])
+def subscribe():
+    data = request.json
+    email = data.get('email', '').strip().lower()
+    if not email:
+        return jsonify({'error': 'Email is required'}), 400
+    existing = Subscriber.query.filter_by(email=email).first()
+    if existing:
+        return jsonify({'success': True, 'message': 'Already subscribed!'})
+    subscriber = Subscriber(email=email)
+    db.session.add(subscriber)
+    db.session.commit()
+    return jsonify({'success': True, 'message': 'Subscribed successfully!'})
+
+@app.route('/api/contact', methods=['POST'])
+def contact():
+    data = request.json
+    if not data or not data.get('name') or not data.get('message'):
+        return jsonify({'error': 'Name and message are required'}), 400
+    msg = ContactMessage(
+        name=data['name'],
+        email=data.get('email', ''),
+        subject=data.get('subject', ''),
+        message=data['message'],
+        read=False
+    )
+    db.session.add(msg)
+    db.session.commit()
+    return jsonify({'success': True, 'message': 'Message sent! We\'ll get back to you soon.'})
+
+@app.route('/admin')
+def admin_login():
+    return render_template('admin_login.html')
+
+@app.route('/admin/login', methods=['POST'])
+def admin_do_login():
+    data = request.form
+    pw = data.get('password', '')
+    if pw == os.environ.get('ADMIN_PASSWORD', 'wakecup123'):
+        session['admin'] = True
+        return redirect(url_for('admin_dashboard'))
+    return render_template('admin_login.html', error='Wrong password')
+
+@app.route('/admin/dashboard')
+def admin_dashboard():
+    if not session.get('admin'):
+        return redirect(url_for('admin_login'))
+    orders = Order.query.order_by(Order.created_at.desc()).all()
+    reservations = Reservation.query.order_by(Reservation.created_at.desc()).all()
+    menu_items = MenuItem.query.all()
+    reviews = Review.query.order_by(Review.created_at.desc()).all()
+    subscribers = Subscriber.query.order_by(Subscriber.created_at.desc()).all()
+    contacts = ContactMessage.query.order_by(ContactMessage.created_at.desc()).all()
+    return render_template('admin/dashboard.html',
+        orders=orders, reservations=reservations,
+        menu_items=menu_items, reviews=reviews,
+        subscribers=subscribers, contacts=contacts)
+
+@app.route('/admin/order/<int:order_id>/status', methods=['POST'])
+def update_order_status(order_id):
+    if not session.get('admin'):
+        return jsonify({'error': 'Unauthorized'}), 401
+    order = Order.query.get_or_404(order_id)
+    order.status = request.json.get('status', order.status)
+    db.session.commit()
+    return jsonify({'success': True})
+
+@app.route('/admin/reservation/<int:res_id>/status', methods=['POST'])
+def update_reservation_status(res_id):
+    if not session.get('admin'):
+        return jsonify({'error': 'Unauthorized'}), 401
+    res = Reservation.query.get_or_404(res_id)
+    res.status = request.json.get('status', res.status)
+    db.session.commit()
+    return jsonify({'success': True})
+
+@app.route('/admin/review/<int:review_id>/approve', methods=['POST'])
+def approve_review(review_id):
+    if not session.get('admin'):
+        return jsonify({'error': 'Unauthorized'}), 401
+    review = Review.query.get_or_404(review_id)
+    review.approved = not review.approved
+    db.session.commit()
+    return jsonify({'success': True, 'approved': review.approved})
+
+@app.route('/admin/menu/add', methods=['POST'])
+def add_menu_item():
+    if not session.get('admin'):
+        return jsonify({'error': 'Unauthorized'}), 401
+    data = request.json
+    item = MenuItem(
+        name=data['name'],
+        category=data.get('category', 'Main'),
+        description=data.get('description', ''),
+        price=data['price'],
+        image=data.get('image', 'product-1.png'),
+        available=True
+    )
+    db.session.add(item)
+    db.session.commit()
+    return jsonify({'success': True, 'item': item.to_dict()})
+
+@app.route('/admin/menu/<int:item_id>', methods=['DELETE'])
+def delete_menu_item(item_id):
+    if not session.get('admin'):
+        return jsonify({'error': 'Unauthorized'}), 401
+    item = MenuItem.query.get_or_404(item_id)
+    db.session.delete(item)
+    db.session.commit()
+    return jsonify({'success': True})
+
+@app.route('/admin/logout')
+def admin_logout():
+    session.pop('admin', None)
+    return redirect(url_for('admin_login'))
+
+@app.before_request
+def create_tables():
+    db.create_all()
+    if MenuItem.query.count() == 0:
+        items = [
+            MenuItem(name='Chicken Marinara Sandwich', category='Sandwich', description='Grilled chicken with marinara sauce, cheese & herbs.', price=200, image='product-1.png'),
+            MenuItem(name='Paneer Italiano Sandwich', category='Sandwich', description='Paneer tikka with Italian herbs, bell peppers & cheese.', price=180, image='product-2.png'),
+            MenuItem(name='Corn Ribs with Chilli Mayo', category='Snack', description='Crispy corn ribs served with smoky chilli mayo dip.', price=150, image='product-3.png'),
+            MenuItem(name='Butterfly Chicken Bites', category='Snack', description='Tender chicken bites, golden fried with seasoned coating.', price=140, image='product-4.png'),
+            MenuItem(name='Classic Tiramisu', category='Dessert', description='Layered coffee dessert with mascarpone & cocoa.', price=250, image='product-5.png'),
+            MenuItem(name='Mango Tres Leches', category='Dessert', description='Three-milk cake topped with fresh mango cream.', price=280, image='product-6.png'),
+        ]
+        db.session.add_all(items)
+        db.session.commit()
+
+if __name__ == '__main__':
+    app.run(debug=True)

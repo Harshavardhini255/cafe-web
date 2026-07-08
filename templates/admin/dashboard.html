@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — WakeCup Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Inter',sans-serif; background:#FAF8FF; color:#333; }
+.header { background:#6C4EFF; color:white; padding:16px 32px; display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; z-index:100; }
+.header h1 { font-family:'Playfair Display',serif; font-size:20px; }
+.header a { color:rgba(255,255,255,0.8); text-decoration:none; font-size:14px; }
+.header a:hover { color:white; }
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px; padding:24px 32px; }
+.card { background:white; border-radius:12px; padding:20px; box-shadow:0 2px 12px rgba(0,0,0,0.04); }
+.card .num { font-size:32px; font-weight:700; color:#6C4EFF; font-family:'Playfair Display',serif; }
+.card .label { font-size:13px; color:#888; margin-top:4px; }
+.tabs { display:flex; gap:8px; padding:0 32px; flex-wrap:wrap; }
+.tab { padding:10px 20px; border-radius:8px 8px 0 0; background:#E9DFFF; cursor:pointer; font-size:13px; font-weight:500; transition:all 0.2s; border:none; }
+.tab.active { background:white; color:#6C4EFF; font-weight:600; }
+.tab:hover { background:white; }
+.panel { display:none; background:white; border-radius:0 12px 12px 12px; box-shadow:0 2px 12px rgba(0,0,0,0.04); margin:0 32px 32px; padding:24px; }
+.panel.active { display:block; }
+table { width:100%; border-collapse:collapse; font-size:14px; }
+th { text-align:left; padding:12px 8px; border-bottom:2px solid #E9DFFF; color:#6C4EFF; font-weight:600; font-size:12px; text-transform:uppercase; letter-spacing:0.5px; }
+td { padding:12px 8px; border-bottom:1px solid #f0f0f0; vertical-align:top; }
+.select-status { padding:6px 12px; border-radius:8px; border:1px solid #ddd; font-size:13px; cursor:pointer; }
+.badge { display:inline-block; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:600; }
+.badge-pending { background:#FFF5D6; color:#B8860B; }
+.badge-confirmed { background:#D4F5E9; color:#1a8a5c; }
+.badge-completed { background:#E9DFFF; color:#6C4EFF; }
+.badge-cancelled { background:#FFD6D6; color:#c0392b; }
+.btn-approve { padding:4px 12px; border-radius:6px; border:none; background:#6C4EFF; color:white; font-size:12px; cursor:pointer; }
+.btn-approve:hover { background:#4B2AC5; }
+.btn-approve.approved { background:#2ecc71; }
+.empty { text-align:center; padding:40px; color:#aaa; font-size:14px; }
+.form-add { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:20px; padding:16px; background:#FAF8FF; border-radius:12px; align-items:end; }
+.form-add input, .form-add textarea { padding:10px 12px; border:1px solid #E9DFFF; border-radius:8px; font-size:13px; outline:none; font-family:'Inter',sans-serif; }
+.form-add input:focus, .form-add textarea:focus { border-color:#6C4EFF; }
+.form-add button { padding:10px 20px; background:#6C4EFF; color:white; border:none; border-radius:8px; font-size:13px; font-weight:600; cursor:pointer; }
+.form-add button:hover { background:#4B2AC5; }
+@media (max-width:768px) { .grid,.tabs,.panel { margin-left:16px; margin-right:16px; } .grid { padding:16px; } }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>⚡ WakeCup Admin</h1>
+  <a href="/admin/logout">Logout</a>
+</div>
+
+<div class="grid">
+  <div class="card"><div class="num">{{ orders|length }}</div><div class="label">Total Orders</div></div>
+  <div class="card"><div class="num">{{ reservations|length }}</div><div class="label">Reservations</div></div>
+  <div class="card"><div class="num">{{ menu_items|length }}</div><div class="label">Menu Items</div></div>
+  <div class="card"><div class="num">{{ reviews|length }}</div><div class="label">Reviews</div></div>
+  <div class="card"><div class="num">{{ subscribers|length }}</div><div class="label">Subscribers</div></div>
+  <div class="card"><div class="num">{{ contacts|length }}</div><div class="label">Messages</div></div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('orders')">Orders</button>
+  <button class="tab" onclick="switchTab('reservations')">Reservations</button>
+  <button class="tab" onclick="switchTab('menu')">Menu</button>
+  <button class="tab" onclick="switchTab('reviews')">Reviews</button>
+  <button class="tab" onclick="switchTab('subscribers')">Subscribers</button>
+  <button class="tab" onclick="switchTab('messages')">Messages</button>
+</div>
+
+<div id="panel-orders" class="panel active">
+  <table>
+    <tr><th>#</th><th>Customer</th><th>Phone</th><th>Items</th><th>Total</th><th>Type</th><th>Status</th><th>Date</th></tr>
+    {% for o in orders %}
+    <tr>
+      <td>{{ o.id }}</td>
+      <td>{{ o.customer_name }}</td>
+      <td>{{ o.customer_phone }}</td>
+      <td style="font-size:12px;">{{ o.items[:100] }}{% if o.items|length > 100 %}...{% endif %}</td>
+      <td>₹{{ o.total }}</td>
+      <td>{{ o.order_type }}</td>
+      <td>
+        <select class="select-status badge-{{ o.status }}" onchange="updateOrder({{ o.id }}, this.value)">
+          <option value="pending" {% if o.status=='pending' %}selected{% endif %}>Pending</option>
+          <option value="confirmed" {% if o.status=='confirmed' %}selected{% endif %}>Confirmed</option>
+          <option value="completed" {% if o.status=='completed' %}selected{% endif %}>Completed</option>
+          <option value="cancelled" {% if o.status=='cancelled' %}selected{% endif %}>Cancelled</option>
+        </select>
+      </td>
+      <td style="font-size:12px;">{{ o.created_at.strftime('%d %b, %I:%M %p') }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="8" class="empty">No orders yet</td></tr>
+    {% endfor %}
+  </table>
+</div>
+
+<div id="panel-reservations" class="panel">
+  <table>
+    <tr><th>#</th><th>Name</th><th>Phone</th><th>Date</th><th>Time</th><th>Guests</th><th>Occasion</th><th>Status</th><th>Date</th></tr>
+    {% for r in reservations %}
+    <tr>
+      <td>{{ r.id }}</td>
+      <td>{{ r.customer_name }}</td>
+      <td>{{ r.customer_phone }}</td>
+      <td>{{ r.date }}</td>
+      <td>{{ r.time }}</td>
+      <td>{{ r.guests }}</td>
+      <td>{{ r.occasion }}</td>
+      <td>
+        <select class="select-status" onchange="updateReservation({{ r.id }}, this.value)">
+          <option value="pending" {% if r.status=='pending' %}selected{% endif %}>Pending</option>
+          <option value="confirmed" {% if r.status=='confirmed' %}selected{% endif %}>Confirmed</option>
+          <option value="completed" {% if r.status=='completed' %}selected{% endif %}>Completed</option>
+          <option value="cancelled" {% if r.status=='cancelled' %}selected{% endif %}>Cancelled</option>
+        </select>
+      </td>
+      <td style="font-size:12px;">{{ r.created_at.strftime('%d %b, %I:%M %p') }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="9" class="empty">No reservations yet</td></tr>
+    {% endfor %}
+  </table>
+</div>
+
+<div id="panel-menu" class="panel">
+  <div class="form-add">
+    <input id="itemName" placeholder="Item name" required>
+    <input id="itemPrice" placeholder="Price (₹)" type="number" required>
+    <input id="itemCategory" placeholder="Category (e.g. Sandwich)" required>
+    <input id="itemImage" placeholder="Image filename (e.g. product-2.png)">
+    <textarea id="itemDesc" placeholder="Description" rows="2" style="width:300px;"></textarea>
+    <button onclick="addMenuItem()">Add Item</button>
+  </div>
+  <table>
+    <tr><th>#</th><th>Image</th><th>Name</th><th>Price</th><th>Category</th><th>Available</th><th></th></tr>
+    {% for m in menu_items %}
+    <tr>
+      <td>{{ m.id }}</td>
+      <td>{{ m.image }}</td>
+      <td>{{ m.name }}</td>
+      <td>₹{{ m.price }}</td>
+      <td>{{ m.category }}</td>
+      <td>{{ '✓' if m.available else '✗' }}</td>
+      <td><button class="btn-approve" onclick="deleteItem({{ m.id }})">Delete</button></td>
+    </tr>
+    {% else %}
+    <tr><td colspan="7" class="empty">Menu is empty</td></tr>
+    {% endfor %}
+  </table>
+</div>
+
+<div id="panel-reviews" class="panel">
+  <table>
+    <tr><th>#</th><th>Name</th><th>Rating</th><th>Review</th><th>Approved</th><th>Date</th></tr>
+    {% for r in reviews %}
+    <tr>
+      <td>{{ r.id }}</td>
+      <td>{{ r.customer_name }}</td>
+      <td>{{ '★' * r.rating }}</td>
+      <td style="max-width:300px;">{{ r.content }}</td>
+      <td><button class="btn-approve {{ 'approved' if r.approved else '' }}" onclick="approveReview({{ r.id }}, this)">{{ 'Approved' if r.approved else 'Approve' }}</button></td>
+      <td style="font-size:12px;">{{ r.created_at.strftime('%d %b') }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="6" class="empty">No reviews yet</td></tr>
+    {% endfor %}
+  </table>
+</div>
+
+<div id="panel-subscribers" class="panel">
+  <table>
+    <tr><th>#</th><th>Email</th><th>Subscribed</th></tr>
+    {% for s in subscribers %}
+    <tr><td>{{ s.id }}</td><td>{{ s.email }}</td><td style="font-size:12px;">{{ s.created_at.strftime('%d %b, %Y') }}</td></tr>
+    {% else %}
+    <tr><td colspan="3" class="empty">No subscribers yet</td></tr>
+    {% endfor %}
+  </table>
+</div>
+
+<div id="panel-messages" class="panel">
+  <table>
+    <tr><th>#</th><th>Name</th><th>Email</th><th>Subject</th><th>Message</th><th>Date</th></tr>
+    {% for c in contacts %}
+    <tr>
+      <td>{{ c.id }}</td>
+      <td>{{ c.name }}</td>
+      <td>{{ c.email }}</td>
+      <td>{{ c.subject or '-' }}</td>
+      <td style="max-width:300px;font-size:13px;">{{ c.message }}</td>
+      <td style="font-size:12px;">{{ c.created_at.strftime('%d %b, %I:%M %p') }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="6" class="empty">No messages yet</td></tr>
+    {% endfor %}
+  </table>
+</div>
+
+<script>
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('panel-' + name).classList.add('active');
+}
+function updateOrder(id, status) {
+  fetch('/admin/order/' + id + '/status', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({status:status})
+  });
+}
+function updateReservation(id, status) {
+  fetch('/admin/reservation/' + id + '/status', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({status:status})
+  });
+}
+function approveReview(id, btn) {
+  fetch('/admin/review/' + id + '/approve', {
+    method:'POST', headers:{'Content-Type':'application/json'}
+  }).then(r => r.json()).then(data => {
+    btn.textContent = data.approved ? 'Approved' : 'Approve';
+    btn.classList.toggle('approved');
+  });
+}
+function addMenuItem() {
+  const data = {
+    name: document.getElementById('itemName').value,
+    price: parseFloat(document.getElementById('itemPrice').value),
+    category: document.getElementById('itemCategory').value,
+    image: document.getElementById('itemImage').value || 'product-1.png',
+    description: document.getElementById('itemDesc').value
+  };
+  fetch('/admin/menu/add', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(data)
+  }).then(r => r.json()).then(() => location.reload());
+}
+function deleteItem(id) {
+  if (!confirm('Delete this item?')) return;
+  fetch('/admin/menu/' + id, { method:'DELETE' })
+    .then(r => r.json()).then(() => location.reload());
+}
+</script>
+</body>
+</html>
