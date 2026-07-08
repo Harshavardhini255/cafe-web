@@ -193,15 +193,26 @@ def admin_logout():
 @app.before_request
 def create_tables():
     db.create_all()
-    old_names = ['Paneer Italiano Sandwich', 'Corn Ribs with Chilli Mayo', 'Butterfly Chicken Bites', 'Mango Tres Leches']
+    old_names = ['Paneer Italiano Sandwich', 'Corn Ribs with Chilli Mayo', 'Mango Tres Leches']
     for item in MenuItem.query.filter(MenuItem.name.in_(old_names)).all():
         db.session.delete(item)
     db.session.commit()
+    # Migrate: rename potato chicken skewers
+    skewer = MenuItem.query.filter_by(name='Potato-Wrapped Chicken Skewers').first()
+    if skewer:
+        skewer.name = 'Butterfly Chicken Bites'
+        skewer.description = 'Crispy butterfly-cut chicken bites — golden, crunchy & perfect for sharing!'
+    db.session.commit()
+    # Migrate: add bread pudding if missing
+    if not MenuItem.query.filter_by(name='Bread Pudding').first():
+        db.session.add(MenuItem(name='Bread Pudding', category='Dessert', description='Warm, soft bread pudding baked to perfection — comfort in every bite.', price=0, image='bread-pudding.jpg'))
+        db.session.commit()
     if MenuItem.query.count() == 0:
         items = [
             MenuItem(name='Chicken Marinara Sandwich', category='Sandwich', description='Slow-simmered in our in-house marinara, juicy chicken & melted cheese — just how it should be.', price=200, image='chicken-marinara.jpg'),
             MenuItem(name='Golden Crunch Chicken Burger', category='Burger', description='Crispy golden chicken burger with premium toppings.', price=220, image='golden-crunch-burger.jpg'),
-            MenuItem(name='Potato-Wrapped Chicken Skewers', category='Snack', description='Succulent chicken marinated in-house, wrapped with thinly sliced potatoes, skewered & fried to golden perfection.', price=180, image='potato-chicken-skewers.jpg'),
+            MenuItem(name='Butterfly Chicken Bites', category='Snack', description='Crispy butterfly-cut chicken bites — golden, crunchy & perfect for sharing!', price=180, image='potato-chicken-skewers.jpg'),
+            MenuItem(name='Bread Pudding', category='Dessert', description='Warm, soft bread pudding baked to perfection — comfort in every bite.', price=0, image='bread-pudding.jpg'),
             MenuItem(name='Buttery Herbed Rice with Spicy Honey Glazed Chicken', category='Main', description='Hot, buttery herbed rice served with juicy, flavourful spicy honey glazed chicken — so comforting yet filling.', price=250, image='herbed-rice-chicken.jpg'),
             MenuItem(name='Classic Tiramisu', category='Dessert', description='Coffee, cream, cocoa — layers of perfection.', price=250, image='classic-tiramisu.jpg'),
             MenuItem(name='Pistachio Tiramisu', category='Dessert', description='Layers of love & pistachio — a nutty twist on the classic.', price=280, image='pistachio-tiramisu.jpg'),
