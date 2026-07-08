@@ -190,11 +190,13 @@ def admin_logout():
     session.pop('admin', None)
     return redirect(url_for('admin_login'))
 
-@app.before_request
-def create_tables():
-    db.create_all()
+_init_done = False
 
-with app.app_context():
+@app.before_request
+def init_db():
+    global _init_done
+    if _init_done:
+        return
     db.create_all()
     if not MenuItem.query.filter_by(name='Classic Tiramisu').first():
         MenuItem.query.delete()
@@ -215,6 +217,7 @@ with app.app_context():
         ]
         db.session.add_all(items)
         db.session.commit()
+    _init_done = True
 
 if __name__ == '__main__':
     app.run(debug=True)
