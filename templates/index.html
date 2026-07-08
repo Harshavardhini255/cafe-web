@@ -37,6 +37,10 @@ body {
   overflow-x: hidden;
   position: relative;
 }
+h1, h2, h3, h4, h5 { font-family: 'Playfair Display', serif; color: var(--heading); line-height: 1.2; }
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; display: block; }
+.container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
 
 /* DECORATIVE BLOBS */
 .blob { position:fixed; border-radius:50%; pointer-events:none; z-index:0; filter:blur(60px); opacity:0.3; animation:blobFloat 20s ease-in-out infinite; }
@@ -53,50 +57,6 @@ body {
   75% { transform:translate(30px,20px) scale(1.05) rotate(4deg); }
 }
 
-/* PASTEL SECTION DIVIDERS */
-.section-divider { height:6px; background:linear-gradient(90deg,var(--pastel-pink),var(--pastel-lilac),var(--pastel-mint),var(--pastel-peach)); opacity:0.4; }
-
-/* FLOATING DECORATIVE SHAPES */
-.float-shape { position:absolute; pointer-events:none; opacity:0.15; z-index:0; }
-.float-shape svg { width:100%; height:100%; }
-.float-star { animation:floatStar 6s ease-in-out infinite; }
-.float-heart { animation:floatHeart 8s ease-in-out infinite; }
-.float-circle { animation:floatCircle 7s ease-in-out infinite; }
-@keyframes floatStar {
-  0%,100% { transform:translateY(0) rotate(0deg) scale(1); }
-  50% { transform:translateY(-20px) rotate(180deg) scale(1.1); }
-}
-@keyframes floatHeart {
-  0%,100% { transform:translateY(0) scale(1); }
-  50% { transform:translateY(-15px) scale(1.15); }
-}
-@keyframes floatCircle {
-  0%,100% { transform:translate(0,0) scale(1); }
-  33% { transform:translate(10px,-15px) scale(1.05); }
-  66% { transform:translate(-10px,-8px) scale(0.95); }
-}
-
-/* SECTION WITH PASTEL DOT PATTERN OVERLAY */
-.pastel-pattern { position:relative; }
-.pastel-pattern::before {
-  content:''; position:absolute; inset:0;
-  background-image:radial-gradient(circle at 20% 50%,var(--pastel-pink) 0%,transparent 50%),
-                   radial-gradient(circle at 80% 20%,var(--pastel-lilac) 0%,transparent 50%),
-                   radial-gradient(circle at 50% 80%,var(--pastel-mint) 0%,transparent 50%);
-  opacity:0.12; pointer-events:none; z-index:0;
-}
-
-/* PASTEL DOTS PATTERN */
-.pastel-dots { position:relative; }
-.pastel-dots::after {
-  content:''; position:absolute; inset:0; z-index:0; pointer-events:none;
-  background-image:radial-gradient(var(--pastel-peach) 1px,transparent 1px);
-  background-size:24px 24px; opacity:0.15;
-}
-h1, h2, h3, h4, h5 { font-family: 'Playfair Display', serif; color: var(--heading); line-height: 1.2; }
-a { text-decoration: none; color: inherit; }
-img { max-width: 100%; display: block; }
-.container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
 .btn {
   display: inline-flex; align-items: center; gap: 10px;
   padding: 14px 32px; border-radius: 50px; font-size: 15px;
@@ -114,6 +74,7 @@ img { max-width: 100%; display: block; }
 .btn-light:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.15); }
 .btn-secondary { background: var(--soft-lavender); color: var(--dark-purple); }
 .btn-secondary:hover { background: var(--lavender); transform: translateY(-2px); }
+.btn-sm { padding: 10px 20px; font-size: 13px; }
 .section-header { text-align: center; margin-bottom: 60px; position:relative; }
 .section-header h2 { font-size: clamp(32px, 5vw, 48px); margin-bottom: 16px; }
 .section-header p { font-size: 18px; color: var(--body); max-width: 600px; margin: 0 auto; opacity: 0.8; }
@@ -124,22 +85,29 @@ img { max-width: 100%; display: block; }
   font-weight: 600; margin-bottom: 16px; letter-spacing: 0.5px;
 }
 
-/* SECTION HEADER DECORATION */
-.section-header::before {
-  content:'✦ ✦ ✦'; position:absolute; top:-30px; left:50%; transform:translateX(-50%);
-  font-size:14px; letter-spacing:8px; color:var(--lavender); opacity:0.5;
+/* TOP BAR */
+.top-bar {
+  background: var(--heading); color: rgba(255,255,255,0.8); font-size: 13px;
+  padding: 8px 0; position: fixed; top: 0; left: 0; right: 0; z-index: 1001;
+  display: none;
 }
+.top-bar .container { display: flex; justify-content: space-between; align-items: center; }
+.top-bar a { color: var(--lavender); font-weight: 500; }
+.top-bar a:hover { color: white; }
+.top-bar-left, .top-bar-right { display: flex; align-items: center; gap: 20px; }
+@media (min-width: 768px) { .top-bar { display: block; } }
 
 /* NAVBAR */
 .navbar {
   position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
   padding: 16px 0; transition: all 0.4s ease;
-  background: rgba(250, 248, 255, 0.9);
+  background: rgba(255, 250, 245, 0.95);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(108, 78, 255, 0.06);
+  border-bottom: 1px solid rgba(254, 129, 212, 0.08);
 }
 .navbar.scrolled { padding: 10px 0; box-shadow: 0 2px 40px rgba(254,129,212,0.08); }
+@media (min-width: 768px) { .navbar { top: 36px; } }
 .nav-inner {
   display: flex; align-items: center; justify-content: space-between;
   max-width: 1280px; margin: 0 auto; padding: 0 24px;
@@ -147,12 +115,28 @@ img { max-width: 100%; display: block; }
 .nav-logo { display: flex; align-items: center; gap: 12px; }
 .nav-logo img { height: 40px; width: 40px; border-radius: 50%; object-fit: cover; }
 .nav-logo span { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--primary); }
-.nav-links { display: flex; gap: 32px; align-items: center; }
-.nav-links a { font-size: 14px; font-weight: 500; color: var(--heading); transition: color 0.3s; position: relative; }
-.nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: var(--primary); transition: width 0.3s; }
-.nav-links a:hover::after { width: 100%; }
-.nav-links a:hover { color: var(--primary); }
-.nav-icons { display: flex; gap: 20px; align-items: center; }
+.nav-links { display: flex; gap: 28px; align-items: center; }
+.nav-links > li { list-style: none; position: relative; }
+.nav-links > li > a {
+  font-size: 14px; font-weight: 500; color: var(--heading);
+  transition: color 0.3s; cursor: pointer;
+  display: flex; align-items: center; gap: 4px;
+}
+.nav-links > li > a:hover { color: var(--primary); }
+.nav-dropdown {
+  position: absolute; top: 100%; left: 0; margin-top: 12px;
+  background: var(--card); border-radius: 12px; padding: 8px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.1); min-width: 200px;
+  opacity: 0; visibility: hidden; transform: translateY(8px);
+  transition: all 0.3s ease; z-index: 100;
+}
+.nav-links li:hover .nav-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+.nav-dropdown a {
+  display: block; padding: 10px 16px; font-size: 14px; color: var(--body);
+  border-radius: 8px; transition: all 0.2s;
+}
+.nav-dropdown a:hover { background: var(--soft-lavender); color: var(--primary); }
+.nav-icons { display: flex; gap: 16px; align-items: center; }
 .nav-icons svg { cursor: pointer; transition: all 0.3s; }
 .nav-icons svg:hover { color: var(--primary); transform: scale(1.1); }
 .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; }
@@ -161,44 +145,132 @@ img { max-width: 100%; display: block; }
   .nav-links { display: none; }
   .hamburger { display: flex; }
   .nav-icons { gap: 12px; }
+  .navbar { top: 0; }
 }
 
-/* HERO SLIDER */
-.hero { height: 100vh; position: relative; overflow: hidden; }
-.hero-slide {
-  position: absolute; inset: 0; opacity: 0; transition: opacity 1.2s ease;
-}
-.hero-slide.active { opacity: 1; }
-.hero-slide img { width: 100%; height: 100%; object-fit: cover; }
-.hero-overlay {
-  position: absolute; inset: 0;
-  background: linear-gradient(135deg, rgba(74,26,58,0.65) 0%, rgba(254,129,212,0.3) 100%);
-  z-index: 1;
-}
-.hero-content {
-  position: relative; z-index: 2; text-align: center; color: white;
-  padding: 0 24px; max-width: 800px; margin: 0 auto;
+/* HERO */
+.hero {
+  padding-top: 80px; min-height: 100vh;
   display: flex; flex-direction: column; justify-content: center;
-  height: 100%; align-items: center;
+  background: linear-gradient(135deg, var(--bg) 0%, var(--soft-lavender) 100%);
+  position: relative; overflow: hidden;
 }
-.hero-content h1 { font-size: clamp(36px, 7vw, 72px); color: white; margin-bottom: 16px; text-shadow: 0 2px 40px rgba(0,0,0,0.2); }
-.hero-content p { font-size: clamp(16px, 2vw, 20px); margin-bottom: 32px; opacity: 0.9; font-weight: 300; line-height: 1.6; }
-.hero-content .tag { background: rgba(255,255,255,0.15); color: white; }
-.hero-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
-.hero-buttons .btn-outline { border-color: rgba(255,255,255,0.5); color: white; }
-.hero-buttons .btn-outline:hover { border-color: white; background: rgba(255,255,255,0.1); }
-.hero-dots {
-  position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
-  display: flex; gap: 12px; z-index: 3;
-}
-.hero-dot {
-  width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.4);
-  cursor: pointer; transition: all 0.3s; border: none;
-}
-.hero-dot.active { background: white; transform: scale(1.3); }
+@media (min-width: 768px) { .hero { padding-top: 116px; } }
+.hero-content { text-align: center; padding: 60px 24px 40px; position: relative; z-index: 2; }
+.hero-content h1 { font-size: clamp(42px, 8vw, 80px); margin-bottom: 12px; }
+.hero-content h1 span { background: linear-gradient(135deg, var(--primary), var(--dark-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.hero-content p { font-size: clamp(16px, 2vw, 20px); max-width: 600px; margin: 0 auto 28px; color: var(--body); line-height: 1.6; }
+.hero-badges { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin-bottom: 28px; }
+.hero-badge { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--body); }
+.hero-badge svg { color: var(--primary); flex-shrink: 0; }
 
-/* ABOUT / DISCOVER */
-.about-section { padding: 100px 0; background: linear-gradient(180deg,var(--card) 0%,var(--bg) 100%); position:relative; }
+/* CATEGORY TILES */
+.category-tiles {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+  max-width: 1100px; margin: 0 auto; padding: 0 24px 60px;
+  position: relative; z-index: 2;
+}
+.category-tile {
+  border-radius: var(--radius); overflow: hidden; cursor: pointer;
+  position: relative; aspect-ratio: 1;
+  box-shadow: 0 4px 20px rgba(254,129,212,0.08);
+  transition: all 0.5s ease;
+}
+.category-tile:hover { transform: translateY(-8px); box-shadow: 0 12px 40px rgba(254,129,212,0.2); }
+.category-tile img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+.category-tile:hover img { transform: scale(1.08); }
+.category-tile-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(0deg, rgba(74,26,58,0.7) 0%, rgba(74,26,58,0.1) 60%);
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 20px; color: white;
+}
+.category-tile-overlay h3 { color: white; font-size: 18px; margin-bottom: 4px; }
+.category-tile-overlay span { font-size: 13px; opacity: 0.8; }
+@media (max-width: 900px) { .category-tiles { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 500px) { .category-tiles { grid-template-columns: 1fr 1fr; gap: 12px; } }
+
+/* TRUST BADGES */
+.trust-section { padding: 60px 0; background: var(--card); border-top: 1px solid rgba(254,129,212,0.06); }
+.trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+.trust-item { text-align: center; padding: 20px; }
+.trust-item .icon { width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg,var(--soft-lavender),var(--pastel-pink)); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
+.trust-item h4 { font-size: 16px; margin-bottom: 4px; font-family: 'Inter', sans-serif; }
+.trust-item p { font-size: 13px; opacity: 0.7; }
+@media (max-width: 768px) { .trust-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; } }
+@media (max-width: 400px) { .trust-grid { grid-template-columns: 1fr; } }
+
+/* PRODUCT GRID (BAKINGO STYLE) */
+.menu-section { padding: 100px 0; background: var(--bg); }
+.filter-tabs {
+  display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+.filter-tab {
+  padding: 10px 24px; border-radius: 50px; border: 1px solid var(--soft-lavender);
+  background: var(--card); font-size: 14px; font-weight: 500; cursor: pointer;
+  transition: all 0.3s; color: var(--body); font-family: 'Inter', sans-serif;
+}
+.filter-tab:hover { border-color: var(--primary); color: var(--primary); }
+.filter-tab.active { background: var(--primary); color: white; border-color: var(--primary); }
+.product-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 28px;
+}
+.product-card {
+  background: var(--card); border-radius: var(--radius); overflow: hidden;
+  box-shadow: 0 2px 20px rgba(254,129,212,0.06);
+  border: 1px solid rgba(254,129,212,0.04);
+  transition: all 0.5s ease;
+}
+.product-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(254,129,212,0.12); }
+.product-card-image { position: relative; overflow: hidden; }
+.product-card-image img { width: 100%; height: auto; display: block; transition: transform 0.6s ease; }
+.product-card:hover .product-card-image img { transform: scale(1.05); }
+.product-card-body { padding: 20px 24px 24px; }
+.product-card-body .cat {
+  font-size: 12px; text-transform: uppercase; letter-spacing: 1px;
+  color: var(--primary); font-weight: 600; margin-bottom: 6px;
+}
+.product-card-body h3 { font-size: 18px; margin-bottom: 8px; }
+.product-card-body .desc { font-size: 13px; line-height: 1.6; opacity: 0.75; margin-bottom: 12px; }
+.product-price { font-size: 22px; font-weight: 700; color: var(--heading); font-family: 'Playfair Display', serif; }
+.product-price.free { color: var(--primary); font-size: 16px; font-weight: 600; font-family: 'Inter', sans-serif; }
+.product-rating {
+  display: flex; align-items: center; gap: 6px;
+  margin: 8px 0 16px; font-size: 13px;
+}
+.product-rating .stars { color: var(--gold); font-size: 16px; letter-spacing: 2px; }
+.product-rating .count { color: var(--body); opacity: 0.7; }
+.product-card-body .btn { width: 100%; justify-content: center; padding: 12px; font-size: 14px; }
+@media (max-width: 600px) { .product-grid { grid-template-columns: 1fr; } }
+
+/* CAKES SECTION */
+.cakes-section { padding: 100px 0; background: linear-gradient(180deg,var(--soft-lavender) 0%,var(--bg) 100%); }
+.cakes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 28px; }
+.cake-card { background: var(--card); border-radius: var(--radius); overflow: hidden; box-shadow: 0 2px 20px rgba(254,129,212,0.06); border: 1px solid rgba(254,129,212,0.04); transition: all 0.5s ease; }
+.cake-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(254,129,212,0.12); }
+.cake-card-image { width: 100%; }
+.cake-card-image img,
+.cake-card-image video { width: 100%; height: auto; display: block; }
+.cake-card-body { padding: 16px 24px 24px; text-align: center; }
+.cake-card-body h3 { font-size: 16px; margin-bottom: 4px; }
+.cake-card-body .sub { font-size: 13px; opacity: 0.6; }
+@media (max-width: 600px) { .cakes-grid { grid-template-columns: 1fr; } }
+
+/* SIP & PAINT */
+.sip-section { padding: 100px 0; background: var(--bg); }
+.sip-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.sip-card { border-radius: var(--radius); overflow: hidden; background: var(--card); box-shadow: 0 2px 20px rgba(254,129,212,0.06); transition: all 0.5s ease; }
+.sip-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(254,129,212,0.15); }
+.sip-card-image { width: 100%; }
+.sip-card-image img,
+.sip-card-image video { width: 100%; height: auto; display: block; }
+@media (max-width: 900px) { .sip-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 500px) { .sip-grid { grid-template-columns: 1fr; } }
+
+/* ABOUT */
+.about-section { padding: 100px 0; background: var(--card); }
 .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
 .about-image { position: relative; border-radius: var(--radius); overflow: hidden; }
 .about-image img { width: 100%; height: 500px; object-fit: cover; }
@@ -218,112 +290,25 @@ img { max-width: 100%; display: block; }
 .about-features .feat svg { flex-shrink: 0; color: var(--primary); }
 @media (max-width: 768px) { .about-grid { grid-template-columns: 1fr; gap: 40px; } .about-image img { height: 300px; } }
 
-/* DISCOVER GRID */
-.discover { padding: 100px 0; background: linear-gradient(180deg,var(--bg) 0%,var(--soft-lavender) 100%); }
-.discover-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
-.discover-card {
-  border-radius: var(--radius); overflow: hidden; background: var(--card);
-  box-shadow: var(--shadow); transition: all 0.5s ease; cursor: pointer;
-}
-.discover-card:hover { transform: translateY(-8px); box-shadow: 0 12px 40px rgba(254,129,212,0.15); }
-.discover-card img { width: 100%; height: auto; display: block; transition: transform 0.6s ease; }
-.discover-card:hover img { transform: scale(1.05); }
-.discover-card-body { padding: 28px; }
-.discover-card-body .cat { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--primary); font-weight: 600; margin-bottom: 8px; }
-.discover-card-body h3 { font-size: 20px; margin-bottom: 12px; }
-.discover-card-body p { font-size: 14px; line-height: 1.7; opacity: 0.8; margin-bottom: 16px; }
-.discover-card-body a { font-size: 14px; font-weight: 600; color: var(--primary); display: inline-flex; align-items: center; gap: 6px; }
-@media (max-width: 900px) { .discover-grid { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 600px) { .discover-grid { grid-template-columns: 1fr; } }
-
-/* SIP & PAINT */
-.sip-section { padding: 100px 0; background: var(--bg); }
-.sip-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-.sip-card { border-radius: var(--radius); overflow: hidden; background: var(--card); box-shadow: 0 2px 20px rgba(254,129,212,0.06); transition: all 0.5s ease; }
-.sip-card:hover { transform: translateY(-8px); box-shadow: 0 12px 40px rgba(254,129,212,0.15); }
-.sip-card-image { width: 100%; }
-.sip-card-image img,
-.sip-card-image video { width: 100%; height: auto; display: block; }
-@media (max-width: 900px) { .sip-grid { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 600px) { .sip-grid { grid-template-columns: 1fr; } }
-
-/* CAKES */
-.cakes-section { padding: 100px 0; background: linear-gradient(180deg,var(--soft-lavender) 0%,var(--bg) 100%); }
-.cakes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
-.cake-card { border-radius: var(--radius); overflow: hidden; background: var(--card); box-shadow: 0 2px 20px rgba(254,129,212,0.06); border: 1px solid rgba(254,129,212,0.04); transition: all 0.5s ease; }
-.cake-card:hover { transform: translateY(-8px); box-shadow: 0 12px 40px rgba(254,129,212,0.15); }
-.cake-card-image { width: 100%; }
-.cake-card-image img,
-.cake-card-image video { width: 100%; height: auto; display: block; }
-@media (max-width: 600px) { .cakes-grid { grid-template-columns: 1fr; } }
-
-/* MENU */
-.menu-section { padding: 100px 0; background: linear-gradient(180deg,var(--card) 0%,var(--bg) 100%); }
-.menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 32px; }
-.menu-card {
-  background: var(--card); border-radius: var(--radius); overflow: hidden;
-  box-shadow: 0 2px 20px rgba(254,129,212,0.06);
-  border: 1px solid rgba(254,129,212,0.04);
-  transition: all 0.5s ease;
-}
-.menu-card:hover { transform: translateY(-8px); box-shadow: 0 12px 40px rgba(254,129,212,0.15); }
-.menu-card-image { width: 100%; }
-.menu-card-image img { width: 100%; height: auto; display: block; }
-.menu-card-body { padding: 24px; }
-.menu-card-body .cat { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--primary); font-weight: 600; margin-bottom: 8px; }
-.menu-card-body h3 { font-size: 20px; margin-bottom: 12px; }
-.menu-card-body p { font-size: 14px; line-height: 1.7; opacity: 0.8; margin-bottom: 16px; }
-.menu-card-body .btn { width: 100%; justify-content: center; padding: 12px; font-size: 14px; }
-
-/* SERVICES / ATMOSPHERE */
-.services { padding: 100px 0; background: linear-gradient(135deg, var(--heading) 0%, var(--dark-purple) 100%); color: white; position: relative; overflow: hidden; }
+/* SERVICES */
+.services { padding: 80px 0; background: linear-gradient(135deg, var(--heading) 0%, var(--dark-purple) 100%); color: white; }
 .services .section-header h2 { color: white; }
 .services .section-header p { color: rgba(255,255,255,0.7); }
 .services .tag { background: rgba(255,255,255,0.15); color: white; }
-.services-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; position: relative; z-index: 2; }
-.service-card {
-  background: rgba(255,255,255,0.06); backdrop-filter: blur(12px);
-  border-radius: var(--radius); padding: 40px 28px; text-align: center;
-  border: 1px solid rgba(255,255,255,0.08);
-  transition: all 0.4s ease;
-}
+.services-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+.service-card { background: rgba(255,255,255,0.06); backdrop-filter: blur(12px); border-radius: var(--radius); padding: 40px 28px; text-align: center; border: 1px solid rgba(255,255,255,0.08); transition: all 0.4s ease; }
 .service-card:hover { background: rgba(255,255,255,0.12); transform: translateY(-6px); }
-.service-card .icon {
-  width: 64px; height: 64px; border-radius: 50%;
-  background: rgba(255,255,255,0.1); display: flex;
-  align-items: center; justify-content: center; margin: 0 auto 20px;
-}
+.service-card .icon { width: 64px; height: 64px; border-radius: 50%; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
 .service-card h3 { color: white; font-size: 18px; margin-bottom: 8px; }
 .service-card p { font-size: 14px; opacity: 0.7; line-height: 1.6; }
 @media (max-width: 900px) { .services-grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 500px) { .services-grid { grid-template-columns: 1fr; } }
 
-/* RESERVATIONS */
-.reservations { padding: 100px 0; background: linear-gradient(180deg,var(--card) 0%,var(--soft-lavender) 100%); }
-.reservations-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
-.reservations-content h2 { font-size: clamp(28px, 4vw, 42px); margin-bottom: 16px; }
-.reservations-content p { font-size: 16px; line-height: 1.7; margin-bottom: 24px; }
-.reservations-form { background: var(--card); padding: 40px; border-radius: var(--radius); box-shadow: var(--shadow); }
-.reservations-form h3 { font-size: 22px; margin-bottom: 24px; }
-.form-group { margin-bottom: 20px; }
-.form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--heading); margin-bottom: 6px; }
-.form-group input, .form-group select, .form-group textarea {
-  width: 100%; padding: 12px 16px; border: 1px solid var(--soft-lavender);
-  border-radius: 10px; font-size: 14px; font-family: 'Inter', sans-serif;
-  outline: none; transition: border 0.3s; background: var(--bg);
-}
-.form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--primary); }
-.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-@media (max-width: 768px) { .reservations-grid { grid-template-columns: 1fr; } .form-row { grid-template-columns: 1fr; } }
-
 /* EVENTS */
-.events { padding: 100px 0; background: linear-gradient(180deg,var(--soft-lavender) 0%,var(--bg) 100%); }
+.events { padding: 100px 0; background: var(--bg); }
 .events-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
-.event-card {
-  border-radius: var(--radius); overflow: hidden; background: var(--bg);
-  box-shadow: var(--shadow); transition: all 0.4s ease;
-}
-.event-card:hover { transform: translateY(-6px); }
+.event-card { border-radius: var(--radius); overflow: hidden; background: var(--card); box-shadow: 0 2px 20px rgba(254,129,212,0.06); transition: all 0.4s ease; }
+.event-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(254,129,212,0.12); }
 .event-card img { width: 100%; height: 240px; object-fit: cover; }
 .event-card-body { padding: 24px; }
 .event-card-body .date { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--primary); font-weight: 600; margin-bottom: 8px; }
@@ -332,44 +317,10 @@ img { max-width: 100%; display: block; }
 @media (max-width: 900px) { .events-grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 600px) { .events-grid { grid-template-columns: 1fr; } }
 
-/* COUNTDOWN BANNER */
-.countdown-banner {
-  padding: 80px 0; text-align: center;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--dark-purple) 100%);
-  color: white;
-}
-.countdown-banner h2 { color: white; font-size: clamp(28px, 4vw, 42px); margin-bottom: 12px; }
-.countdown-banner p { opacity: 0.85; margin-bottom: 32px; }
-.countdown { display: flex; gap: 32px; justify-content: center; }
-.countdown-item { text-align: center; }
-.countdown-item span:first-child { font-size: 36px; font-weight: 700; color: white; display: block; }
-.countdown-item span:last-child { font-size: 13px; opacity: 0.6; text-transform: uppercase; letter-spacing: 1px; }
-
-/* INSTAGRAM GALLERY */
-.instagram { padding: 100px 0; background: linear-gradient(180deg,var(--bg) 0%,var(--soft-lavender) 100%); }
-.insta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.insta-grid-item {
-  position: relative; border-radius: 12px; overflow: hidden; cursor: pointer;
-  aspect-ratio: 1;
-}
-.insta-grid-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
-.insta-grid-item:hover img { transform: scale(1.08); }
-.insta-grid-item .overlay {
-  position: absolute; inset: 0; background: rgba(254,129,212,0.3);
-  display: flex; align-items: center; justify-content: center;
-  opacity: 0; transition: opacity 0.4s ease; color: white;
-}
-.insta-grid-item:hover .overlay { opacity: 1; }
-@media (max-width: 600px) { .insta-grid { grid-template-columns: repeat(2, 1fr); } }
-
 /* TESTIMONIALS */
-.testimonials { padding: 80px 0; background: linear-gradient(180deg,var(--bg) 0%,var(--card) 100%); text-align: center; }
+.testimonials { padding: 80px 0; background: linear-gradient(180deg,var(--card) 0%,var(--bg) 100%); text-align: center; }
 .testimonial-slider { max-width: 650px; margin: 0 auto; position: relative; min-height: 250px; }
-.testimonial-card {
-  position: absolute; width: 100%; opacity: 0; transition: opacity 0.6s ease;
-  padding: 40px; background: var(--bg); border-radius: var(--radius);
-  box-shadow: var(--shadow);
-}
+.testimonial-card { position: absolute; width: 100%; opacity: 0; transition: opacity 0.6s ease; padding: 40px; background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); }
 .testimonial-card.active { opacity: 1; position: relative; }
 .testimonial-card .avatar { width: 64px; height: 64px; border-radius: 50%; margin: 0 auto 16px; overflow: hidden; }
 .testimonial-card .avatar img { width: 100%; height: 100%; object-fit: cover; }
@@ -377,49 +328,61 @@ img { max-width: 100%; display: block; }
 .testimonial-card blockquote { font-size: 18px; line-height: 1.7; color: var(--heading); font-style: italic; margin-bottom: 16px; }
 .testimonial-card cite { font-style: normal; font-weight: 600; color: var(--primary); font-size: 15px; }
 
-/* FOOTER */
-.footer { background: var(--heading); color: rgba(255,255,255,0.7); padding: 80px 0 40px; }
-.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; margin-bottom: 60px; }
-.footer-brand { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
-.footer-brand img { height: 48px; width: 48px; border-radius: 50%; object-fit: cover; }
-.footer-brand h3 { font-family: 'Playfair Display', serif; color: white; font-size: 22px; }
-.footer-brand p { font-size: 14px; line-height: 1.7; max-width: 300px; margin-top: 12px; }
-.footer-col h4 { color: white; font-size: 15px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; font-family: 'Inter', sans-serif; font-weight: 600; }
-.footer-col a { display: block; font-size: 14px; margin-bottom: 12px; transition: color 0.3s; }
-.footer-col a:hover { color: var(--lavender); }
-.footer-col p { font-size: 14px; line-height: 1.7; }
-.footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; flex-wrap: wrap; gap: 16px; }
-.footer-socials { display: flex; gap: 16px; }
-.footer-socials svg { cursor: pointer; transition: all 0.3s; }
-.footer-socials svg:hover { color: var(--lavender); transform: translateY(-2px); }
-@media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; } }
-@media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; } }
+/* COUNTDOWN */
+.countdown-banner { padding: 80px 0; text-align: center; background: linear-gradient(135deg, var(--primary) 0%, var(--dark-purple) 100%); color: white; }
+.countdown-banner h2 { color: white; font-size: clamp(28px, 4vw, 42px); margin-bottom: 12px; }
+.countdown-banner p { opacity: 0.85; margin-bottom: 32px; }
+.countdown { display: flex; gap: 32px; justify-content: center; }
+.countdown-item { text-align: center; }
+.countdown-item span:first-child { font-size: 36px; font-weight: 700; color: white; display: block; }
+.countdown-item span:last-child { font-size: 13px; opacity: 0.6; text-transform: uppercase; letter-spacing: 1px; }
 
-/* INSTAGRAM HIGHLIGHTS */
+/* INSTAGRAM */
+.instagram { padding: 100px 0; background: linear-gradient(180deg,var(--bg) 0%,var(--soft-lavender) 100%); }
+.insta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.insta-grid-item { position: relative; border-radius: 12px; overflow: hidden; cursor: pointer; aspect-ratio: 1; }
+.insta-grid-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+.insta-grid-item:hover img { transform: scale(1.08); }
+.insta-grid-item .overlay { position: absolute; inset: 0; background: rgba(254,129,212,0.3); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.4s ease; color: white; }
+.insta-grid-item:hover .overlay { opacity: 1; }
+@media (max-width: 600px) { .insta-grid { grid-template-columns: repeat(2, 1fr); } }
 .insta-highlights { display:flex; justify-content:center; gap:24px; flex-wrap:wrap; margin-bottom:40px; }
 .highlight-circle { display:flex; flex-direction:column; align-items:center; gap:8px; text-decoration:none; color:var(--body); font-size:12px; font-weight:500; transition:transform 0.3s; }
 .highlight-circle:hover { transform:translateY(-4px); color:var(--primary); }
 .highlight-ring { width:72px; height:72px; border-radius:50%; padding:3px; background:linear-gradient(135deg,var(--primary),var(--gold),var(--lavender)); display:flex; align-items:center; justify-content:center; }
 .highlight-ring img { width:100%; height:100%; border-radius:50%; object-fit:cover; border:2px solid white; }
 @media (max-width:480px) { .insta-highlights { gap:16px; } .highlight-ring { width:60px; height:60px; } }
+.insta-cta { text-align: center; margin-top: 32px; }
 
-/* INSTAGRAM GRID HOVER */
-.insta-grid a { display:block; border-radius:12px; overflow:hidden; position:relative; }
-.insta-grid a::after { content:'\279A'; position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(254,129,212,0.6); color:white; font-size:28px; opacity:0; transition:opacity 0.3s; }
-.insta-grid a:hover::after { opacity:1; }
-.insta-grid img { width:100%; aspect-ratio:1; object-fit:cover; display:block; }
+/* FOOTER */
+.footer { background: var(--heading); color: rgba(255,255,255,0.7); padding: 80px 0 40px; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 60px; margin-bottom: 40px; }
+.footer-brand { margin-bottom: 16px; }
+.footer-brand h3 { font-family: 'Playfair Display', serif; color: white; font-size: 20px; margin-bottom: 4px; }
+.footer-brand p { font-size: 14px; line-height: 1.7; max-width: 300px; opacity: 0.7; }
+.footer-col h4 { color: white; font-size: 15px; margin-bottom: 20px; font-family: 'Inter', sans-serif; font-weight: 600; }
+.footer-col a { display: block; font-size: 14px; margin-bottom: 12px; transition: color 0.3s; }
+.footer-col a:hover { color: var(--lavender); }
+.footer-col p { font-size: 14px; line-height: 1.7; }
+.footer-newsletter { margin-top: 16px; }
+.footer-newsletter input { width: 100%; padding: 12px 16px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.06); color: white; font-size: 14px; outline: none; font-family: 'Inter', sans-serif; }
+.footer-newsletter input::placeholder { color: rgba(255,255,255,0.4); }
+.footer-newsletter button { margin-top: 8px; width: 100%; }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; flex-wrap: wrap; gap: 16px; }
+.footer-bottom a { color: var(--lavender); }
+.footer-socials { display: flex; gap: 16px; }
+.footer-socials svg { cursor: pointer; transition: all 0.3s; }
+.footer-socials svg:hover { color: var(--lavender); transform: translateY(-2px); }
+@media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; } }
+@media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; } }
 
 /* MOBILE MENU */
-.mobile-menu {
-  position: fixed; inset: 0; background: var(--card); z-index: 999;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 32px; transform: translateX(100%); transition: transform 0.4s ease;
-}
+.mobile-menu { position: fixed; inset: 0; background: var(--card); z-index: 999; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 32px; transform: translateX(100%); transition: transform 0.4s ease; }
 .mobile-menu.open { transform: translateX(0); }
 .mobile-menu a { font-size: 24px; font-weight: 500; color: var(--heading); }
 .mobile-close { position: absolute; top: 24px; right: 24px; background: none; border: none; font-size: 28px; cursor: pointer; color: var(--heading); }
 
-/* REVEAL ANIMATIONS */
+/* REVEAL */
 .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
 .reveal.visible { opacity: 1; transform: translateY(0); }
 .reveal-left { opacity: 0; transform: translateX(-60px); transition: opacity 0.8s ease, transform 0.8s ease; }
@@ -428,6 +391,40 @@ img { max-width: 100%; display: block; }
 .reveal-right.visible { opacity: 1; transform: translateX(0); }
 .reveal-scale { opacity: 0; transform: scale(0.9); transition: opacity 0.8s ease, transform 0.8s ease; }
 .reveal-scale.visible { opacity: 1; transform: scale(1); }
+
+/* REVIEW FORM */
+.review-form-area { max-width: 500px; margin: 48px auto 0; text-align: center; }
+.review-form-area h3 { font-size: 20px; margin-bottom: 16px; }
+.review-form { display: flex; flex-direction: column; gap: 12px; }
+.review-form .form-row { display: flex; gap: 12px; }
+.review-form input, .review-form select, .review-form textarea { padding: 12px 16px; border: 2px solid var(--soft-lavender); border-radius: 12px; font-size: 14px; outline: none; font-family: 'Inter', sans-serif; width: 100%; }
+.review-form textarea { resize: vertical; }
+
+/* CONTACT SECTION */
+.contact-section { padding: 80px 0; background: var(--bg); }
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; max-width: 900px; margin: 0 auto; }
+.contact-grid h3 { font-size: 22px; margin-bottom: 20px; }
+.contact-form { display: flex; flex-direction: column; gap: 16px; }
+.contact-form .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.contact-form input, .contact-form textarea { padding: 14px 16px; border: 2px solid var(--soft-lavender); border-radius: 12px; font-size: 14px; outline: none; font-family: 'Inter', sans-serif; width: 100%; }
+.contact-form textarea { resize: vertical; }
+.subscribe-box { background: var(--card); padding: 32px; border-radius: var(--radius); box-shadow: var(--shadow); margin-top: 24px; }
+.subscribe-box p { font-size: 15px; line-height: 1.7; margin-bottom: 20px; opacity: 0.8; }
+.subscribe-form { display: flex; gap: 12px; flex-wrap: wrap; }
+.subscribe-form input { flex: 1; min-width: 200px; padding: 14px 16px; border: 2px solid var(--soft-lavender); border-radius: 12px; font-size: 14px; outline: none; font-family: 'Inter', sans-serif; }
+.visit-info { margin-top: 40px; }
+.visit-info p { font-size: 15px; line-height: 1.8; opacity: 0.8; }
+@media (max-width: 768px) { .contact-grid { grid-template-columns: 1fr; } .contact-form .form-row { grid-template-columns: 1fr; } }
+
+/* FLOATING SHAPES */
+.float-shape { position:absolute; pointer-events:none; opacity:0.12; z-index:0; }
+.float-shape svg { width:100%; height:100%; }
+.float-star { animation:floatStar 6s ease-in-out infinite; }
+.float-heart { animation:floatHeart 8s ease-in-out infinite; }
+.float-circle { animation:floatCircle 7s ease-in-out infinite; }
+@keyframes floatStar { 0%,100% { transform:translateY(0) rotate(0deg) scale(1); } 50% { transform:translateY(-20px) rotate(180deg) scale(1.1); } }
+@keyframes floatHeart { 0%,100% { transform:translateY(0) scale(1); } 50% { transform:translateY(-15px) scale(1.15); } }
+@keyframes floatCircle { 0%,100% { transform:translate(0,0) scale(1); } 33% { transform:translate(10px,-15px) scale(1.05); } 66% { transform:translate(-10px,-8px) scale(0.95); } }
 </style>
 </head>
 <body>
@@ -439,6 +436,21 @@ img { max-width: 100%; display: block; }
 <div class="blob blob-5"></div>
 <div class="blob blob-6"></div>
 
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="container">
+    <div class="top-bar-left">
+      <span>📍 NRT Nagar, Theni</span>
+      <span>🕐 4 PM - 10 PM</span>
+    </div>
+    <div class="top-bar-right">
+      <a href="https://www.instagram.com/wakecup.ind" target="_blank">📱 DM @wakecup.ind</a>
+      <a href="#menu" style="opacity:0.7;">Menu</a>
+      <a href="#instagram" style="opacity:0.7;">Gallery</a>
+    </div>
+  </div>
+</div>
+
 <!-- NAVBAR -->
 <nav class="navbar" id="navbar">
   <div class="nav-inner">
@@ -446,16 +458,26 @@ img { max-width: 100%; display: block; }
       <img src="/static/flow-logo.png" alt="WakeCup Cafe">
       <span>WakeCup Cafe</span>
     </a>
-    <div class="nav-links">
-      <a href="#about">About</a>
-      <a href="#menu">Menu</a>
-      <a href="#services">Services</a>
-      <a href="https://www.instagram.com/wakecup.ind" target="_blank">@wakecup.ind</a>
-    </div>
+    <ul class="nav-links">
+      <li>
+        <a href="#menu">Menu <svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 1l4 4 4-4"/></svg></a>
+        <div class="nav-dropdown">
+          <a href="#menu" data-filter="All">All Items</a>
+          <a href="#menu" data-filter="Sandwich">Sandwiches</a>
+          <a href="#menu" data-filter="Burger">Burgers</a>
+          <a href="#menu" data-filter="Snack">Snacks</a>
+          <a href="#menu" data-filter="Dessert">Desserts</a>
+          <a href="#menu" data-filter="Beverage">Beverages</a>
+        </div>
+      </li>
+      <li><a href="#cakes">Cakes</a></li>
+      <li><a href="#events">Events</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#instagram">Gallery</a></li>
+    </ul>
     <div class="nav-icons">
-      <a href="https://www.instagram.com/wakecup.ind" target="_blank">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5"/></svg>
-      </a>
+      <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="btn btn-primary btn-sm">📷 @wakecup.ind</a>
       <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>
@@ -466,125 +488,191 @@ img { max-width: 100%; display: block; }
 <!-- Mobile Menu -->
 <div class="mobile-menu" id="mobileMenu">
   <button class="mobile-close" id="mobileClose">&times;</button>
-  <a href="#about">About</a>
   <a href="#menu">Menu</a>
+  <a href="#cakes">Cakes</a>
+  <a href="#events">Events</a>
   <a href="#services">Services</a>
+  <a href="#about">About</a>
   <a href="#instagram">Gallery</a>
   <a href="https://www.instagram.com/wakecup.ind" target="_blank">@wakecup.ind</a>
 </div>
 
-<!-- HERO SLIDER -->
+<!-- HERO -->
 <section class="hero" id="hero">
-  <div class="hero-slide active" data-slide="0">
-    <img src="/static/store-interior.png" alt="WakeCup Cafe Interior">
-    <div class="hero-overlay"></div>
-  </div>
-  <div class="hero-slide" data-slide="1">
-    <img src="/static/product-3.png" alt="Corn Ribs">
-    <div class="hero-overlay"></div>
-  </div>
-  <div class="hero-slide" data-slide="2">
-    <img src="/static/product-6.png" alt="Desserts">
-    <div class="hero-overlay"></div>
-  </div>
-  <div class="hero-content" id="heroContent">
-    <span class="tag">Instagram Cafe</span>
-    <h1>WakeCup Cafe <br>|| Theni</h1>
+  <div class="hero-content reveal">
+    <span class="tag">Instagram Cafe in Theni</span>
+    <h1>WakeCup Cafe <br><span>|| Theni</span></h1>
     <p>A little corner of comfort & good food — specialty coffee, handcrafted sandwiches, and indulgent desserts served daily in the heart of Theni.</p>
-    <div style="display:flex;align-items:center;gap:16px;justify-content:center;margin-bottom:28px;">
-      <img src="/static/flow-logo.png" alt="@wakecup.ind" style="width:64px;height:64px;border-radius:50%;border:3px solid rgba(255,255,255,0.3);object-fit:cover;">
-      <div style="text-align:left;">
-        <div style="font-size:20px;font-weight:600;color:white;">@wakecup.ind</div>
-        <div style="font-size:14px;opacity:0.8;">800+ followers · 29+ posts</div>
-      </div>
+    <div class="hero-badges">
+      <span class="hero-badge"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 4 PM - 10 PM</span>
+      <span class="hero-badge"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> NRT Nagar, Theni</span>
+      <span class="hero-badge"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Dine-in & Takeaway</span>
     </div>
     <div class="hero-buttons">
-      <a href="https://www.instagram.com/wakecup.ind" class="btn btn-primary" target="_blank">Follow @wakecup.ind</a>
+      <a href="https://www.instagram.com/wakecup.ind" class="btn btn-primary" target="_blank">📷 Follow @wakecup.ind</a>
       <a href="#menu" class="btn btn-outline">View Menu</a>
     </div>
   </div>
-  <div class="hero-dots">
-    <button class="hero-dot active" data-slide="0"></button>
-    <button class="hero-dot" data-slide="1"></button>
-    <button class="hero-dot" data-slide="2"></button>
+  <!-- Category Tiles -->
+  <div class="category-tiles">
+    <a href="#menu" class="category-tile reveal-scale">
+      <img src="/static/chicken-marinara.jpg" alt="Sandwiches" loading="lazy">
+      <div class="category-tile-overlay">
+        <h3>Sandwiches</h3>
+        <span>Chicken · Paneer</span>
+      </div>
+    </a>
+    <a href="#menu" class="category-tile reveal-scale">
+      <img src="/static/golden-crunch-burger.jpg" alt="Burgers" loading="lazy">
+      <div class="category-tile-overlay">
+        <h3>Burgers</h3>
+        <span>Crispy · Juicy</span>
+      </div>
+    </a>
+    <a href="#menu" class="category-tile reveal-scale">
+      <img src="/static/classic-tiramisu.jpg" alt="Desserts" loading="lazy">
+      <div class="category-tile-overlay">
+        <h3>Desserts</h3>
+        <span>Tiramisu · Cakes · More</span>
+      </div>
+    </a>
+    <a href="#cakes" class="category-tile reveal-scale">
+      <img src="/static/cake-1.jpg" alt="Cakes" loading="lazy">
+      <div class="category-tile-overlay">
+        <h3>Cakes</h3>
+        <span>Special Occasions</span>
+      </div>
+    </a>
   </div>
 </section>
 
-<!-- ABOUT -->
-<section class="about-section pastel-pattern" id="about">
-  <div class="float-shape float-star" style="top:15%;right:5%;width:60px;height:60px;opacity:0.12;">
-    <svg viewBox="0 0 24 24" fill="var(--primary)"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-  </div>
-  <div class="float-shape float-heart" style="bottom:10%;left:5%;width:40px;height:40px;opacity:0.1;">
-    <svg viewBox="0 0 24 24" fill="var(--lavender)"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-  </div>
+<!-- TRUST BADGES -->
+<section class="trust-section">
   <div class="container">
-    <div class="about-grid">
-      <div class="about-image reveal-left">
-        <img src="/static/product-1.png" alt="WakeCup Cafe">
-        <div class="exp">
-          <strong>4 PM - 10 PM</strong>
-          <span>Open Daily</span>
-        </div>
+    <div class="trust-grid">
+      <div class="trust-item reveal-scale">
+        <div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--dark-purple)" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+        <h4>Fresh Ingredients</h4>
+        <p>Every dish made with quality, fresh ingredients.</p>
       </div>
-      <div class="about-content reveal-right">
-        <span class="tag">Our Story</span>
-        <h2>From Bean to Cup,<br>a Labor of Love</h2>
-        <p>Founded with a passion for great coffee and good company, WakeCup Cafe in Theni is a cozy corner where every visit feels like home. Managed by Anjana, we serve specialty coffee, handcrafted sandwiches, and indulgent desserts made with love.</p>
-        <p>Located in NRT Nagar, our space is designed for connection — whether you're catching up with friends, hosting a celebration, or joining our creative workshops.</p>
-        <div class="about-features">
-          <div class="feat"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Dine-in & Takeaway</div>
-          <div class="feat"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Pre-orders Available</div>
-          <div class="feat"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Parties up to 80 Guests</div>
-          <div class="feat"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Creative Workshops</div>
-        </div>
+      <div class="trust-item reveal-scale">
+        <div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--dark-purple)" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+        <h4>Handcrafted with Love</h4>
+        <p>Each item prepared with care and passion.</p>
+      </div>
+      <div class="trust-item reveal-scale">
+        <div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--dark-purple)" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <h4>Cozy Ambiance</h4>
+        <p>Warm, welcoming space in the heart of Theni.</p>
+      </div>
+      <div class="trust-item reveal-scale">
+        <div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--dark-purple)" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5"/></svg></div>
+        <h4>DM to Order</h4>
+        <p>Order via Instagram — quick & easy.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- DISCOVER / EXPERIENCE -->
-<section class="discover pastel-pattern pastel-dots">
+<!-- MENU / BESTSELLERS -->
+<section class="menu-section" id="menu">
   <div class="container">
     <div class="section-header reveal">
-      <span class="tag">Discover</span>
-      <h2>The WakeCup Experience</h2>
-      <p>From morning brew to evening indulgence — every moment at WakeCup is crafted for you.</p>
+      <span class="tag">What We Serve</span>
+      <h2>Our Menu</h2>
+      <p>Fresh ingredients, bold flavors, and a little love in every dish.</p>
     </div>
-    <div class="discover-grid">
-      <div class="discover-card reveal-scale">
-        <img src="/static/golden-crunch-burger.jpg" alt="Burgers" loading="lazy" decoding="async">
-        <div class="discover-card-body">
-          <div class="cat">Savory</div>
-          <h3>Burgers & Sandwiches</h3>
-          <p>Golden Crunch Chicken Burger, Chicken Marinara Sandwich — crafted with love and the finest ingredients.</p>
-          <a href="#menu">Explore Menu →</a>
+    <div class="filter-tabs" id="filterTabs">
+      <button class="filter-tab active" data-filter="All">All</button>
+      <button class="filter-tab" data-filter="Sandwich">Sandwiches</button>
+      <button class="filter-tab" data-filter="Burger">Burgers</button>
+      <button class="filter-tab" data-filter="Snack">Snacks</button>
+      <button class="filter-tab" data-filter="Dessert">Desserts</button>
+      <button class="filter-tab" data-filter="Beverage">Beverages</button>
+    </div>
+    <div class="product-grid" id="productGrid">
+      {% for item in menu_items %}
+      <div class="product-card reveal-scale" data-category="{{ item.category }}">
+        <div class="product-card-image">
+          <img src="/static/{{ item.image }}" alt="{{ item.name }}" loading="lazy" decoding="async">
+        </div>
+        <div class="product-card-body">
+          <div class="cat">{{ item.category }}</div>
+          <h3>{{ item.name }}</h3>
+          <p class="desc">{{ item.description or '' }}</p>
+          <div class="product-rating">
+            <span class="stars">★★★★★</span>
+            <span class="count">(4.9)</span>
+          </div>
+          {% if item.price > 0 %}
+          <div class="product-price">₹{{ item.price }}</div>
+          {% else %}
+          <div class="product-price free">Price on DM</div>
+          {% endif %}
+          <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="btn btn-primary" style="margin-top:16px;">DM to Order</a>
         </div>
       </div>
-      <div class="discover-card reveal-scale">
-        <img src="/static/classic-tiramisu.jpg" alt="Desserts" loading="lazy" decoding="async">
-        <div class="discover-card-body">
-          <div class="cat">Sweet</div>
-          <h3>Indulgent Desserts</h3>
-          <p>Tiramisu three ways, Caramel Crunch, Mini Blueberry Bliss — each bite is pure bliss.</p>
-          <a href="#menu">Explore Menu →</a>
-        </div>
+      {% else %}
+      <p style="grid-column:1/-1;text-align:center;padding:40px;opacity:0.5;">Menu loading from database...</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- CAKES -->
+<section class="cakes-section" id="cakes">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="tag">Cakes</span>
+      <h2>Our Special Cakes</h2>
+      <p>Handcrafted with love — perfect for every celebration.</p>
+    </div>
+    <div class="cakes-grid">
+      <div class="cake-card reveal-scale">
+        <div class="cake-card-image"><img src="/static/cake-1.jpg" alt="Cake" loading="lazy" decoding="async"></div>
+        <div class="cake-card-body"><h3>Celebration Cake</h3><p class="sub">DM to Order</p></div>
       </div>
-      <div class="discover-card reveal-scale">
-        <img src="/static/bread-pudding.jpg" alt="Desserts" loading="lazy" decoding="async">
-        <div class="discover-card-body">
-          <div class="cat">Desserts</div>
-          <h3>Sweet Treats</h3>
-          <p>Bread pudding, tiramisu & more — baked fresh daily.</p>
-          <a href="#menu">Explore Menu →</a>
-        </div>
+      <div class="cake-card reveal-scale">
+        <div class="cake-card-image"><video src="/static/cake-2.mp4" autoplay muted loop playsinline></video></div>
+        <div class="cake-card-body"><h3>Designer Cake</h3><p class="sub">DM to Order</p></div>
       </div>
+      <div class="cake-card reveal-scale">
+        <div class="cake-card-image"><video src="/static/cake-3.mp4" autoplay muted loop playsinline></video></div>
+        <div class="cake-card-body"><h3>Special Cake</h3><p class="sub">DM to Order</p></div>
+      </div>
+      <div class="cake-card reveal-scale">
+        <div class="cake-card-image"><video src="/static/cake-4.mp4" autoplay muted loop playsinline></video></div>
+        <div class="cake-card-body"><h3>Premium Cake</h3><p class="sub">DM to Order</p></div>
+      </div>
+      <div class="cake-card reveal-scale">
+        <div class="cake-card-image"><video src="/static/cake-5.mp4" autoplay muted loop playsinline></video></div>
+        <div class="cake-card-body"><h3>Festive Cake</h3><p class="sub">DM to Order</p></div>
+      </div>
+      <div class="cake-card reveal-scale">
+        <div class="cake-card-image"><video src="/static/cake-6.mp4" autoplay muted loop playsinline></video></div>
+        <div class="cake-card-body"><h3>Artisan Cake</h3><p class="sub">DM to Order</p></div>
+      </div>
+      <div class="cake-card reveal-scale">
+        <div class="cake-card-image"><video src="/static/cake-8.mp4" autoplay muted loop playsinline></video></div>
+        <div class="cake-card-body"><h3>Bespoke Cake</h3><p class="sub">DM to Order</p></div>
+      </div>
+      <div class="cake-card reveal-scale">
+        <div class="cake-card-image"><video src="/static/cake-9.mp4" autoplay muted loop playsinline></video></div>
+        <div class="cake-card-body"><h3>Luxury Cake</h3><p class="sub">DM to Order</p></div>
+      </div>
+      <div class="cake-card reveal-scale">
+        <div class="cake-card-image"><video src="/static/cake-10.mp4" autoplay muted loop playsinline></video></div>
+        <div class="cake-card-body"><h3>Signature Cake</h3><p class="sub">DM to Order</p></div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:40px;" class="reveal">
+      <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="btn btn-primary">DM to Order Cakes</a>
     </div>
   </div>
 </section>
 
 <!-- SIP & PAINT -->
-<section class="sip-section">
+<section class="sip-section" id="sip">
   <div class="container">
     <div class="section-header reveal">
       <span class="tag">Event</span>
@@ -608,76 +696,29 @@ img { max-width: 100%; display: block; }
   </div>
 </section>
 
-<!-- CAKES -->
-<section class="cakes-section">
+<!-- ABOUT -->
+<section class="about-section" id="about">
   <div class="container">
-    <div class="section-header reveal">
-      <span class="tag">Cakes</span>
-      <h2>Our Special Cakes</h2>
-      <p>Handcrafted with love — perfect for every celebration.</p>
-    </div>
-    <div class="cakes-grid">
-      <div class="cake-card reveal-scale">
-        <div class="cake-card-image"><img src="/static/cake-1.jpg" alt="Cake" loading="lazy" decoding="async"></div>
-      </div>
-      <div class="cake-card reveal-scale">
-        <div class="cake-card-image"><video src="/static/cake-2.mp4" autoplay muted loop playsinline></video></div>
-      </div>
-      <div class="cake-card reveal-scale">
-        <div class="cake-card-image"><video src="/static/cake-3.mp4" autoplay muted loop playsinline></video></div>
-      </div>
-      <div class="cake-card reveal-scale">
-        <div class="cake-card-image"><video src="/static/cake-4.mp4" autoplay muted loop playsinline></video></div>
-      </div>
-      <div class="cake-card reveal-scale">
-        <div class="cake-card-image"><video src="/static/cake-5.mp4" autoplay muted loop playsinline></video></div>
-      </div>
-      <div class="cake-card reveal-scale">
-        <div class="cake-card-image"><video src="/static/cake-6.mp4" autoplay muted loop playsinline></video></div>
-      </div>
-      <div class="cake-card reveal-scale">
-        <div class="cake-card-image"><video src="/static/cake-8.mp4" autoplay muted loop playsinline></video></div>
-      </div>
-      <div class="cake-card reveal-scale">
-        <div class="cake-card-image"><video src="/static/cake-9.mp4" autoplay muted loop playsinline></video></div>
-      </div>
-      <div class="cake-card reveal-scale">
-        <div class="cake-card-image"><video src="/static/cake-10.mp4" autoplay muted loop playsinline></video></div>
-      </div>
-    </div>
-    <div style="text-align:center;margin-top:32px;">
-      <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="btn btn-primary">DM to Order</a>
-    </div>
-  </div>
-</section>
-
-<!-- MENU -->
-<section class="menu-section pastel-pattern pastel-dots" id="menu">
-  <div class="float-shape float-circle" style="top:20%;left:3%;width:50px;height:50px;opacity:0.1;">
-    <svg viewBox="0 0 24 24" fill="var(--pastel-pink)"><circle cx="12" cy="12" r="10"/></svg>
-  </div>
-  <div class="float-shape float-star" style="bottom:15%;right:8%;width:45px;height:45px;opacity:0.1;">
-    <svg viewBox="0 0 24 24" fill="var(--gold)"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-  </div>
-  <div class="container">
-    <div class="section-header reveal">
-      <span class="tag">Menu</span>
-      <h2>What We Serve</h2>
-      <p>Fresh ingredients, bold flavors, and a little love in every dish.</p>
-    </div>
-    <div class="menu-grid" id="menuGrid">
-      {% for item in menu_items %}
-      <div class="menu-card reveal-scale">
-        <div class="menu-card-image"><img src="/static/{{ item.image }}" alt="{{ item.name }}" loading="lazy" decoding="async"></div>
-        <div class="menu-card-body">
-          <h3>{{ item.name }}</h3>
-          <p>{{ item.description or '' }}</p>
-          <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="btn btn-primary">DM to Order</a>
+    <div class="about-grid">
+      <div class="about-image reveal-left">
+        <img src="/static/product-1.png" alt="WakeCup Cafe">
+        <div class="exp">
+          <strong>4 PM - 10 PM</strong>
+          <span>Open Daily</span>
         </div>
       </div>
-      {% else %}
-      <p style="grid-column:1/-1;text-align:center;padding:40px;opacity:0.5;">Menu loading from database...</p>
-      {% endfor %}
+      <div class="about-content reveal-right">
+        <span class="tag">Our Story</span>
+        <h2>From Bean to Cup,<br>a Labor of Love</h2>
+        <p>Founded with a passion for great coffee and good company, WakeCup Cafe in Theni is a cozy corner where every visit feels like home. Managed by Anjana, we serve specialty coffee, handcrafted sandwiches, and indulgent desserts made with love.</p>
+        <p>Located in NRT Nagar, our space is designed for connection — whether you're catching up with friends, hosting a celebration, or joining our creative workshops.</p>
+        <div class="about-features">
+          <div class="feat"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Dine-in & Takeaway</div>
+          <div class="feat"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Pre-orders Available</div>
+          <div class="feat"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Parties up to 80 Guests</div>
+          <div class="feat"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Creative Workshops</div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -715,31 +756,40 @@ img { max-width: 100%; display: block; }
   </div>
 </section>
 
-<!-- RESERVATIONS -->
-<section class="reservations" id="reservations">
+<!-- EVENTS -->
+<section class="events" id="events">
   <div class="container">
-    <div class="reservations-grid">
-      <div class="reservations-content reveal-left">
-        <span class="tag">DM to Book</span>
-        <h2>Reserve Through<br>@wakecup.ind</h2>
-        <p>Everything happens on Instagram — table bookings, party reservations, cake pre-orders, and workshop registrations. Just send us a DM!</p>
-        <div style="display:flex;flex-direction:column;gap:16px;margin-top:24px;">
-          <div style="display:flex;align-items:center;gap:12px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span style="font-size:14px;">Open Daily: 4 PM - 10 PM</span></div>
-          <div style="display:flex;align-items:center;gap:12px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><span style="font-size:14px;">NRT Nagar, Theni</span></div>
-          <div style="display:flex;align-items:center;gap:12px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5"/></svg><span style="font-size:14px;">DM @wakecup.ind</span></div>
+    <div class="section-header reveal">
+      <span class="tag">Events</span>
+      <h2>What's Happening at WakeCup</h2>
+      <p>From live music to creative workshops — there's always something brewing.</p>
+    </div>
+    <div class="events-grid">
+      <div class="event-card reveal-scale">
+        <img src="/static/insta-1.png" alt="Sip & Paint">
+        <div class="event-card-body">
+          <div class="date">Monthly</div>
+          <h3>Floral Sip & Paint</h3>
+          <p>Unwind with flowers, paints, and your favorite WakeCup beverage. All materials included.</p>
+          <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="btn btn-primary btn-sm">DM to Register</a>
         </div>
       </div>
-      <div class="reservations-form reveal-right" style="text-align:center;">
-        <img src="/static/flow-logo.png" alt="@wakecup.ind" style="width:80px;height:80px;border-radius:50%;margin:0 auto 20px;border:3px solid var(--soft-lavender);object-fit:cover;">
-        <h3>DM to Book</h3>
-        <p style="font-size:15px;line-height:1.7;margin-bottom:24px;">Message us on Instagram with your date, time & guest count. We'll confirm within minutes!</p>
-        <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="btn btn-primary" style="justify-content:center;width:100%;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5"/></svg>
-          DM @wakecup.ind
-        </a>
-        <div style="margin-top:16px;display:flex;gap:12px;justify-content:center;font-size:13px;opacity:0.6;">
-          <span>📍 NRT Nagar, Theni</span>
-          <span>🕐 4 PM - 10 PM</span>
+      <div class="event-card reveal-scale">
+        <img src="/static/insta-2.png" alt="Birthday Parties">
+        <div class="event-card-body">
+          <div class="date">By Booking</div>
+          <h3>Private Birthday Parties</h3>
+          <p>Celebrate with up to 80 guests! Customized menus, cake pre-orders, and decor arrangements available.</p>
+          <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="btn btn-primary btn-sm">Book via DM</a>
+        </div>
+      </div>
+      <div class="event-card reveal-scale">
+        <img src="/static/insta-3.png" alt="Weekend Specials">
+        <div class="event-card-body">
+          <div class="date">Every Weekend</div>
+          <h3>Weekend Special Menu</h3>
+          <p>New dishes, seasonal desserts, and exclusive beverages every weekend. Follow @wakecup.ind for updates.</p>
+          <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="btn btn-primary btn-sm">See on Instagram</a>
         </div>
       </div>
     </div>
@@ -747,7 +797,7 @@ img { max-width: 100%; display: block; }
 </section>
 
 <!-- TESTIMONIALS -->
-<section class="testimonials pastel-pattern pastel-dots" id="testimonials">
+<section class="testimonials" id="testimonials">
   <div class="container">
     <div class="section-header reveal">
       <span class="tag">Testimonials</span>
@@ -779,61 +829,21 @@ img { max-width: 100%; display: block; }
         <cite>— Amanda R.</cite>
       </div>
     </div>
-    <div style="max-width:500px;margin:48px auto 0;text-align:center;" class="reveal">
-      <h3 style="font-size:20px;margin-bottom:16px;">Leave a Review</h3>
-      <form id="reviewForm" style="display:flex;flex-direction:column;gap:12px;">
-        <div style="display:flex;gap:12px;">
-          <input type="text" name="name" placeholder="Your Name" required style="flex:1;padding:12px 16px;border:2px solid var(--soft-lavender);border-radius:12px;font-size:14px;outline:none;font-family:'Inter',sans-serif;">
-          <select name="rating" style="padding:12px 16px;border:2px solid var(--soft-lavender);border-radius:12px;font-size:14px;outline:none;font-family:'Inter',sans-serif;">
+    <div class="review-form-area reveal">
+      <h3>Leave a Review</h3>
+      <form class="review-form" id="reviewForm">
+        <div class="form-row">
+          <input type="text" name="name" placeholder="Your Name" required>
+          <select name="rating">
             <option value="5">★★★★★</option>
             <option value="4">★★★★☆</option>
             <option value="3">★★★☆☆</option>
           </select>
         </div>
-        <textarea name="content" rows="3" placeholder="Share your experience..." required style="padding:12px 16px;border:2px solid var(--soft-lavender);border-radius:12px;font-size:14px;outline:none;font-family:'Inter',sans-serif;resize:vertical;"></textarea>
-        <button type="submit" class="btn btn-primary" style="justify-content:center;">Submit Review</button>
+        <textarea name="content" rows="3" placeholder="Share your experience..." required></textarea>
+        <button type="submit" class="btn btn-primary">Submit Review</button>
         <div id="reviewStatus" style="font-size:14px;"></div>
       </form>
-    </div>
-  </div>
-</section>
-
-<!-- EVENTS -->
-<section class="events" id="events">
-  <div class="container">
-    <div class="section-header reveal">
-      <span class="tag">Events</span>
-      <h2>What's Happening at WakeCup</h2>
-      <p>From live music to creative workshops — there's always something brewing.</p>
-    </div>
-    <div class="events-grid">
-      <div class="event-card reveal-scale">
-        <img src="/static/insta-1.png" alt="Sip & Paint">
-        <div class="event-card-body">
-          <div class="date">Monthly</div>
-          <h3>Floral Sip & Paint</h3>
-          <p>Unwind with flowers, paints, and your favorite WakeCup beverage. All materials included.</p>
-          <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="btn btn-secondary" style="margin-top:12px;font-size:13px;padding:8px 20px;">DM to Register</a>
-        </div>
-      </div>
-      <div class="event-card reveal-scale">
-        <img src="/static/insta-2.png" alt="Birthday Parties">
-        <div class="event-card-body">
-          <div class="date">By Booking</div>
-          <h3>Private Birthday Parties</h3>
-          <p>Celebrate with up to 80 guests! Customized menus, cake pre-orders, and decor arrangements available.</p>
-          <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="btn btn-secondary" style="margin-top:12px;font-size:13px;padding:8px 20px;">Book via DM</a>
-        </div>
-      </div>
-      <div class="event-card reveal-scale">
-        <img src="/static/insta-3.png" alt="Weekend Specials">
-        <div class="event-card-body">
-          <div class="date">Every Weekend</div>
-          <h3>Weekend Special Menu</h3>
-          <p>New dishes, seasonal desserts, and exclusive beverages every weekend. Follow @wakecup.ind for updates.</p>
-          <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="btn btn-secondary" style="margin-top:12px;font-size:13px;padding:8px 20px;">See on Instagram</a>
-        </div>
-      </div>
     </div>
   </div>
 </section>
@@ -865,99 +875,119 @@ img { max-width: 100%; display: block; }
       <p>Follow us on Instagram for the latest updates, menu specials, and behind-the-scenes content.</p>
     </div>
     <div class="insta-highlights reveal">
-      <a href="https://www.instagram.com/wakecup.ind?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="highlight-circle"><div class="highlight-ring"><img src="/static/product-1.png" alt="Food"></div><span>Food</span></a>
-      <a href="https://www.instagram.com/wakecup.ind?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="highlight-circle"><div class="highlight-ring"><img src="/static/product-5.png" alt="Desserts"></div><span>Desserts</span></a>
-      <a href="https://www.instagram.com/wakecup.ind?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="highlight-circle"><div class="highlight-ring"><img src="/static/insta-1.png" alt="Events"></div><span>Events</span></a>
-      <a href="https://www.instagram.com/wakecup.ind?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="highlight-circle"><div class="highlight-ring"><img src="/static/store-interior.png" alt="Cafe"></div><span>Cafe</span></a>
-      <a href="https://www.instagram.com/wakecup.ind?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="highlight-circle"><div class="highlight-ring"><img src="/static/flow-logo.png" alt="Reels"></div><span>Reels</span></a>
+      <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="highlight-circle"><div class="highlight-ring"><img src="/static/product-1.png" alt="Food"></div><span>Food</span></a>
+      <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="highlight-circle"><div class="highlight-ring"><img src="/static/product-5.png" alt="Desserts"></div><span>Desserts</span></a>
+      <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="highlight-circle"><div class="highlight-ring"><img src="/static/insta-1.png" alt="Events"></div><span>Events</span></a>
+      <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="highlight-circle"><div class="highlight-ring"><img src="/static/store-interior.png" alt="Cafe"></div><span>Cafe</span></a>
+      <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="highlight-circle"><div class="highlight-ring"><img src="/static/flow-logo.png" alt="Reels"></div><span>Reels</span></a>
     </div>
     <div class="insta-grid">
-      <a href="https://www.instagram.com/wakecup.ind?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="reveal-scale"><img src="/static/insta-1.png" alt="Sip & Paint at WakeCup"></a>
-      <a href="https://www.instagram.com/wakecup.ind?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="reveal-scale"><img src="/static/insta-2.png" alt="Birthday Party Setup"></a>
-      <a href="https://www.instagram.com/wakecup.ind?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="reveal-scale"><img src="/static/insta-3.png" alt="Weekend Specials"></a>
-      <a href="https://www.instagram.com/wakecup.ind?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="reveal-scale"><img src="/static/insta-4.png" alt="Coffee Art"></a>
-      <a href="https://www.instagram.com/wakecup.ind?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="reveal-scale"><img src="/static/insta-5.png" alt="Dessert Special"></a>
-      <a href="https://www.instagram.com/wakecup.ind?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="reveal-scale"><img src="/static/insta-6.png" alt="Cafe Interiors"></a>
+      <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="reveal-scale"><img src="/static/insta-1.png" alt="Sip & Paint at WakeCup" style="width:100%;aspect-ratio:1;object-fit:cover;display:block;border-radius:12px;"></a>
+      <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="reveal-scale"><img src="/static/insta-2.png" alt="Birthday Party Setup" style="width:100%;aspect-ratio:1;object-fit:cover;display:block;border-radius:12px;"></a>
+      <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="reveal-scale"><img src="/static/insta-3.png" alt="Weekend Specials" style="width:100%;aspect-ratio:1;object-fit:cover;display:block;border-radius:12px;"></a>
+      <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="reveal-scale"><img src="/static/insta-4.png" alt="Coffee Art" style="width:100%;aspect-ratio:1;object-fit:cover;display:block;border-radius:12px;"></a>
+      <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="reveal-scale"><img src="/static/insta-5.png" alt="Dessert Special" style="width:100%;aspect-ratio:1;object-fit:cover;display:block;border-radius:12px;"></a>
+      <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="reveal-scale"><img src="/static/insta-6.png" alt="Cafe Interiors" style="width:100%;aspect-ratio:1;object-fit:cover;display:block;border-radius:12px;"></a>
+    </div>
+    <div class="insta-cta reveal">
+      <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="btn btn-primary">Follow @wakecup.ind</a>
     </div>
   </div>
 </section>
-
-<!-- FOOTER -->
-<footer class="footer" id="contact">
-  <div class="container">
-    <div class="footer-grid">
-      <div>
-        <div class="footer-brand">
-          <img src="/static/flow-logo.png" alt="WakeCup Cafe">
-          <h3>WakeCup Cafe || Theni</h3>
-        </div>
-        <p style="font-size:14px;line-height:1.7;">A little corner of comfort and good food. Specialty coffee, handcrafted sandwiches, and a welcoming hangout spot in NRT Nagar, Theni. Managed by Anjana.</p>
-      </div>
-      <div class="footer-col"><h4>Quick Links</h4><a href="#about">About</a><a href="#menu">Menu</a><a href="#services">Services</a><a href="#instagram">Gallery</a></div>
-      <div class="footer-col"><h4>Instagram</h4><a href="https://www.instagram.com/wakecup.ind" target="_blank">@wakecup.ind</a><a href="https://www.instagram.com/wakecup.ind" target="_blank">DM to Order</a><a href="https://www.instagram.com/wakecup.ind" target="_blank">Book a Table</a><a href="https://www.instagram.com/wakecup.ind" target="_blank">Event Registration</a></div>
-      <div class="footer-col"><h4>Visit Us</h4><p>NRT Nagar, Theni</p><p>Tamil Nadu, India</p><p style="margin-top:12px;"><strong style="color:white;">Open Daily</strong></p><p style="font-size:18px;color:white;font-weight:600;">4 PM - 10 PM</p><p style="margin-top:8px;font-size:13px;">Dine-in · Takeaway · Pre-orders</p></div>
-    </div>
-    <div class="footer-bottom">
-      <p>&copy; 2025 WakeCup Cafe || Theni. <a href="https://www.instagram.com/wakecup.ind" target="_blank" style="color:var(--lavender);">DM @wakecup.ind</a> to order.</p>
-      <div class="footer-socials">
-        <a href="https://www.instagram.com/wakecup.ind" target="_blank"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5"/></svg></a>
-      </div>
-    </div>
-    </div>
-  </div>
-</footer>
-
-<!-- INSTAGRAM CTA BANNER -->
-<section style="padding:60px 0;background:linear-gradient(135deg,var(--primary),var(--dark-purple));text-align:center;color:white;">
-  <div class="container">
-    <h2 style="color:white;font-size:clamp(24px,3vw,36px);margin-bottom:12px;">Follow @wakecup.ind</h2>
-    <p style="opacity:0.85;margin-bottom:24px;">Menu, events, behind-the-scenes & DM orders — all on Instagram.</p>
-    <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="btn btn-light">Open Instagram →</a>
-  </div>
-</section>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
 
 <!-- CONTACT / NEWSLETTER -->
-<section style="padding:80px 0;background:var(--bg);" id="contact-section">
+<section class="contact-section" id="contact">
   <div class="container">
     <div class="section-header reveal">
       <span class="tag">Get in Touch</span>
       <h2>Contact Us</h2>
       <p>Questions, feedback, or want to collaborate? Send us a message.</p>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;max-width:900px;margin:0 auto;" class="reveal">
+    <div class="contact-grid reveal">
       <div>
-        <h3 style="font-size:22px;margin-bottom:20px;">Send a Message</h3>
-        <form id="contactForm" style="display:flex;flex-direction:column;gap:16px;">
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-            <input type="text" id="contactName" placeholder="Your Name" required style="padding:14px 16px;border:2px solid var(--soft-lavender);border-radius:12px;font-size:14px;outline:none;font-family:'Inter',sans-serif;">
-            <input type="email" id="contactEmail" placeholder="Your Email" style="padding:14px 16px;border:2px solid var(--soft-lavender);border-radius:12px;font-size:14px;outline:none;font-family:'Inter',sans-serif;">
+        <h3>Send a Message</h3>
+        <form class="contact-form" id="contactForm">
+          <div class="form-row">
+            <input type="text" id="contactName" placeholder="Your Name" required>
+            <input type="email" id="contactEmail" placeholder="Your Email">
           </div>
-          <input type="text" id="contactSubject" placeholder="Subject" style="padding:14px 16px;border:2px solid var(--soft-lavender);border-radius:12px;font-size:14px;outline:none;font-family:'Inter',sans-serif;">
-          <textarea id="contactMessage" rows="4" placeholder="Your message..." required style="padding:14px 16px;border:2px solid var(--soft-lavender);border-radius:12px;font-size:14px;outline:none;font-family:'Inter',sans-serif;resize:vertical;"></textarea>
-          <button type="submit" class="btn btn-primary" style="justify-content:center;">Send Message</button>
+          <input type="text" id="contactSubject" placeholder="Subject">
+          <textarea id="contactMessage" rows="4" placeholder="Your message..." required></textarea>
+          <button type="submit" class="btn btn-primary">Send Message</button>
           <div id="contactStatus" style="font-size:14px;text-align:center;"></div>
         </form>
       </div>
       <div>
-        <h3 style="font-size:22px;margin-bottom:20px;">Stay Updated</h3>
-        <p style="font-size:15px;line-height:1.7;margin-bottom:20px;opacity:0.8;">Subscribe to get notified about new menu items, events, and exclusive offers.</p>
-        <form id="subscribeForm" style="display:flex;gap:12px;flex-wrap:wrap;">
-          <input type="email" id="subEmail" placeholder="Your email address" required style="flex:1;min-width:200px;padding:14px 16px;border:2px solid var(--soft-lavender);border-radius:12px;font-size:14px;outline:none;font-family:'Inter',sans-serif;">
-          <button type="submit" class="btn btn-primary">Subscribe</button>
-        </form>
-        <div id="subStatus" style="font-size:14px;margin-top:12px;"></div>
-        <div style="margin-top:40px;">
-          <h3 style="font-size:22px;margin-bottom:16px;">Visit Us</h3>
-          <p style="font-size:15px;line-height:1.8;opacity:0.8;">📍 NRT Nagar, Theni, Tamil Nadu<br>🕐 Open Daily: 4 PM - 10 PM<br>📱 DM: @wakecup.ind</p>
+        <h3>Stay Updated</h3>
+        <div class="subscribe-box">
+          <p>Subscribe to get notified about new menu items, events, and exclusive offers.</p>
+          <form class="subscribe-form" id="subscribeForm">
+            <input type="email" id="subEmail" placeholder="Your email address" required>
+            <button type="submit" class="btn btn-primary">Subscribe</button>
+          </form>
+          <div id="subStatus" style="font-size:14px;margin-top:12px;"></div>
+        </div>
+        <div class="visit-info">
+          <h3>Visit Us</h3>
+          <p>📍 NRT Nagar, Theni, Tamil Nadu<br>🕐 Open Daily: 4 PM - 10 PM<br>📱 DM: @wakecup.ind</p>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <h3>WakeCup Cafe || Theni</h3>
+          <p>A little corner of comfort and good food. Specialty coffee, handcrafted sandwiches, and a welcoming hangout spot in NRT Nagar, Theni. Managed by Anjana.</p>
+        </div>
+        <div class="footer-socials" style="margin-top:20px;gap:12px;">
+          <a href="https://www.instagram.com/wakecup.ind" target="_blank"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5"/></svg></a>
+        </div>
+        <div class="footer-newsletter">
+          <input type="email" placeholder="Your email for updates..." id="footerSubEmail">
+          <button class="btn btn-primary btn-sm" id="footerSubBtn" style="margin-top:8px;">Subscribe</button>
+          <div id="footerSubStatus" style="font-size:12px;margin-top:6px;"></div>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <a href="#menu">Menu</a>
+        <a href="#cakes">Cakes</a>
+        <a href="#events">Events</a>
+        <a href="#services">Services</a>
+        <a href="#about">About</a>
+        <a href="#instagram">Gallery</a>
+      </div>
+      <div class="footer-col">
+        <h4>Instagram</h4>
+        <a href="https://www.instagram.com/wakecup.ind" target="_blank">@wakecup.ind</a>
+        <a href="https://www.instagram.com/wakecup.ind" target="_blank">DM to Order</a>
+        <a href="https://www.instagram.com/wakecup.ind" target="_blank">Book a Table</a>
+        <a href="https://www.instagram.com/wakecup.ind" target="_blank">Event Registration</a>
+      </div>
+      <div class="footer-col">
+        <h4>Visit Us</h4>
+        <p>NRT Nagar, Theni</p>
+        <p>Tamil Nadu, India</p>
+        <p style="margin-top:16px;"><strong style="color:white;">Open Daily</strong></p>
+        <p style="font-size:18px;color:white;font-weight:600;">4 PM - 10 PM</p>
+        <p style="margin-top:8px;font-size:13px;opacity:0.6;">Dine-in · Takeaway · Pre-orders</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 WakeCup Cafe || Theni. <a href="https://www.instagram.com/wakecup.ind" target="_blank">DM @wakecup.ind</a> to order.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
 
 <script>
 // LENIS
@@ -976,26 +1006,6 @@ ScrollTrigger.create({
   }
 });
 
-// HERO SLIDER
-let currentSlide = 0;
-const slides = document.querySelectorAll('.hero-slide');
-const dots = document.querySelectorAll('.hero-dot');
-function goToSlide(index) {
-  slides.forEach(s => s.classList.remove('active'));
-  dots.forEach(d => d.classList.remove('active'));
-  slides[index].classList.add('active');
-  dots[index].classList.add('active');
-  currentSlide = index;
-}
-function nextSlide() { goToSlide((currentSlide + 1) % slides.length); }
-dots.forEach(dot => dot.addEventListener('click', () => goToSlide(parseInt(dot.dataset.slide))));
-let slideInterval = setInterval(nextSlide, 5000);
-document.getElementById('hero').addEventListener('mouseenter', () => clearInterval(slideInterval));
-document.getElementById('hero').addEventListener('mouseleave', () => { slideInterval = setInterval(nextSlide, 5000); });
-
-// HERO CONTENT FADE
-gsap.from('#heroContent', { opacity: 0, y: 40, duration: 1.2, ease: 'power3.out', delay: 0.3 });
-
 // SCROLL REVEAL
 function setupReveal(selector) {
   const els = document.querySelectorAll(selector);
@@ -1010,15 +1020,24 @@ setupReveal('.reveal-left');
 setupReveal('.reveal-right');
 setupReveal('.reveal-scale');
 
-// MENU CARDS STAGGER
-const menuCards = document.querySelectorAll('#menuGrid .menu-card');
-if (menuCards.length) {
-  ScrollTrigger.batch(menuCards, {
-    start: 'top 85%',
-    onEnter: (batch) => gsap.to(batch, { opacity: 1, y: 0, scale: 1, duration: 0.7, stagger: 0.1, ease: 'power3.out', overwrite: 'auto' }),
-    onLeave: (batch) => gsap.set(batch, { opacity: 0, y: 40, scale: 0.9 }),
-    onEnterBack: (batch) => gsap.to(batch, { opacity: 1, y: 0, scale: 1, duration: 0.7, stagger: 0.1, ease: 'power3.out', overwrite: 'auto' }),
-    onLeaveBack: (batch) => gsap.set(batch, { opacity: 0, y: 40, scale: 0.9 })
+// MENU CATEGORY FILTER TABS
+const filterTabs = document.querySelectorAll('.filter-tab');
+const productCards = document.querySelectorAll('.product-card');
+if (filterTabs.length && productCards.length) {
+  filterTabs.forEach(tab => {
+    tab.addEventListener('click', function() {
+      filterTabs.forEach(t => t.classList.remove('active'));
+      this.classList.add('active');
+      const filter = this.dataset.filter;
+      productCards.forEach(card => {
+        if (filter === 'All' || card.dataset.category === filter) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      ScrollTrigger.refresh();
+    });
   });
 }
 
@@ -1069,46 +1088,32 @@ document.querySelectorAll('.btn').forEach(btn => {
   btn.addEventListener('mouseleave', () => { gsap.to(btn, { x: 0, y: 0, duration: 0.3, ease: 'power2.out' }); });
 });
 
+// NAV DROPDOWN FILTER LINKS
+document.querySelectorAll('.nav-dropdown a').forEach(link => {
+  link.addEventListener('click', function(e) {
+    const filter = this.dataset.filter;
+    if (filter) {
+      // Click the matching filter tab
+      const tabs = document.querySelectorAll('.filter-tab');
+      tabs.forEach(t => {
+        if (t.dataset.filter === filter) t.click();
+      });
+    }
+  });
+});
+
+// HERO CONTENT FADE
+gsap.from('.hero-content', { opacity: 0, y: 40, duration: 1.2, ease: 'power3.out', delay: 0.3 });
+
 ScrollTrigger.refresh();
 
-// API — ORDER
-document.getElementById('bookingForm')?.addEventListener('submit', async function(e) {
-  e.preventDefault();
-  const btn = this.querySelector('button[type="submit"]');
-  const status = document.getElementById('bookingStatus') || createStatus(this);
-  btn.disabled = true; btn.textContent = 'Sending...';
-  try {
-    const res = await fetch('/api/order', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        name: document.getElementById('bookName')?.value || '',
-        phone: document.getElementById('bookPhone')?.value || '',
-        items: [{name:'Order from website', price:0, qty:1}],
-        total: 0,
-        notes: document.getElementById('bookMessage')?.value || ''
-      })
-    });
-    const data = await res.json();
-    status.textContent = data.message || 'Order sent!';
-    status.style.color = 'green';
-    this.reset();
-  } catch(e) { status.textContent = 'Error sending order'; status.style.color = 'red'; }
-  btn.disabled = false; btn.textContent = 'Place Order';
-});
-
-// API — RESERVATION
-document.getElementById('bookingForm')?.addEventListener('submit', function(e) {
-  // already handled above for order — we skip since reservation form redirects to Instagram
-});
-
 // API — REVIEW
-const reviewForm = document.querySelector('#testimonials form, .review-form');
+const reviewForm = document.getElementById('reviewForm');
 if (reviewForm) {
   reviewForm.addEventListener('submit', async function(e) {
     e.preventDefault();
     const btn = this.querySelector('button');
-    const status = document.getElementById('reviewStatus') || createStatus(this);
+    const status = document.getElementById('reviewStatus');
     btn.disabled = true;
     try {
       const res = await fetch('/api/review', {
@@ -1124,7 +1129,7 @@ if (reviewForm) {
       status.textContent = data.message;
       status.style.color = 'green';
       this.reset();
-    } catch(e) { status.textContent = 'Error submitting review'; }
+    } catch(e) { status.textContent = 'Error submitting review'; status.style.color = 'red'; }
     btn.disabled = false;
   });
 }
@@ -1170,20 +1175,24 @@ document.getElementById('contactForm')?.addEventListener('submit', async functio
   btn.disabled = false; btn.textContent = 'Send Message';
 });
 
-function createStatus(form) {
-  const div = document.createElement('div');
-  div.id = 'tempStatus';
-  div.style.cssText = 'font-size:14px;text-align:center;margin-top:12px;';
-  form.appendChild(div);
-  return div;
-}
+// FOOTER SUBSCRIBE
+document.getElementById('footerSubBtn')?.addEventListener('click', async function() {
+  const email = document.getElementById('footerSubEmail').value;
+  const status = document.getElementById('footerSubStatus');
+  if (!email) { status.textContent = 'Please enter an email'; status.style.color = 'red'; return; }
+  try {
+    const res = await fetch('/api/subscribe', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email})
+    });
+    const data = await res.json();
+    status.textContent = data.message;
+    status.style.color = 'green';
+    document.getElementById('footerSubEmail').value = '';
+  } catch(e) { status.textContent = 'Error subscribing'; status.style.color = 'red'; }
+});
 
-console.log('WakeCup Cafe || Theni — Full Stack with Flask + PostgreSQL.');
+console.log('WakeCup Cafe || Theni — Bakingo-inspired design.');
 </script>
 </body>
 </html>
-
-
-
-
-
