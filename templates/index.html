@@ -542,7 +542,7 @@ img { max-width: 100%; display: block; }
     </div>
     <div class="discover-grid">
       <div class="discover-card reveal-scale">
-        <img src="/static/golden-crunch-burger.jpg" alt="Burgers">
+        <img src="/static/golden-crunch-burger.jpg" alt="Burgers" loading="lazy" decoding="async">
         <div class="discover-card-body">
           <div class="cat">Savory</div>
           <h3>Burgers & Sandwiches</h3>
@@ -551,7 +551,7 @@ img { max-width: 100%; display: block; }
         </div>
       </div>
       <div class="discover-card reveal-scale">
-        <img src="/static/classic-tiramisu.jpg" alt="Desserts">
+        <img src="/static/classic-tiramisu.jpg" alt="Desserts" loading="lazy" decoding="async">
         <div class="discover-card-body">
           <div class="cat">Sweet</div>
           <h3>Indulgent Desserts</h3>
@@ -560,7 +560,7 @@ img { max-width: 100%; display: block; }
         </div>
       </div>
       <div class="discover-card reveal-scale">
-        <img src="/static/bread-pudding.jpg" alt="Desserts">
+        <img src="/static/bread-pudding.jpg" alt="Desserts" loading="lazy" decoding="async">
         <div class="discover-card-body">
           <div class="cat">Desserts</div>
           <h3>Sweet Treats</h3>
@@ -582,31 +582,31 @@ img { max-width: 100%; display: block; }
     </div>
     <div class="cakes-grid">
       <div class="cake-card reveal-scale">
-        <div class="cake-card-image"><img src="/static/cake-1.jpg" alt="Cake"></div>
+        <div class="cake-card-image"><img src="/static/cake-1.jpg" alt="Cake" loading="lazy" decoding="async"></div>
       </div>
       <div class="cake-card reveal-scale">
-        <div class="cake-card-image"><video src="/static/cake-2.mp4" autoplay muted loop playsinline></video></div>
+        <div class="cake-card-image"><video src="/static/cake-2.mp4" preload="none" muted playsinline poster="/static/cake-1.jpg"></video></div>
       </div>
       <div class="cake-card reveal-scale">
-        <div class="cake-card-image"><video src="/static/cake-3.mp4" autoplay muted loop playsinline></video></div>
+        <div class="cake-card-image"><video src="/static/cake-3.mp4" preload="none" muted playsinline poster="/static/cake-1.jpg"></video></div>
       </div>
       <div class="cake-card reveal-scale">
-        <div class="cake-card-image"><video src="/static/cake-4.mp4" autoplay muted loop playsinline></video></div>
+        <div class="cake-card-image"><video src="/static/cake-4.mp4" preload="none" muted playsinline poster="/static/cake-1.jpg"></video></div>
       </div>
       <div class="cake-card reveal-scale">
-        <div class="cake-card-image"><video src="/static/cake-5.mp4" autoplay muted loop playsinline></video></div>
+        <div class="cake-card-image"><video src="/static/cake-5.mp4" preload="none" muted playsinline poster="/static/cake-1.jpg"></video></div>
       </div>
       <div class="cake-card reveal-scale">
-        <div class="cake-card-image"><video src="/static/cake-6.mp4" autoplay muted loop playsinline></video></div>
+        <div class="cake-card-image"><video src="/static/cake-6.mp4" preload="none" muted playsinline poster="/static/cake-1.jpg"></video></div>
       </div>
       <div class="cake-card reveal-scale">
-        <div class="cake-card-image"><video src="/static/cake-8.mp4" autoplay muted loop playsinline></video></div>
+        <div class="cake-card-image"><video src="/static/cake-8.mp4" preload="none" muted playsinline poster="/static/cake-1.jpg"></video></div>
       </div>
       <div class="cake-card reveal-scale">
-        <div class="cake-card-image"><video src="/static/cake-9.mp4" autoplay muted loop playsinline></video></div>
+        <div class="cake-card-image"><video src="/static/cake-9.mp4" preload="none" muted playsinline poster="/static/cake-1.jpg"></video></div>
       </div>
       <div class="cake-card reveal-scale">
-        <div class="cake-card-image"><video src="/static/cake-10.mp4" autoplay muted loop playsinline></video></div>
+        <div class="cake-card-image"><video src="/static/cake-10.mp4" preload="none" muted playsinline poster="/static/cake-1.jpg"></video></div>
       </div>
     </div>
     <div style="text-align:center;margin-top:32px;">
@@ -632,7 +632,7 @@ img { max-width: 100%; display: block; }
     <div class="menu-grid" id="menuGrid">
       {% for item in menu_items %}
       <div class="menu-card reveal-scale">
-        <div class="menu-card-image"><img src="/static/{{ item.image }}" alt="{{ item.name }}"></div>
+        <div class="menu-card-image"><img src="/static/{{ item.image }}" alt="{{ item.name }}" loading="lazy" decoding="async"></div>
         <div class="menu-card-body">
           <h3>{{ item.name }}</h3>
           <p>{{ item.description or '' }}</p>
