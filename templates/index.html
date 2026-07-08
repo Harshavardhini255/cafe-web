@@ -100,13 +100,17 @@ img { max-width: 100%; display: block; }
 /* NAVBAR */
 .navbar {
   position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-  padding: 16px 0; transition: all 0.4s ease;
+  padding: 20px 0; transition: all 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
+  background: transparent;
+}
+.navbar.scrolled {
+  padding: 12px 0;
   background: rgba(255, 250, 245, 0.95);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(254, 129, 212, 0.08);
+  box-shadow: 0 2px 40px rgba(254,129,212,0.08);
 }
-.navbar.scrolled { padding: 10px 0; box-shadow: 0 2px 40px rgba(254,129,212,0.08); }
 @media (min-width: 768px) { .navbar { top: 36px; } }
 .nav-inner {
   display: flex; align-items: center; justify-content: space-between;
@@ -114,15 +118,20 @@ img { max-width: 100%; display: block; }
 }
 .nav-logo { display: flex; align-items: center; gap: 12px; }
 .nav-logo img { height: 40px; width: 40px; border-radius: 50%; object-fit: cover; }
-.nav-logo span { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--primary); }
+.nav-logo span { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: white; transition: color 0.3s; }
+.navbar.scrolled .nav-logo span { color: var(--primary); }
 .nav-links { display: flex; gap: 28px; align-items: center; }
 .nav-links > li { list-style: none; position: relative; }
 .nav-links > li > a {
-  font-size: 14px; font-weight: 500; color: var(--heading);
+  font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.85);
   transition: color 0.3s; cursor: pointer;
   display: flex; align-items: center; gap: 4px;
 }
-.nav-links > li > a:hover { color: var(--primary); }
+.nav-links > li > a:hover { color: white; }
+.navbar.scrolled .nav-links > li > a { color: var(--heading); }
+.navbar.scrolled .nav-links > li > a:hover { color: var(--primary); }
+.navbar.scrolled .hamburger span { background: var(--heading); }
+.hamburger span { background: white; }
 .nav-dropdown {
   position: absolute; top: 100%; left: 0; margin-top: 12px;
   background: var(--card); border-radius: 12px; padding: 8px;
@@ -136,11 +145,21 @@ img { max-width: 100%; display: block; }
   border-radius: 8px; transition: all 0.2s;
 }
 .nav-dropdown a:hover { background: var(--soft-lavender); color: var(--primary); }
+.nav-insta-btn {
+  background: transparent; color: white !important;
+  border: 1.5px solid rgba(255,255,255,0.3);
+  transition: all 0.3s;
+}
+.nav-insta-btn:hover { border-color: white; background: rgba(255,255,255,0.08); transform: translateY(-2px); }
+.navbar.scrolled .nav-insta-btn {
+  background: var(--primary); color: white !important; border-color: transparent;
+}
+.navbar.scrolled .nav-insta-btn:hover { background: var(--dark-purple); }
 .nav-icons { display: flex; gap: 16px; align-items: center; }
 .nav-icons svg { cursor: pointer; transition: all 0.3s; }
 .nav-icons svg:hover { color: var(--primary); transform: scale(1.1); }
-.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; }
-.hamburger span { width: 24px; height: 2px; background: var(--heading); border-radius: 2px; transition: all 0.3s; }
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 0; }
+.hamburger span { width: 24px; height: 2px; border-radius: 2px; transition: all 0.3s; }
 @media (max-width: 768px) {
   .nav-links { display: none; }
   .hamburger { display: flex; }
@@ -150,19 +169,115 @@ img { max-width: 100%; display: block; }
 
 /* HERO */
 .hero {
-  padding-top: 80px; min-height: 100vh;
-  display: flex; flex-direction: column; justify-content: center;
-  background: linear-gradient(135deg, var(--bg) 0%, var(--soft-lavender) 100%);
-  position: relative; overflow: hidden;
+  min-height: 100vh; position: relative;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  overflow: hidden; background: var(--heading);
 }
-@media (min-width: 768px) { .hero { padding-top: 116px; } }
-.hero-content { text-align: center; padding: 60px 24px 40px; position: relative; z-index: 2; }
-.hero-content h1 { font-size: clamp(42px, 8vw, 80px); margin-bottom: 12px; }
-.hero-content h1 span { background: linear-gradient(135deg, var(--primary), var(--dark-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-.hero-content p { font-size: clamp(16px, 2vw, 20px); max-width: 600px; margin: 0 auto 28px; color: var(--body); line-height: 1.6; }
-.hero-badges { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin-bottom: 28px; }
-.hero-badge { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--body); }
-.hero-badge svg { color: var(--primary); flex-shrink: 0; }
+.hero-bg {
+  position: absolute; inset: 0; z-index: 0;
+  width: 100%; height: 100%; object-fit: cover; object-position: center;
+}
+.hero-bg-overlay {
+  position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(135deg, rgba(74,26,58,0.78) 0%, rgba(254,129,212,0.25) 100%);
+}
+.hero-content {
+  position: relative; z-index: 2; text-align: center;
+  padding: 120px 24px 40px; max-width: 900px;
+}
+.hero-content .hero-brand {
+  display: inline-flex; align-items: center; gap: 12px;
+  margin-bottom: 24px;
+}
+.hero-content .hero-brand-icon {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: rgba(255,255,255,0.12); backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid rgba(255,255,255,0.15);
+}
+.hero-content .hero-brand-text { text-align: left; }
+.hero-content .hero-brand-text small {
+  display: block; font-size: 11px; text-transform: uppercase;
+  letter-spacing: 2px; opacity: 0.6; color: white;
+}
+.hero-content .hero-brand-text span {
+  font-size: 14px; font-weight: 600; color: white;
+}
+.hero-content .hero-tag {
+  display: inline-block; padding: 6px 18px; border-radius: 50px;
+  background: rgba(255,255,255,0.1); backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.8); font-size: 13px; font-weight: 500;
+  margin-bottom: 20px; letter-spacing: 0.5px;
+}
+.hero-content h1 {
+  font-size: clamp(48px, 10vw, 96px); color: white; line-height: 1.05;
+  margin-bottom: 8px; font-weight: 700;
+}
+.hero-content h1 .hero-hl {
+  background: linear-gradient(135deg, var(--pastel-pink), var(--gold));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.hero-divider {
+  width: 60px; height: 2px; margin: 20px auto;
+  background: linear-gradient(90deg, transparent, var(--pastel-pink), var(--gold), transparent);
+  border-radius: 2px;
+}
+.hero-content .hero-sub {
+  font-size: clamp(16px, 2vw, 20px); color: rgba(255,255,255,0.75);
+  max-width: 560px; margin: 0 auto 32px; line-height: 1.7; font-weight: 300;
+}
+.hero-stats {
+  display: flex; gap: 40px; justify-content: center; flex-wrap: wrap;
+  margin-bottom: 36px;
+}
+.hero-stat { text-align: center; }
+.hero-stat .num {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px; font-weight: 700; color: white; display: block;
+}
+.hero-stat .label {
+  font-size: 12px; text-transform: uppercase; letter-spacing: 1px;
+  color: rgba(255,255,255,0.5); margin-top: 2px;
+}
+.hero-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+.hero-buttons .btn-primary {
+  background: white; color: var(--heading);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+.hero-buttons .btn-primary:hover {
+  background: var(--pastel-pink); color: var(--heading);
+  transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+}
+.hero-buttons .btn-outline-light {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 14px 32px; border-radius: 50px; font-size: 15px;
+  font-weight: 600; border: 1.5px solid rgba(255,255,255,0.3);
+  cursor: pointer; transition: all 0.4s ease;
+  font-family: 'Inter', sans-serif; color: white; background: transparent;
+}
+.hero-buttons .btn-outline-light:hover {
+  border-color: white; background: rgba(255,255,255,0.08);
+  transform: translateY(-2px);
+}
+/* Scroll indicator */
+.hero-scroll {
+  position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+  z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 8px;
+  color: rgba(255,255,255,0.4); font-size: 11px; text-transform: uppercase;
+  letter-spacing: 2px; animation: scrollPulse 2s ease-in-out infinite; opacity: 0;
+}
+.hero-scroll .scroll-line {
+  width: 1px; height: 32px; background: linear-gradient(180deg, rgba(255,255,255,0.4), transparent);
+}
+@keyframes scrollPulse {
+  0%,100% { transform: translateX(-50%) translateY(0); opacity: 0.6; }
+  50% { transform: translateX(-50%) translateY(4px); opacity: 1; }
+}
+@media (max-width: 768px) {
+  .hero-content { padding: 100px 20px 30px; }
+  .hero-stats { gap: 24px; }
+}
 
 /* CATEGORY TILES */
 .category-tiles {
@@ -477,7 +592,7 @@ img { max-width: 100%; display: block; }
       <li><a href="#instagram">Gallery</a></li>
     </ul>
     <div class="nav-icons">
-      <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="btn btn-primary btn-sm">📷 @wakecup.ind</a>
+      <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="btn btn-sm nav-insta-btn">📷 @wakecup.ind</a>
       <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>
@@ -499,51 +614,36 @@ img { max-width: 100%; display: block; }
 
 <!-- HERO -->
 <section class="hero" id="hero">
-  <div class="hero-content reveal">
-    <span class="tag">Instagram Cafe in Theni</span>
-    <h1>WakeCup Cafe <br><span>|| Theni</span></h1>
-    <p>A little corner of comfort & good food — specialty coffee, handcrafted sandwiches, and indulgent desserts served daily in the heart of Theni.</p>
-    <div class="hero-badges">
-      <span class="hero-badge"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 4 PM - 10 PM</span>
-      <span class="hero-badge"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> NRT Nagar, Theni</span>
-      <span class="hero-badge"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Dine-in & Takeaway</span>
+  <img class="hero-bg" src="/static/store-interior.png" alt="WakeCup Cafe Interior">
+  <div class="hero-bg-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-brand reveal">
+      <div class="hero-brand-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+      </div>
+      <div class="hero-brand-text">
+        <small>Instagram Cafe</small>
+        <span>@wakecup.ind</span>
+      </div>
     </div>
-    <div class="hero-buttons">
-      <a href="https://www.instagram.com/wakecup.ind" class="btn btn-primary" target="_blank">📷 Follow @wakecup.ind</a>
-      <a href="#menu" class="btn btn-outline">View Menu</a>
+    <div class="reveal" style="transition-delay:0.1s;">
+      <span class="hero-tag">✦ Theni's Favorite Hangout</span>
+      <h1>WakeCup<br><span class="hero-hl">|| Theni</span></h1>
+      <div class="hero-divider"></div>
+      <p class="hero-sub">A little corner of comfort & good food — specialty coffee, handcrafted sandwiches, and indulgent desserts served daily in the heart of Theni.</p>
+    </div>
+    <div class="hero-stats reveal" style="transition-delay:0.2s;">
+      <div class="hero-stat"><span class="num">25+</span><span class="label">Menu Items</span></div>
+      <div class="hero-stat"><span class="num">4.9★</span><span class="label">Rating</span></div>
+      <div class="hero-stat"><span class="num">500+</span><span class="label">Happy Guests</span></div>
+      <div class="hero-stat"><span class="num">4-10PM</span><span class="label">Open Daily</span></div>
+    </div>
+    <div class="hero-buttons reveal" style="transition-delay:0.3s;">
+      <a href="#menu" class="btn btn-primary">Explore Menu</a>
+      <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="btn-outline-light">📷 Follow @wakecup.ind</a>
     </div>
   </div>
-  <!-- Category Tiles -->
-  <div class="category-tiles">
-    <a href="#menu" class="category-tile reveal-scale">
-      <img src="/static/chicken-marinara.jpg" alt="Sandwiches" loading="lazy">
-      <div class="category-tile-overlay">
-        <h3>Sandwiches</h3>
-        <span>Chicken · Paneer</span>
-      </div>
-    </a>
-    <a href="#menu" class="category-tile reveal-scale">
-      <img src="/static/golden-crunch-burger.jpg" alt="Burgers" loading="lazy">
-      <div class="category-tile-overlay">
-        <h3>Burgers</h3>
-        <span>Crispy · Juicy</span>
-      </div>
-    </a>
-    <a href="#menu" class="category-tile reveal-scale">
-      <img src="/static/classic-tiramisu.jpg" alt="Desserts" loading="lazy">
-      <div class="category-tile-overlay">
-        <h3>Desserts</h3>
-        <span>Tiramisu · Cakes · More</span>
-      </div>
-    </a>
-    <a href="#cakes" class="category-tile reveal-scale">
-      <img src="/static/cake-1.jpg" alt="Cakes" loading="lazy">
-      <div class="category-tile-overlay">
-        <h3>Cakes</h3>
-        <span>Special Occasions</span>
-      </div>
-    </a>
-  </div>
+  <div class="hero-scroll"><span>Scroll</span><div class="scroll-line"></div></div>
 </section>
 
 <!-- TRUST BADGES -->
@@ -1102,8 +1202,15 @@ document.querySelectorAll('.nav-dropdown a').forEach(link => {
   });
 });
 
-// HERO CONTENT FADE
-gsap.from('.hero-content', { opacity: 0, y: 40, duration: 1.2, ease: 'power3.out', delay: 0.3 });
+// HERO CONTENT STAGGER
+gsap.from('.hero .hero-brand', { opacity: 0, y: 30, duration: 0.8, ease: 'power3.out', delay: 0.2 });
+gsap.from('.hero .hero-tag', { opacity: 0, y: 20, duration: 0.6, ease: 'power3.out', delay: 0.4 });
+gsap.from('.hero h1', { opacity: 0, y: 30, duration: 0.8, ease: 'power3.out', delay: 0.5 });
+gsap.from('.hero .hero-divider', { opacity: 0, scaleX: 0, duration: 0.6, ease: 'power3.out', delay: 0.7, transformOrigin: 'center' });
+gsap.from('.hero .hero-sub', { opacity: 0, y: 20, duration: 0.6, ease: 'power3.out', delay: 0.8 });
+gsap.from('.hero .hero-stats', { opacity: 0, y: 20, duration: 0.6, ease: 'power3.out', delay: 1.0 });
+gsap.from('.hero .hero-buttons', { opacity: 0, y: 20, duration: 0.6, ease: 'power3.out', delay: 1.1 });
+gsap.to('.hero-scroll', { opacity: 1, duration: 0.6, delay: 1.5 });
 
 ScrollTrigger.refresh();
 
