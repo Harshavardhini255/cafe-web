@@ -220,8 +220,31 @@ img { max-width: 100%; display: block; }
 
 /* DISCOVER GRID */
 .discover { padding: 100px 0; background: linear-gradient(180deg,var(--bg) 0%,var(--soft-lavender) 100%); }
-@media (max-width: 900px) { .menu-grid { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 600px) { .menu-grid { grid-template-columns: 1fr; } }
+.discover-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+.discover-card {
+  border-radius: var(--radius); overflow: hidden; background: var(--card);
+  box-shadow: var(--shadow); transition: all 0.5s ease; cursor: pointer;
+}
+.discover-card:hover { transform: translateY(-8px); box-shadow: 0 12px 40px rgba(108,78,255,0.15); }
+.discover-card img { width: 100%; height: auto; display: block; transition: transform 0.6s ease; }
+.discover-card:hover img { transform: scale(1.05); }
+.discover-card-body { padding: 28px; }
+.discover-card-body .cat { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--primary); font-weight: 600; margin-bottom: 8px; }
+.discover-card-body h3 { font-size: 20px; margin-bottom: 12px; }
+.discover-card-body p { font-size: 14px; line-height: 1.7; opacity: 0.8; margin-bottom: 16px; }
+.discover-card-body a { font-size: 14px; font-weight: 600; color: var(--primary); display: inline-flex; align-items: center; gap: 6px; }
+@media (max-width: 900px) { .discover-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) { .discover-grid { grid-template-columns: 1fr; } }
+
+/* CAKES */
+.cakes-section { padding: 100px 0; background: linear-gradient(180deg,var(--soft-lavender) 0%,var(--bg) 100%); }
+.cakes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
+.cake-card { border-radius: var(--radius); overflow: hidden; background: var(--card); box-shadow: 0 2px 20px rgba(108,78,255,0.06); border: 1px solid rgba(108,78,255,0.04); transition: all 0.5s ease; }
+.cake-card:hover { transform: translateY(-8px); box-shadow: 0 12px 40px rgba(108,78,255,0.15); }
+.cake-card-image { width: 100%; }
+.cake-card-image img,
+.cake-card-image video { width: 100%; height: auto; display: block; }
+@media (max-width: 600px) { .cakes-grid { grid-template-columns: 1fr; } }
 
 /* MENU */
 .menu-section { padding: 100px 0; background: linear-gradient(180deg,var(--card) 0%,var(--bg) 100%); }
@@ -509,7 +532,7 @@ img { max-width: 100%; display: block; }
   </div>
 </section>
 
-<!-- DISCOVER -->
+<!-- DISCOVER / EXPERIENCE -->
 <section class="discover pastel-pattern pastel-dots">
   <div class="container">
     <div class="section-header reveal">
@@ -517,18 +540,80 @@ img { max-width: 100%; display: block; }
       <h2>The WakeCup Experience</h2>
       <p>From morning brew to evening indulgence — every moment at WakeCup is crafted for you.</p>
     </div>
-    <div class="menu-grid">
-      {% for item in menu_items %}
-      <div class="menu-card reveal-scale">
-        <div class="menu-card-image"><img src="/static/{{ item.image }}" alt="{{ item.name }}"></div>
-        <div class="menu-card-body">
-          <div class="cat">{{ item.category }}</div>
-          <h3>{{ item.name }}</h3>
-          <p>{{ item.description or '' }}</p>
-          <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="btn btn-primary">DM to Order</a>
+    <div class="discover-grid">
+      <div class="discover-card reveal-scale">
+        <img src="/static/golden-crunch-burger.jpg" alt="Burgers">
+        <div class="discover-card-body">
+          <div class="cat">Savory</div>
+          <h3>Burgers & Sandwiches</h3>
+          <p>Golden Crunch Chicken Burger, Chicken Marinara Sandwich — crafted with love and the finest ingredients.</p>
+          <a href="#menu">Explore Menu →</a>
         </div>
       </div>
-      {% endfor %}
+      <div class="discover-card reveal-scale">
+        <img src="/static/classic-tiramisu.jpg" alt="Desserts">
+        <div class="discover-card-body">
+          <div class="cat">Sweet</div>
+          <h3>Indulgent Desserts</h3>
+          <p>Tiramisu three ways, Caramel Crunch, Mini Blueberry Bliss — each bite is pure bliss.</p>
+          <a href="#menu">Explore Menu →</a>
+        </div>
+      </div>
+      <div class="discover-card reveal-scale">
+        <img src="/static/bread-pudding.jpg" alt="Desserts">
+        <div class="discover-card-body">
+          <div class="cat">Desserts</div>
+          <h3>Sweet Treats</h3>
+          <p>Bread pudding, tiramisu & more — baked fresh daily.</p>
+          <a href="#menu">Explore Menu →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAKES -->
+<section class="cakes-section">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="tag">Cakes</span>
+      <h2>Our Special Cakes</h2>
+      <p>Handcrafted with love — perfect for every celebration.</p>
+    </div>
+    <div class="cakes-grid">
+      <div class="cake-card reveal-scale">
+        <div class="cake-card-image"><img src="/static/cake-1.jpg" alt="Cake"></div>
+      </div>
+      <div class="cake-card reveal-scale">
+        <div class="cake-card-image"><video src="/static/cake-2.mp4" autoplay muted loop playsinline></video></div>
+      </div>
+      <div class="cake-card reveal-scale">
+        <div class="cake-card-image"><video src="/static/cake-3.mp4" autoplay muted loop playsinline></video></div>
+      </div>
+      <div class="cake-card reveal-scale">
+        <div class="cake-card-image"><video src="/static/cake-4.mp4" autoplay muted loop playsinline></video></div>
+      </div>
+      <div class="cake-card reveal-scale">
+        <div class="cake-card-image"><video src="/static/cake-5.mp4" autoplay muted loop playsinline></video></div>
+      </div>
+      <div class="cake-card reveal-scale">
+        <div class="cake-card-image"><video src="/static/cake-6.mp4" autoplay muted loop playsinline></video></div>
+      </div>
+      <div class="cake-card reveal-scale">
+        <div class="cake-card-image"><video src="/static/cake-7.mp4" autoplay muted loop playsinline></video></div>
+      </div>
+      <div class="cake-card reveal-scale">
+        <div class="cake-card-image"><video src="/static/cake-8.mp4" autoplay muted loop playsinline></video></div>
+      </div>
+      <div class="cake-card reveal-scale">
+        <div class="cake-card-image"><video src="/static/cake-9.mp4" autoplay muted loop playsinline></video></div>
+      </div>
+      <div class="cake-card reveal-scale">
+        <div class="cake-card-image"><video src="/static/cake-10.mp4" autoplay muted loop playsinline></video></div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:32px;">
+      <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="btn btn-primary">DM to Order</a>
     </div>
   </div>
 </section>
