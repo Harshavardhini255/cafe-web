@@ -207,7 +207,10 @@ def create_tables():
     if not MenuItem.query.filter_by(name='Bread Pudding').first():
         db.session.add(MenuItem(name='Bread Pudding', category='Dessert', description='Warm, soft bread pudding baked to perfection — comfort in every bite.', price=0, image='bread-pudding.jpg'))
         db.session.commit()
-    if MenuItem.query.count() == 0:
+    if not MenuItem.query.filter_by(name='Classic Tiramisu').first():
+        # DB is missing items - clear and reseed
+        MenuItem.query.delete()
+        db.session.commit()
         items = [
             MenuItem(name='Chicken Marinara Sandwich', category='Sandwich', description='Slow-simmered in our in-house marinara, juicy chicken & melted cheese — just how it should be.', price=200, image='chicken-marinara.jpg'),
             MenuItem(name='Golden Crunch Chicken Burger', category='Burger', description='Crispy golden chicken burger with premium toppings.', price=220, image='golden-crunch-burger.jpg'),
