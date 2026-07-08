@@ -236,6 +236,17 @@ img { max-width: 100%; display: block; }
 @media (max-width: 900px) { .discover-grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 600px) { .discover-grid { grid-template-columns: 1fr; } }
 
+/* SIP & PAINT */
+.sip-section { padding: 100px 0; background: var(--bg); }
+.sip-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.sip-card { border-radius: var(--radius); overflow: hidden; background: var(--card); box-shadow: 0 2px 20px rgba(254,129,212,0.06); transition: all 0.5s ease; }
+.sip-card:hover { transform: translateY(-8px); box-shadow: 0 12px 40px rgba(254,129,212,0.15); }
+.sip-card-image { width: 100%; }
+.sip-card-image img,
+.sip-card-image video { width: 100%; height: auto; display: block; }
+@media (max-width: 900px) { .sip-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) { .sip-grid { grid-template-columns: 1fr; } }
+
 /* CAKES */
 .cakes-section { padding: 100px 0; background: linear-gradient(180deg,var(--soft-lavender) 0%,var(--bg) 100%); }
 .cakes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
@@ -567,6 +578,31 @@ img { max-width: 100%; display: block; }
           <p>Bread pudding, tiramisu & more — baked fresh daily.</p>
           <a href="#menu">Explore Menu →</a>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SIP & PAINT -->
+<section class="sip-section">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="tag">Event</span>
+      <h2>Our First Ever Floral Sip & Paint</h2>
+      <p>A beautiful evening of art, flowers, and good vibes.</p>
+    </div>
+    <div class="sip-grid">
+      <div class="sip-card reveal-scale">
+        <div class="sip-card-image"><img src="/static/sip-1.jpg" alt="Floral Sip & Paint" loading="lazy"></div>
+      </div>
+      <div class="sip-card reveal-scale">
+        <div class="sip-card-image"><video src="/static/sip-2.mp4" autoplay muted loop playsinline></video></div>
+      </div>
+      <div class="sip-card reveal-scale">
+        <div class="sip-card-image"><video src="/static/sip-3.mp4" autoplay muted loop playsinline></video></div>
+      </div>
+      <div class="sip-card reveal-scale">
+        <div class="sip-card-image"><video src="/static/sip-4.mp4" autoplay muted loop playsinline></video></div>
       </div>
     </div>
   </div>
@@ -1146,5 +1182,8 @@ console.log('WakeCup Cafe || Theni — Full Stack with Flask + PostgreSQL.');
 </script>
 </body>
 </html>
+
+
+
 
 
