@@ -246,9 +246,9 @@ img { max-width: 100%; display: block; }
   transition: all 0.5s ease; cursor: pointer;
 }
 .menu-card:hover { transform: translateY(-8px); box-shadow: 0 12px 40px rgba(108,78,255,0.15); }
-.menu-card-image { width: 100%; overflow: hidden; position: relative; background: linear-gradient(135deg,var(--pastel-lilac),var(--pastel-pink)); display: flex; align-items: center; justify-content: center; padding: 12px; }
-.menu-card-image img { width: 100%; height: auto; max-height: 340px; object-fit: contain; transition: transform 0.6s ease; display: block; border-radius: 8px; }
-.menu-card:hover .menu-card-image img { transform: scale(1.08); }
+.menu-card-image { width: 100%; overflow: hidden; position: relative; background: transparent; }
+.menu-card-image img { width: 100%; height: auto; display: block; transition: transform 0.6s ease; }
+.menu-card:hover .menu-card-image img { transform: scale(1.05); }
 .menu-card-body { padding: 24px; }
 .menu-card-body h3 { font-size: 18px; margin-bottom: 6px; }
 .menu-card-body p { font-size: 14px; color: var(--body); opacity: 0.8; margin-bottom: 16px; line-height: 1.5; }
