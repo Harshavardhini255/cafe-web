@@ -296,9 +296,9 @@ img { max-width: 100%; display: block; }
 
 /* CAKES SECTION */
 .cakes-section { padding: 100px 0; background: linear-gradient(180deg,var(--soft-lavender) 0%,var(--bg) 100%); }
-.cakes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
-.cake-card { background: var(--card); border-radius: var(--radius); overflow: hidden; box-shadow: 0 2px 20px rgba(254,129,212,0.06); border: 1px solid rgba(254,129,212,0.04); transition: all 0.5s ease; }
-.cake-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(254,129,212,0.12); }
+.cakes-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.cake-card { background: var(--card); border-radius: 12px; overflow: hidden; box-shadow: 0 2px 20px rgba(254,129,212,0.06); border: 1px solid rgba(254,129,212,0.04); transition: all 0.5s ease; }
+.cake-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(254,129,212,0.12); }
 .cake-card-image { width: 100%; position: relative; overflow: hidden; }
 .cake-card-image img,
 .cake-card-image video { width: 100%; height: auto; display: block; transition: transform 0.6s ease; }
@@ -311,13 +311,15 @@ img { max-width: 100%; display: block; }
 }
 .cake-card:hover .cake-card-overlay { opacity: 1; }
 .cake-card-overlay span {
-  color: white; font-size: 13px; font-weight: 600; letter-spacing: 0.5px;
-  padding: 10px 20px; border: 1.5px solid rgba(255,255,255,0.4); border-radius: 50px;
+  color: white; font-size: 11px; font-weight: 600; letter-spacing: 0.5px;
+  padding: 7px 14px; border: 1.5px solid rgba(255,255,255,0.4); border-radius: 50px;
 }
-.cake-card-body { padding: 16px 24px 24px; text-align: center; }
-.cake-card-body h3 { font-size: 16px; margin-bottom: 4px; }
-.cake-card-body .sub { font-size: 13px; opacity: 0.6; }
-@media (max-width: 600px) { .cakes-grid { grid-template-columns: 1fr; } }
+.cake-card-body { padding: 10px 14px 16px; text-align: center; }
+.cake-card-body h3 { font-size: 13px; margin-bottom: 2px; }
+.cake-card-body .sub { font-size: 11px; opacity: 0.6; }
+.cake-card:last-child:nth-child(4n+1) { grid-column: 2 / span 2; }
+@media (max-width: 900px) { .cakes-grid { grid-template-columns: repeat(3, 1fr); gap: 18px; } .cake-card:last-child:nth-child(4n+1) { grid-column: auto; } }
+@media (max-width: 600px) { .cakes-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
 
 /* SIP & PAINT */
 .sip-section { padding: 100px 0; background: var(--bg); }
