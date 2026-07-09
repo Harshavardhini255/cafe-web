@@ -155,37 +155,77 @@ img { max-width: 100%; display: block; }
   .navbar { top: 0; }
 }
 
-/* HERO — Bakingo style */
+/* HERO */
 .hero {
-  padding: 110px 0 40px; background: var(--bg);
+  padding: 120px 0 50px;
+  background: linear-gradient(180deg, var(--soft-lavender) 0%, var(--bg) 100%);
+  position: relative; overflow: hidden;
 }
-.hero-header { margin-bottom: 28px; }
-.hero-header h2 { font-size: clamp(22px, 3vw, 32px); font-family: 'Inter', sans-serif; font-weight: 700; color: var(--heading); }
+.hero::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse 600px 300px at 20% 20%, rgba(254,129,212,0.06) 0%, transparent 70%),
+              radial-gradient(ellipse 400px 400px at 80% 80%, rgba(251,195,193,0.08) 0%, transparent 70%);
+}
+.hero-header { 
+  text-align: center; margin-bottom: 32px; position: relative;
+}
+.hero-header h2 { 
+  font-size: clamp(24px, 3.5vw, 36px); font-family: 'Playfair Display', serif;
+  font-weight: 700; color: var(--heading); letter-spacing: -0.5px;
+}
+.hero-header p {
+  font-size: 15px; color: var(--body); opacity: 0.7; margin-top: 8px;
+}
 .hero-categories {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+  position: relative;
 }
 .hero-cat {
-  border-radius: 16px; overflow: hidden; cursor: pointer;
-  position: relative; display: block;
-  transition: all 0.3s ease;
+  border-radius: 20px; overflow: hidden; cursor: pointer;
+  position: relative; display: block; background: var(--card);
+  box-shadow: 0 4px 20px rgba(254,129,212,0.06);
+  transition: all 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
 }
-.hero-cat:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.08); }
-.hero-cat img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; display: block; transition: transform 0.4s ease; }
-.hero-cat:hover img { transform: scale(1.05); }
+.hero-cat:hover { 
+  transform: translateY(-6px); 
+  box-shadow: 0 12px 40px rgba(254,129,212,0.15);
+}
+.hero-cat img { 
+  width: 100%; aspect-ratio: 3 / 4; object-fit: cover; display: block;
+  transition: transform 0.6s ease;
+}
+.hero-cat:hover img { transform: scale(1.08); }
 .hero-cat-label {
-  position: absolute; inset: 0;
-  background: linear-gradient(0deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.05) 60%);
-  display: flex; align-items: flex-end;
-  padding: 18px; color: white;
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: linear-gradient(0deg, rgba(74,26,58,0.7) 0%, rgba(74,26,58,0.02) 70%);
+  display: flex; align-items: flex-end; justify-content: center;
+  padding: 40px 18px 18px; color: white;
 }
 .hero-cat-label span {
-  font-size: 15px; font-weight: 700; letter-spacing: 1px;
-  text-shadow: 0 1px 8px rgba(0,0,0,0.3);
+  font-size: 14px; font-weight: 600; letter-spacing: 1.5px;
+  text-shadow: 0 1px 12px rgba(0,0,0,0.3);
 }
 .hero-cat-wide { grid-column: span 2; }
 .hero-cat-wide img { aspect-ratio: 3 / 2; }
-@media (max-width: 768px) { .hero-categories { grid-template-columns: repeat(2, 1fr); } .hero-cat-wide img { aspect-ratio: 3 / 2; } }
-@media (max-width: 500px) { .hero-categories { grid-template-columns: repeat(2, 1fr); gap: 10px; } }
+@keyframes heroFadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero-cat { opacity: 0; animation: heroFadeIn 0.6s ease forwards; }
+.hero-cat:nth-child(1) { animation-delay: 0.1s; }
+.hero-cat:nth-child(2) { animation-delay: 0.2s; }
+.hero-cat:nth-child(3) { animation-delay: 0.3s; }
+.hero-cat:nth-child(4) { animation-delay: 0.4s; }
+.hero-cat:nth-child(5) { animation-delay: 0.5s; }
+.hero-cat:nth-child(6) { animation-delay: 0.6s; }
+@media (max-width: 768px) { 
+  .hero-categories { grid-template-columns: repeat(2, 1fr); gap: 14px; } 
+  .hero-cat-wide img { aspect-ratio: 3 / 2; } 
+  .hero-cat-wide { grid-column: span 2; }
+}
+@media (max-width: 500px) { 
+  .hero-categories { grid-template-columns: repeat(2, 1fr); gap: 10px; } 
+}
 
 
 
@@ -566,26 +606,27 @@ img { max-width: 100%; display: block; }
   <div class="container">
     <div class="hero-header">
       <h2>What will you wish for?</h2>
+      <p>Explore our menu — from handcrafted sandwiches to indulgent desserts</p>
     </div>
     <div class="hero-categories">
       <a href="#menu" class="hero-cat" data-filter="Sandwich">
-        <img src="/static/chicken-marinara.jpg" alt="Sandwiches" loading="lazy">
+        <img src="/static/chicken-marinara.jpg" alt="Sandwich" loading="lazy">
         <div class="hero-cat-label"><span>SANDWICHES</span></div>
       </a>
       <a href="#menu" class="hero-cat" data-filter="Burger">
-        <img src="/static/golden-crunch-burger.jpg" alt="Burgers" loading="lazy">
+        <img src="/static/golden-crunch-burger.jpg" alt="Burger" loading="lazy">
         <div class="hero-cat-label"><span>BURGERS</span></div>
       </a>
       <a href="#menu" class="hero-cat" data-filter="Dessert">
-        <img src="/static/classic-tiramisu.jpg" alt="Desserts" loading="lazy">
+        <img src="/static/classic-tiramisu.jpg" alt="Dessert" loading="lazy">
         <div class="hero-cat-label"><span>DESSERTS</span></div>
       </a>
       <a href="#menu" class="hero-cat" data-filter="Beverage">
-        <img src="/static/classic-affogato.jpg" alt="Beverages" loading="lazy">
+        <img src="/static/classic-affogato.jpg" alt="Beverage" loading="lazy">
         <div class="hero-cat-label"><span>BEVERAGES</span></div>
       </a>
       <a href="#cakes" class="hero-cat hero-cat-wide">
-        <img src="/static/cake-1.jpg" alt="Cakes" loading="lazy">
+        <img src="/static/cake-1.jpg" alt="Cake" loading="lazy">
         <div class="hero-cat-label"><span>CAKES</span></div>
       </a>
       <a href="#events" class="hero-cat hero-cat-wide">
@@ -1238,7 +1279,7 @@ document.querySelectorAll('.hero-cat[data-filter]').forEach(tile => {
 
 // HERO FADE IN
 gsap.from('.hero-header h2', { opacity: 0, y: 20, duration: 0.6, ease: 'power3.out' });
-gsap.from('.hero-cat', { opacity: 0, y: 20, duration: 0.5, stagger: 0.1, ease: 'power3.out', delay: 0.2 });
+gsap.from('.hero-header p', { opacity: 0, y: 15, duration: 0.6, ease: 'power3.out', delay: 0.15 });
 
 ScrollTrigger.refresh();
 
