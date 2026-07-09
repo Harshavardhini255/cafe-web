@@ -259,9 +259,21 @@ img { max-width: 100%; display: block; }
 .cakes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 28px; }
 .cake-card { background: var(--card); border-radius: var(--radius); overflow: hidden; box-shadow: 0 2px 20px rgba(254,129,212,0.06); border: 1px solid rgba(254,129,212,0.04); transition: all 0.5s ease; }
 .cake-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(254,129,212,0.12); }
-.cake-card-image { width: 100%; }
+.cake-card-image { width: 100%; position: relative; overflow: hidden; }
 .cake-card-image img,
-.cake-card-image video { width: 100%; height: auto; display: block; }
+.cake-card-image video { width: 100%; height: auto; display: block; transition: transform 0.6s ease; }
+.cake-card:hover .cake-card-image img,
+.cake-card:hover .cake-card-image video { transform: scale(1.05); }
+.cake-card-overlay {
+  position: absolute; inset: 0; z-index: 2;
+  background: rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center;
+  opacity: 0; transition: opacity 0.4s ease; cursor: pointer;
+}
+.cake-card:hover .cake-card-overlay { opacity: 1; }
+.cake-card-overlay span {
+  color: white; font-size: 13px; font-weight: 600; letter-spacing: 0.5px;
+  padding: 10px 20px; border: 1.5px solid rgba(255,255,255,0.4); border-radius: 50px;
+}
 .cake-card-body { padding: 16px 24px 24px; text-align: center; }
 .cake-card-body h3 { font-size: 16px; margin-bottom: 4px; }
 .cake-card-body .sub { font-size: 13px; opacity: 0.6; }
@@ -663,41 +675,48 @@ img { max-width: 100%; display: block; }
       <h2>Our Special Cakes</h2>
       <p>Handcrafted with love — perfect for every celebration.</p>
     </div>
+    <div class="filter-tabs" style="margin-bottom:32px;">
+      <button class="filter-tab active" data-cake-filter="All">All</button>
+      <button class="filter-tab" data-cake-filter="Celebration">Celebration</button>
+      <button class="filter-tab" data-cake-filter="Designer">Designer</button>
+      <button class="filter-tab" data-cake-filter="Premium">Premium</button>
+      <button class="filter-tab" data-cake-filter="Artisan">Artisan</button>
+    </div>
     <div class="cakes-grid">
-      <div class="cake-card reveal-scale">
-        <div class="cake-card-image"><img src="/static/cake-1.jpg" alt="Cake" loading="lazy" decoding="async"></div>
+      <div class="cake-card reveal-scale" data-cake-filter="Celebration">
+        <div class="cake-card-image"><img src="/static/cake-1.jpg" alt="Cake" loading="lazy" decoding="async"><a href="https://www.instagram.com/wakecup.ind" target="_blank" class="cake-card-overlay"><span>DM to Order</span></a></div>
         <div class="cake-card-body"><h3>Celebration Cake</h3><p class="sub">DM to Order</p></div>
       </div>
-      <div class="cake-card reveal-scale">
-        <div class="cake-card-image"><video src="/static/cake-2.mp4" autoplay muted loop playsinline></video></div>
+      <div class="cake-card reveal-scale" data-cake-filter="Designer">
+        <div class="cake-card-image"><video src="/static/cake-2.mp4" autoplay muted loop playsinline></video><a href="https://www.instagram.com/wakecup.ind" target="_blank" class="cake-card-overlay"><span>DM to Order</span></a></div>
         <div class="cake-card-body"><h3>Designer Cake</h3><p class="sub">DM to Order</p></div>
       </div>
-      <div class="cake-card reveal-scale">
-        <div class="cake-card-image"><video src="/static/cake-3.mp4" autoplay muted loop playsinline></video></div>
+      <div class="cake-card reveal-scale" data-cake-filter="Designer">
+        <div class="cake-card-image"><video src="/static/cake-3.mp4" autoplay muted loop playsinline></video><a href="https://www.instagram.com/wakecup.ind" target="_blank" class="cake-card-overlay"><span>DM to Order</span></a></div>
         <div class="cake-card-body"><h3>Special Cake</h3><p class="sub">DM to Order</p></div>
       </div>
-      <div class="cake-card reveal-scale">
-        <div class="cake-card-image"><video src="/static/cake-4.mp4" autoplay muted loop playsinline></video></div>
+      <div class="cake-card reveal-scale" data-cake-filter="Premium">
+        <div class="cake-card-image"><video src="/static/cake-4.mp4" autoplay muted loop playsinline></video><a href="https://www.instagram.com/wakecup.ind" target="_blank" class="cake-card-overlay"><span>DM to Order</span></a></div>
         <div class="cake-card-body"><h3>Premium Cake</h3><p class="sub">DM to Order</p></div>
       </div>
-      <div class="cake-card reveal-scale">
-        <div class="cake-card-image"><video src="/static/cake-5.mp4" autoplay muted loop playsinline></video></div>
+      <div class="cake-card reveal-scale" data-cake-filter="Celebration">
+        <div class="cake-card-image"><video src="/static/cake-5.mp4" autoplay muted loop playsinline></video><a href="https://www.instagram.com/wakecup.ind" target="_blank" class="cake-card-overlay"><span>DM to Order</span></a></div>
         <div class="cake-card-body"><h3>Festive Cake</h3><p class="sub">DM to Order</p></div>
       </div>
-      <div class="cake-card reveal-scale">
-        <div class="cake-card-image"><video src="/static/cake-6.mp4" autoplay muted loop playsinline></video></div>
+      <div class="cake-card reveal-scale" data-cake-filter="Artisan">
+        <div class="cake-card-image"><video src="/static/cake-6.mp4" autoplay muted loop playsinline></video><a href="https://www.instagram.com/wakecup.ind" target="_blank" class="cake-card-overlay"><span>DM to Order</span></a></div>
         <div class="cake-card-body"><h3>Artisan Cake</h3><p class="sub">DM to Order</p></div>
       </div>
-      <div class="cake-card reveal-scale">
-        <div class="cake-card-image"><video src="/static/cake-8.mp4" autoplay muted loop playsinline></video></div>
+      <div class="cake-card reveal-scale" data-cake-filter="Artisan">
+        <div class="cake-card-image"><video src="/static/cake-8.mp4" autoplay muted loop playsinline></video><a href="https://www.instagram.com/wakecup.ind" target="_blank" class="cake-card-overlay"><span>DM to Order</span></a></div>
         <div class="cake-card-body"><h3>Bespoke Cake</h3><p class="sub">DM to Order</p></div>
       </div>
-      <div class="cake-card reveal-scale">
-        <div class="cake-card-image"><video src="/static/cake-9.mp4" autoplay muted loop playsinline></video></div>
+      <div class="cake-card reveal-scale" data-cake-filter="Premium">
+        <div class="cake-card-image"><video src="/static/cake-9.mp4" autoplay muted loop playsinline></video><a href="https://www.instagram.com/wakecup.ind" target="_blank" class="cake-card-overlay"><span>DM to Order</span></a></div>
         <div class="cake-card-body"><h3>Luxury Cake</h3><p class="sub">DM to Order</p></div>
       </div>
-      <div class="cake-card reveal-scale">
-        <div class="cake-card-image"><video src="/static/cake-10.mp4" autoplay muted loop playsinline></video></div>
+      <div class="cake-card reveal-scale" data-cake-filter="Artisan">
+        <div class="cake-card-image"><video src="/static/cake-10.mp4" autoplay muted loop playsinline></video><a href="https://www.instagram.com/wakecup.ind" target="_blank" class="cake-card-overlay"><span>DM to Order</span></a></div>
         <div class="cake-card-body"><h3>Signature Cake</h3><p class="sub">DM to Order</p></div>
       </div>
     </div>
@@ -1112,6 +1131,23 @@ allCards.forEach((card, i) => {
     }
   }
 });
+
+// CAKE CATEGORY FILTER
+const cakeFilterTabs = document.querySelectorAll('[data-cake-filter]');
+const cakeCards = document.querySelectorAll('.cake-card');
+if (cakeFilterTabs.length && cakeCards.length) {
+  cakeFilterTabs.forEach(tab => {
+    tab.addEventListener('click', function() {
+      cakeFilterTabs.forEach(t => t.classList.remove('active'));
+      this.classList.add('active');
+      const filter = this.dataset.cakeFilter;
+      cakeCards.forEach(card => {
+        card.style.display = (filter === 'All' || card.dataset.cakeFilter === filter) ? '' : 'none';
+      });
+      ScrollTrigger.refresh();
+    });
+  });
+}
 
 // TESTIMONIAL SLIDER
 let tIndex = 0;
