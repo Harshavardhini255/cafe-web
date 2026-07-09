@@ -151,12 +151,12 @@ img { max-width: 100%; display: block; }
 
 /* HERO — Bakingo style */
 .hero {
-  padding: 100px 0 20px; background: var(--bg);
+  padding: 110px 0 40px; background: var(--bg);
 }
-.hero-header { text-align: left; margin-bottom: 28px; }
+.hero-header { margin-bottom: 28px; }
 .hero-header h2 { font-size: clamp(22px, 3vw, 32px); font-family: 'Inter', sans-serif; font-weight: 700; color: var(--heading); }
 .hero-categories {
-  display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
 }
 .hero-cat {
   border-radius: 16px; overflow: hidden; cursor: pointer;
@@ -164,20 +164,22 @@ img { max-width: 100%; display: block; }
   transition: all 0.3s ease;
 }
 .hero-cat:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.08); }
-.hero-cat img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; transition: transform 0.4s ease; }
+.hero-cat img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; display: block; transition: transform 0.4s ease; }
 .hero-cat:hover img { transform: scale(1.05); }
 .hero-cat-label {
   position: absolute; inset: 0;
-  background: linear-gradient(0deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.05) 60%);
+  background: linear-gradient(0deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.05) 60%);
   display: flex; align-items: flex-end;
-  padding: 16px; color: white;
+  padding: 18px; color: white;
 }
 .hero-cat-label span {
-  font-size: 14px; font-weight: 600; letter-spacing: 0.5px;
-  text-shadow: 0 1px 8px rgba(0,0,0,0.2);
+  font-size: 15px; font-weight: 700; letter-spacing: 1px;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.3);
 }
-@media (max-width: 900px) { .hero-categories { grid-template-columns: repeat(3, 1fr); } }
-@media (max-width: 500px) { .hero-categories { grid-template-columns: repeat(2, 1fr); } }
+.hero-cat-wide { grid-column: span 2; }
+.hero-cat-wide img { aspect-ratio: 3 / 2; }
+@media (max-width: 768px) { .hero-categories { grid-template-columns: repeat(2, 1fr); } .hero-cat-wide img { aspect-ratio: 3 / 2; } }
+@media (max-width: 500px) { .hero-categories { grid-template-columns: repeat(2, 1fr); gap: 10px; } }
 
 
 
@@ -528,11 +530,11 @@ img { max-width: 100%; display: block; }
         <img src="/static/classic-affogato.jpg" alt="Beverages" loading="lazy">
         <div class="hero-cat-label"><span>BEVERAGES</span></div>
       </a>
-      <a href="#cakes" class="hero-cat reveal-scale">
+      <a href="#cakes" class="hero-cat hero-cat-wide reveal-scale">
         <img src="/static/cake-1.jpg" alt="Cakes" loading="lazy">
         <div class="hero-cat-label"><span>CAKES</span></div>
       </a>
-      <a href="#events" class="hero-cat reveal-scale">
+      <a href="#events" class="hero-cat hero-cat-wide reveal-scale">
         <img src="/static/insta-1.png" alt="Events" loading="lazy">
         <div class="hero-cat-label"><span>EVENTS</span></div>
       </a>
