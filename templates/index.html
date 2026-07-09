@@ -456,6 +456,19 @@ img { max-width: 100%; display: block; }
 .back-top.visible { opacity: 1; pointer-events: auto; }
 .back-top:hover { background: var(--dark-purple); transform: translateY(-2px); }
 @media (max-width: 767px) { .back-top { bottom: 80px; } }
+/* LIGHTBOX */
+.lightbox {
+  position: fixed; inset: 0; z-index: 9999;
+  background: rgba(0,0,0,0.85); display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity 0.3s ease; padding: 24px;
+}
+.lightbox.open { opacity: 1; pointer-events: auto; }
+.lightbox-img { max-width: 90vw; max-height: 85vh; border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,0.5); cursor: pointer; }
+.lightbox-close {
+  position: absolute; top: 20px; right: 24px;
+  background: none; border: none; color: white; font-size: 40px; cursor: pointer; opacity: 0.7; transition: opacity 0.3s;
+}
+.lightbox-close:hover { opacity: 1; }
 /* BESTSELLER BADGE */
 .badge-bestseller {
   position: absolute; top: 12px; left: 12px; z-index: 2;
@@ -953,11 +966,20 @@ img { max-width: 100%; display: block; }
         <div class="visit-info">
           <h3>Visit Us</h3>
           <p>📍 NRT Nagar, Theni, Tamil Nadu<br>🕐 Open Daily: 4 PM - 10 PM<br>📱 DM: @wakecup.ind</p>
+          <div style="margin-top:16px;border-radius:12px;overflow:hidden;">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3930.5!2d77.5!3d10.0!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTDCsDAwJzAwLjAiTiA3N8KwMzAnMDAuMCJF!5e0!3m2!1sen!2sin!4v1" width="100%" height="220" style="border:0;display:block;" allowfullscreen loading="lazy"></iframe>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="this.classList.remove('open')">
+  <button class="lightbox-close" onclick="document.getElementById('lightbox').classList.remove('open')">&times;</button>
+  <img class="lightbox-img" id="lightboxImg" src="" alt="">
+</div>
 
 <!-- BACK TO TOP -->
 <button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">
@@ -1148,6 +1170,18 @@ document.querySelectorAll('.nav-dropdown a').forEach(link => {
       tabs.forEach(t => {
         if (t.dataset.filter === filter) t.click();
       });
+    }
+  });
+});
+
+// INSTAGRAM GALLERY LIGHTBOX
+document.querySelectorAll('.insta-grid a').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    const img = this.querySelector('img');
+    if (img) {
+      document.getElementById('lightboxImg').src = img.src;
+      document.getElementById('lightbox').classList.add('open');
     }
   });
 });
