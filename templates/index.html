@@ -179,8 +179,47 @@ img { max-width: 100%; display: block; }
 }
 .hero-bg-overlay {
   position: absolute; inset: 0; z-index: 1;
-  background: linear-gradient(135deg, rgba(74,26,58,0.15) 0%, rgba(254,129,212,0.08) 100%);
+  background: linear-gradient(135deg, rgba(74,26,58,0.2) 0%, rgba(254,129,212,0.12) 50%, rgba(74,26,58,0.15) 100%);
+  background-size: 200% 200%;
+  animation: heroGradient 15s ease infinite;
 }
+@keyframes heroGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+/* Floating decorative images */
+.hero-float {
+  position: absolute; z-index: 1; pointer-events: none;
+  border-radius: 16px; opacity: 0;
+}
+.hero-float-1 {
+  width: 130px; top: 18%; right: 6%;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+  animation: floatElem 7s ease-in-out infinite, fadeIn 1s ease 0.5s forwards;
+  transform: rotate(4deg);
+}
+.hero-float-2 {
+  width: 100px; bottom: 28%; right: 14%;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+  animation: floatElem 9s ease-in-out -3s infinite, fadeIn 1s ease 0.8s forwards;
+  transform: rotate(-6deg);
+}
+.hero-float-3 {
+  width: 90px; top: 35%; left: 5%;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+  animation: floatElem 8s ease-in-out -5s infinite, fadeIn 1s ease 1.1s forwards;
+  transform: rotate(3deg);
+  display: none;
+}
+@keyframes floatElem {
+  0%,100% { transform: translateY(0) rotate(var(--r,0deg)); }
+  50% { transform: translateY(-14px) rotate(var(--r,0deg)); }
+}
+@keyframes fadeIn { to { opacity: 1; } }
+.hero-float-1 { --r: 4deg; }
+.hero-float-2 { --r: -6deg; }
+.hero-float-3 { --r: 3deg; }
 .hero-content {
   position: relative; z-index: 2; text-align: center;
   padding: 120px 24px 40px; max-width: 900px;
@@ -230,17 +269,21 @@ img { max-width: 100%; display: block; }
   text-shadow: 0 1px 20px rgba(0,0,0,0.2);
 }
 .hero-stats {
-  display: flex; gap: 40px; justify-content: center; flex-wrap: wrap;
-  margin-bottom: 36px;
+  display: inline-flex; gap: 36px; justify-content: center; flex-wrap: wrap;
+  margin: 0 auto 36px; padding: 20px 36px;
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
 }
 .hero-stat { text-align: center; }
 .hero-stat .num {
   font-family: 'Playfair Display', serif;
-  font-size: 28px; font-weight: 700; color: white; display: block;
+  font-size: 30px; font-weight: 700; color: white; display: block; line-height: 1.1;
 }
 .hero-stat .label {
-  font-size: 12px; text-transform: uppercase; letter-spacing: 1px;
-  color: rgba(255,255,255,0.5); margin-top: 2px;
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px;
+  color: rgba(255,255,255,0.5); margin-top: 4px;
 }
 .hero-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
 .hero-buttons .btn-primary {
@@ -249,7 +292,7 @@ img { max-width: 100%; display: block; }
 }
 .hero-buttons .btn-primary:hover {
   background: var(--pastel-pink); color: var(--heading);
-  transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+  transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.25);
 }
 .hero-buttons .btn-outline-light {
   display: inline-flex; align-items: center; gap: 10px;
@@ -262,9 +305,15 @@ img { max-width: 100%; display: block; }
   border-color: white; background: rgba(255,255,255,0.08);
   transform: translateY(-2px);
 }
+/* Wavy bottom divider */
+.hero-wave {
+  position: absolute; bottom: -1px; left: 0; right: 0; z-index: 3;
+  line-height: 0; pointer-events: none;
+}
+.hero-wave svg { display: block; width: 100%; height: 100px; }
 /* Scroll indicator */
 .hero-scroll {
-  position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+  position: absolute; bottom: 100px; left: 50%; transform: translateX(-50%);
   z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 8px;
   color: rgba(255,255,255,0.4); font-size: 11px; text-transform: uppercase;
   letter-spacing: 2px; animation: scrollPulse 2s ease-in-out infinite; opacity: 0;
@@ -278,7 +327,10 @@ img { max-width: 100%; display: block; }
 }
 @media (max-width: 768px) {
   .hero-content { padding: 100px 20px 30px; }
-  .hero-stats { gap: 24px; }
+  .hero-stats { gap: 20px; padding: 16px 24px; }
+  .hero-float-1, .hero-float-2 { display: none; }
+  .hero-wave svg { height: 60px; }
+  .hero-scroll { bottom: 60px; }
 }
 
 /* CATEGORY TILES */
@@ -618,8 +670,11 @@ img { max-width: 100%; display: block; }
 <section class="hero" id="hero">
   <img class="hero-bg" src="/static/store-interior.png" alt="WakeCup Cafe Interior">
   <div class="hero-bg-overlay"></div>
+  <!-- Floating decorative food images -->
+  <img class="hero-float hero-float-1" src="/static/classic-tiramisu.jpg" alt="" loading="lazy">
+  <img class="hero-float hero-float-2" src="/static/chicken-marinara.jpg" alt="" loading="lazy">
   <div class="hero-content">
-    <div class="hero-brand reveal">
+    <div class="hero-brand">
       <div class="hero-brand-icon">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
       </div>
@@ -628,22 +683,27 @@ img { max-width: 100%; display: block; }
         <span>@wakecup.ind</span>
       </div>
     </div>
-    <div class="reveal" style="transition-delay:0.1s;">
+    <div>
       <span class="hero-tag">✦ Theni's Favorite Hangout</span>
       <h1>WakeCup<br><span class="hero-hl">|| Theni</span></h1>
       <div class="hero-divider"></div>
       <p class="hero-sub">A little corner of comfort & good food — specialty coffee, handcrafted sandwiches, and indulgent desserts served daily in the heart of Theni.</p>
     </div>
-    <div class="hero-stats reveal" style="transition-delay:0.2s;">
+    <div class="hero-stats">
       <div class="hero-stat"><span class="num">25+</span><span class="label">Menu Items</span></div>
       <div class="hero-stat"><span class="num">4.9★</span><span class="label">Rating</span></div>
       <div class="hero-stat"><span class="num">500+</span><span class="label">Happy Guests</span></div>
       <div class="hero-stat"><span class="num">4-10PM</span><span class="label">Open Daily</span></div>
     </div>
-    <div class="hero-buttons reveal" style="transition-delay:0.3s;">
+    <div class="hero-buttons">
       <a href="#menu" class="btn btn-primary">Explore Menu</a>
       <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="btn-outline-light">📷 Follow @wakecup.ind</a>
     </div>
+  </div>
+  <div class="hero-wave">
+    <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+      <path d="M0,40 C240,120 720,0 1440,60 L1440,120 L0,120 Z" fill="#fffaf5" opacity="1"></path>
+    </svg>
   </div>
   <div class="hero-scroll"><span>Scroll</span><div class="scroll-line"></div></div>
 </section>
