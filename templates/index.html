@@ -495,19 +495,19 @@ img { max-width: 100%; display: block; }
       <h2>What will you wish for?</h2>
     </div>
     <div class="hero-categories">
-      <a href="#menu" class="hero-cat reveal-scale">
+      <a href="#menu" class="hero-cat reveal-scale" data-filter="Sandwich">
         <img src="/static/chicken-marinara.jpg" alt="Sandwiches" loading="lazy">
         <div class="hero-cat-label"><span>SANDWICHES</span></div>
       </a>
-      <a href="#menu" class="hero-cat reveal-scale">
+      <a href="#menu" class="hero-cat reveal-scale" data-filter="Burger">
         <img src="/static/golden-crunch-burger.jpg" alt="Burgers" loading="lazy">
         <div class="hero-cat-label"><span>BURGERS</span></div>
       </a>
-      <a href="#menu" class="hero-cat reveal-scale">
+      <a href="#menu" class="hero-cat reveal-scale" data-filter="Dessert">
         <img src="/static/classic-tiramisu.jpg" alt="Desserts" loading="lazy">
         <div class="hero-cat-label"><span>DESSERTS</span></div>
       </a>
-      <a href="#menu" class="hero-cat reveal-scale">
+      <a href="#menu" class="hero-cat reveal-scale" data-filter="Beverage">
         <img src="/static/classic-affogato.jpg" alt="Beverages" loading="lazy">
         <div class="hero-cat-label"><span>BEVERAGES</span></div>
       </a>
@@ -1075,6 +1075,20 @@ document.querySelectorAll('.nav-dropdown a').forEach(link => {
       tabs.forEach(t => {
         if (t.dataset.filter === filter) t.click();
       });
+    }
+  });
+});
+
+// HERO CATEGORY TILE CLICK — scroll + filter
+document.querySelectorAll('.hero-cat[data-filter]').forEach(tile => {
+  tile.addEventListener('click', function(e) {
+    e.preventDefault();
+    const filter = this.dataset.filter;
+    const section = document.getElementById('menu');
+    if (section) section.scrollIntoView({ behavior: 'smooth' });
+    if (filter) {
+      const tabs = document.querySelectorAll('.filter-tab');
+      tabs.forEach(t => { if (t.dataset.filter === filter) t.click(); });
     }
   });
 });
