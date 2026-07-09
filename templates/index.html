@@ -157,74 +157,86 @@ img { max-width: 100%; display: block; }
 
 /* HERO */
 .hero {
-  padding: 120px 0 50px;
-  background: linear-gradient(180deg, var(--soft-lavender) 0%, var(--bg) 100%);
+  min-height: 85vh; display: flex; align-items: center;
+  padding: 120px 0 80px;
+  background: linear-gradient(135deg, var(--soft-lavender) 0%, var(--bg) 40%, var(--bg) 100%);
   position: relative; overflow: hidden;
 }
 .hero::before {
   content: ''; position: absolute; inset: 0; pointer-events: none;
-  background: radial-gradient(ellipse 600px 300px at 20% 20%, rgba(254,129,212,0.06) 0%, transparent 70%),
-              radial-gradient(ellipse 400px 400px at 80% 80%, rgba(251,195,193,0.08) 0%, transparent 70%);
+  background: radial-gradient(ellipse 500px 400px at 15% 50%, rgba(254,129,212,0.07) 0%, transparent 70%),
+              radial-gradient(ellipse 600px 500px at 85% 30%, rgba(251,195,193,0.06) 0%, transparent 70%);
 }
-.hero-header { 
-  text-align: center; margin-bottom: 32px; position: relative;
-}
-.hero-header h2 { 
-  font-size: clamp(24px, 3.5vw, 36px); font-family: 'Playfair Display', serif;
-  font-weight: 700; color: var(--heading); letter-spacing: -0.5px;
-}
-.hero-header p {
-  font-size: 15px; color: var(--body); opacity: 0.7; margin-top: 8px;
-}
-.hero-categories {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+.hero-inner {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
   position: relative;
 }
-.hero-cat {
-  border-radius: 20px; overflow: hidden; cursor: pointer;
-  position: relative; display: block; background: var(--card);
-  box-shadow: 0 4px 20px rgba(254,129,212,0.06);
-  transition: all 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
+.hero-content { position: relative; }
+.hero-content .tag {
+  display: inline-block; padding: 6px 16px; border-radius: 50px;
+  background: rgba(254,129,212,0.1); color: var(--primary);
+  font-size: 12px; font-weight: 600; letter-spacing: 0.5px; margin-bottom: 20px;
 }
-.hero-cat:hover { 
-  transform: translateY(-6px); 
-  box-shadow: 0 12px 40px rgba(254,129,212,0.15);
+.hero-content h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 5vw, 56px); color: var(--heading);
+  line-height: 1.15; font-weight: 700; margin-bottom: 16px;
 }
-.hero-cat img { 
-  width: 100%; aspect-ratio: 3 / 4; object-fit: cover; display: block;
-  transition: transform 0.6s ease;
+.hero-content h1 span {
+  background: linear-gradient(135deg, var(--primary), var(--dark-purple));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
 }
-.hero-cat:hover img { transform: scale(1.08); }
-.hero-cat-label {
-  position: absolute; bottom: 0; left: 0; right: 0;
-  background: linear-gradient(0deg, rgba(74,26,58,0.7) 0%, rgba(74,26,58,0.02) 70%);
-  display: flex; align-items: flex-end; justify-content: center;
-  padding: 40px 18px 18px; color: white;
+.hero-content p {
+  font-size: clamp(15px, 1.4vw, 18px); color: var(--body);
+  line-height: 1.7; max-width: 480px; margin-bottom: 28px;
 }
-.hero-cat-label span {
-  font-size: 14px; font-weight: 600; letter-spacing: 1.5px;
-  text-shadow: 0 1px 12px rgba(0,0,0,0.3);
+.hero-details {
+  display: flex; flex-wrap: wrap; gap: 24px; margin-bottom: 32px;
 }
-.hero-cat-wide { grid-column: span 2; }
-.hero-cat-wide img { aspect-ratio: 3 / 2; }
-@keyframes heroFadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+.hero-detail {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 14px; color: var(--heading); font-weight: 500;
 }
-.hero-cat { opacity: 0; animation: heroFadeIn 0.6s ease forwards; }
-.hero-cat:nth-child(1) { animation-delay: 0.1s; }
-.hero-cat:nth-child(2) { animation-delay: 0.2s; }
-.hero-cat:nth-child(3) { animation-delay: 0.3s; }
-.hero-cat:nth-child(4) { animation-delay: 0.4s; }
-.hero-cat:nth-child(5) { animation-delay: 0.5s; }
-.hero-cat:nth-child(6) { animation-delay: 0.6s; }
-@media (max-width: 768px) { 
-  .hero-categories { grid-template-columns: repeat(2, 1fr); gap: 14px; } 
-  .hero-cat-wide img { aspect-ratio: 3 / 2; } 
-  .hero-cat-wide { grid-column: span 2; }
+.hero-detail svg { flex-shrink: 0; }
+.hero-buttons { display: flex; gap: 14px; flex-wrap: wrap; }
+.hero-image {
+  position: relative; display: flex; align-items: center; justify-content: center;
 }
-@media (max-width: 500px) { 
-  .hero-categories { grid-template-columns: repeat(2, 1fr); gap: 10px; } 
+.hero-image-main {
+  width: 100%; max-width: 440px; border-radius: 24px;
+  box-shadow: 0 20px 60px rgba(254,129,212,0.15);
+  position: relative; z-index: 1;
+}
+.hero-image-main img { width: 100%; border-radius: 24px; display: block; }
+.hero-image-float {
+  position: absolute; border-radius: 16px; overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+  width: 140px; z-index: 2;
+}
+.hero-image-float img { width: 100%; display: block; border-radius: 16px; }
+.hero-float-1 { top: 10%; right: -10%; transform: rotate(6deg); }
+.hero-float-2 { bottom: 8%; left: -8%; transform: rotate(-4deg); }
+.hero-decor {
+  position: absolute; bottom: -30px; right: -20px; z-index: 0;
+  font-size: 120px; opacity: 0.04; font-family: 'Playfair Display', serif;
+  color: var(--primary); line-height: 1; pointer-events: none;
+}
+@keyframes heroFadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.hero-content > * { opacity: 0; animation: heroFadeIn 0.7s ease forwards; }
+.hero-content > :nth-child(1) { animation-delay: 0.1s; }
+.hero-content > :nth-child(2) { animation-delay: 0.2s; }
+.hero-content > :nth-child(3) { animation-delay: 0.3s; }
+.hero-content > :nth-child(4) { animation-delay: 0.4s; }
+.hero-content > :nth-child(5) { animation-delay: 0.5s; }
+.hero-content > :nth-child(6) { animation-delay: 0.6s; }
+@media (max-width: 768px) {
+  .hero { min-height: auto; padding: 100px 0 50px; }
+  .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+  .hero-image { order: -1; }
+  .hero-image-main { max-width: 320px; margin: 0 auto; }
+  .hero-image-float { display: none; }
+  .hero-decor { display: none; }
+  .hero-details { gap: 16px; }
 }
 
 
@@ -603,38 +615,45 @@ img { max-width: 100%; display: block; }
   <a href="https://www.instagram.com/wakecup.ind" target="_blank">@wakecup.ind</a>
 </div>
 
-<!-- HERO — Bakingo style -->
+<!-- HERO -->
 <section class="hero" id="hero">
   <div class="container">
-    <div class="hero-header">
-      <h2>What will you wish for?</h2>
-      <p>Explore our menu — from handcrafted sandwiches to indulgent desserts</p>
-    </div>
-    <div class="hero-categories">
-      <a href="#menu" class="hero-cat" data-filter="Sandwich">
-        <img src="/static/chicken-marinara.jpg" alt="Sandwich" loading="lazy">
-        <div class="hero-cat-label"><span>SANDWICHES</span></div>
-      </a>
-      <a href="#menu" class="hero-cat" data-filter="Burger">
-        <img src="/static/golden-crunch-burger.jpg" alt="Burger" loading="lazy">
-        <div class="hero-cat-label"><span>BURGERS</span></div>
-      </a>
-      <a href="#menu" class="hero-cat" data-filter="Dessert">
-        <img src="/static/classic-tiramisu.jpg" alt="Dessert" loading="lazy">
-        <div class="hero-cat-label"><span>DESSERTS</span></div>
-      </a>
-      <a href="#menu" class="hero-cat" data-filter="Beverage">
-        <img src="/static/classic-affogato.jpg" alt="Beverage" loading="lazy">
-        <div class="hero-cat-label"><span>BEVERAGES</span></div>
-      </a>
-      <a href="#cakes" class="hero-cat hero-cat-wide">
-        <img src="/static/cake-1.jpg" alt="Cake" loading="lazy">
-        <div class="hero-cat-label"><span>CAKES</span></div>
-      </a>
-      <a href="#events" class="hero-cat hero-cat-wide">
-        <img src="/static/insta-1.png" alt="Events" loading="lazy">
-        <div class="hero-cat-label"><span>EVENTS</span></div>
-      </a>
+    <div class="hero-inner">
+      <div class="hero-content">
+        <div class="tag">✦ Theni's Favorite Cafe</div>
+        <h1>WakeCup <span>Cafe</span> || Theni</h1>
+        <p>Specialty coffee, handcrafted sandwiches, and indulgent desserts — served with love in the heart of NRT Nagar. Managed by Anjana.</p>
+        <div class="hero-details">
+          <div class="hero-detail">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            NRT Nagar, Theni
+          </div>
+          <div class="hero-detail">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            4 PM - 10 PM
+          </div>
+          <div class="hero-detail">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5"/></svg>
+            @wakecup.ind
+          </div>
+        </div>
+        <div class="hero-buttons">
+          <a href="#menu" class="btn btn-primary">Explore Menu</a>
+          <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="btn btn-outline" style="border:1.5px solid var(--primary);color:var(--primary);background:transparent;">DM to Order</a>
+        </div>
+      </div>
+      <div class="hero-image">
+        <div class="hero-image-main">
+          <img src="/static/store-interior.png" alt="WakeCup Cafe Interior" loading="lazy">
+        </div>
+        <div class="hero-image-float hero-float-1">
+          <img src="/static/classic-tiramisu.jpg" alt="Signature Tiramisu" loading="lazy">
+        </div>
+        <div class="hero-image-float hero-float-2">
+          <img src="/static/chicken-marinara.jpg" alt="Chicken Marinara Sandwich" loading="lazy">
+        </div>
+        <div class="hero-decor">✦</div>
+      </div>
     </div>
   </div>
 </section>
@@ -1264,24 +1283,6 @@ document.querySelectorAll('.insta-grid a').forEach(link => {
     }
   });
 });
-
-// HERO CATEGORY TILE CLICK — scroll + filter
-document.querySelectorAll('.hero-cat[data-filter]').forEach(tile => {
-  tile.addEventListener('click', function(e) {
-    e.preventDefault();
-    const filter = this.dataset.filter;
-    const section = document.getElementById('menu');
-    if (section) section.scrollIntoView({ behavior: 'smooth' });
-    if (filter) {
-      const tabs = document.querySelectorAll('.filter-tab');
-      tabs.forEach(t => { if (t.dataset.filter === filter) t.click(); });
-    }
-  });
-});
-
-// HERO FADE IN
-gsap.from('.hero-header h2', { opacity: 0, y: 20, duration: 0.6, ease: 'power3.out' });
-gsap.from('.hero-header p', { opacity: 0, y: 15, duration: 0.6, ease: 'power3.out', delay: 0.15 });
 
 ScrollTrigger.refresh();
 
