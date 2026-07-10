@@ -676,7 +676,7 @@ img { max-width: 100%; display: block; }
         <p>Specialty coffee, handcrafted sandwiches, and indulgent desserts — served with love in NRT Nagar. Managed by Anjana.</p>
         <div class="hero-buttons">
           <a href="#menu" class="btn btn-primary">Explore Menu</a>
-          <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="btn btn-outline" style="border:1.5px solid var(--primary);color:var(--primary);background:transparent;">DM to Order</a>
+          <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="btn btn-outline">DM to Order</a>
         </div>
       </div>
       <div class="hero-boxes">
@@ -1059,12 +1059,12 @@ img { max-width: 100%; display: block; }
       <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="highlight-circle"><div class="highlight-ring"><img src="/static/flow-logo.png" alt="Reels"></div><span>Reels</span></a>
     </div>
     <div class="insta-grid">
-      <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="reveal-scale"><img src="/static/insta-1.png" alt="Sip & Paint at WakeCup" style="width:100%;aspect-ratio:1;object-fit:cover;display:block;border-radius:12px;"></a>
-      <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="reveal-scale"><img src="/static/insta-2.png" alt="Birthday Party Setup" style="width:100%;aspect-ratio:1;object-fit:cover;display:block;border-radius:12px;"></a>
-      <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="reveal-scale"><img src="/static/insta-3.png" alt="Weekend Specials" style="width:100%;aspect-ratio:1;object-fit:cover;display:block;border-radius:12px;"></a>
-      <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="reveal-scale"><img src="/static/insta-4.png" alt="Coffee Art" style="width:100%;aspect-ratio:1;object-fit:cover;display:block;border-radius:12px;"></a>
-      <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="reveal-scale"><img src="/static/insta-5.png" alt="Dessert Special" style="width:100%;aspect-ratio:1;object-fit:cover;display:block;border-radius:12px;"></a>
-      <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="reveal-scale"><img src="/static/insta-6.png" alt="Cafe Interiors" style="width:100%;aspect-ratio:1;object-fit:cover;display:block;border-radius:12px;"></a>
+      <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="insta-grid-item reveal-scale"><img src="/static/insta-1.png" alt="Sip & Paint at WakeCup"><span class="overlay">📷</span></a>
+      <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="insta-grid-item reveal-scale"><img src="/static/insta-2.png" alt="Birthday Party Setup"><span class="overlay">📷</span></a>
+      <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="insta-grid-item reveal-scale"><img src="/static/insta-3.png" alt="Weekend Specials"><span class="overlay">📷</span></a>
+      <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="insta-grid-item reveal-scale"><img src="/static/insta-4.png" alt="Coffee Art"><span class="overlay">📷</span></a>
+      <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="insta-grid-item reveal-scale"><img src="/static/insta-5.png" alt="Dessert Special"><span class="overlay">📷</span></a>
+      <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="insta-grid-item reveal-scale"><img src="/static/insta-6.png" alt="Cafe Interiors"><span class="overlay">📷</span></a>
     </div>
     <div class="insta-cta reveal">
       <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="btn btn-primary">Follow @wakecup.ind</a>
@@ -1350,7 +1350,7 @@ document.querySelectorAll('.nav-dropdown a').forEach(link => {
 });
 
 // INSTAGRAM GALLERY LIGHTBOX
-document.querySelectorAll('.insta-grid a').forEach(link => {
+document.querySelectorAll('.insta-grid-item').forEach(link => {
   link.addEventListener('click', function(e) {
     e.preventDefault();
     const img = this.querySelector('img');
