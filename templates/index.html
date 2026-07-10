@@ -63,13 +63,16 @@ img { max-width: 100%; display: block; }
 .btn-secondary { background: var(--primary); color: white; }
 .btn-secondary:hover { background: var(--accent); transform: translateY(-2px); }
 .btn-sm { padding: 10px 20px; font-size: 13px; }
-.section-header { text-align: center; margin-bottom: 40px; position:relative; }
-.section-header h2 { font-size: clamp(26px, 4vw, 38px); margin-bottom: 12px; }
-.section-header p { font-size: 15px; color: var(--body); max-width: 500px; margin: 0 auto; opacity: 0.7; }
-.tag {
+.section-header { text-align: center; margin-bottom: 48px; }
+.section-header h2 { font-size: clamp(28px, 4vw, 42px); margin-bottom: 12px; letter-spacing: -0.5px; }
+.section-header p { font-size: 15px; color: var(--body); max-width: 480px; margin: 0 auto; opacity: 0.6; }
+.section-header .tag {
   display: inline-block; padding: 4px 14px; border-radius: 50px;
-  background: var(--primary); color: white; font-size: 11px;
-  font-weight: 600; margin-bottom: 12px; letter-spacing: 0.5px;
+  background: rgba(254,129,212,0.1); color: var(--primary); font-size: 11px;
+  font-weight: 600; margin-bottom: 16px; letter-spacing: 1px; text-transform: uppercase;
+}
+.section-divider {
+  width: 30px; height: 2px; background: var(--primary); margin: 0 auto 16px; border-radius: 2px;
 }
 
 /* TOP BAR */
@@ -136,9 +139,9 @@ img { max-width: 100%; display: block; }
   .navbar { top: 0; }
 }
 
-/* HERO — unique editorial full-width */
+/* HERO — full-screen premium brand statement */
 .hero {
-  position: relative; min-height: 85vh; display: flex; align-items: center;
+  position: relative; height: 100vh; display: flex; align-items: center;
   overflow: hidden; background: var(--heading);
 }
 .hero-bg {
@@ -146,35 +149,56 @@ img { max-width: 100%; display: block; }
 }
 .hero-bg img {
   width: 100%; height: 100%; object-fit: cover; display: block;
-  opacity: 0.4;
+  opacity: 0.35;
 }
 .hero-overlay {
   position: absolute; inset: 0;
-  background: linear-gradient(135deg, rgba(45,27,46,0.85) 0%, rgba(45,27,46,0.4) 50%, rgba(212,90,158,0.3) 100%);
+  background: linear-gradient(135deg, rgba(45,27,46,0.9) 0%, rgba(45,27,46,0.3) 60%, rgba(212,90,158,0.25) 100%);
 }
 .hero-content {
-  position: relative; z-index: 2; max-width: 640px;
+  position: relative; z-index: 2; max-width: 700px;
 }
 .hero-content .tag {
-  display: inline-block; padding: 4px 14px; border-radius: 50px;
-  background: var(--primary); color: white; font-size: 11px;
-  font-weight: 600; letter-spacing: 0.5px; margin-bottom: 16px;
+  display: inline-block; padding: 5px 16px; border-radius: 50px;
+  background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.6);
+  font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px;
+  backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.06);
 }
 .hero-content h1 {
-  font-size: clamp(36px, 5vw, 56px); color: white; line-height: 1.05; font-weight: 700; margin-bottom: 12px;
+  font-size: clamp(42px, 6vw, 72px); color: white; line-height: 1.0; font-weight: 700; margin-bottom: 16px;
+  letter-spacing: -1px;
 }
-.hero-content h1 .hl { color: var(--primary); }
+.hero-content h1 .hl { color: var(--primary); font-style: italic; }
 .hero-content p {
-  font-size: clamp(15px, 1.3vw, 17px); color: rgba(255,255,255,0.7); line-height: 1.7; margin-bottom: 28px; max-width: 480px;
+  font-size: clamp(16px, 1.3vw, 18px); color: rgba(255,255,255,0.55); line-height: 1.7; margin-bottom: 36px; max-width: 480px;
 }
-.hero-buttons { display: flex; gap: 12px; flex-wrap: wrap; }
-.hero-buttons .btn-outline { border-color: rgba(255,255,255,0.3); color: white; }
-.hero-buttons .btn-outline:hover { background: white; color: var(--heading); border-color: white; }
-/* Floating brand mark */
-.hero-mark {
-  position: absolute; right: 5%; bottom: 10%; z-index: 2; text-align: right;
-  color: rgba(255,255,255,0.08); font-family: 'Playfair Display', serif;
-  font-size: clamp(80px, 12vw, 160px); font-weight: 800; line-height: 0.8; pointer-events: none; user-select: none;
+.hero-buttons { display: flex; gap: 14px; flex-wrap: wrap; }
+.hero-meta {
+  display: flex; gap: 28px; margin-bottom: 36px; flex-wrap: wrap;
+}
+.hero-meta-item {
+  display: flex; align-items: center; gap: 8px;
+  color: rgba(255,255,255,0.4); font-size: 13px; font-weight: 400;
+}
+.hero-meta-item svg { opacity: 0.5; flex-shrink: 0; }
+.hero-scroll {
+  position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%); z-index: 2;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  color: rgba(255,255,255,0.25); font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+}
+.hero-scroll-line {
+  width: 1px; height: 40px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.4), transparent);
+  animation: heroScroll 2s ease-in-out infinite;
+}
+@keyframes heroScroll {
+  0%, 100% { transform: scaleY(1); opacity: 1; }
+  50% { transform: scaleY(0.5); opacity: 0.2; }
+}
+.hero-brand-mark {
+  position: absolute; right: -20px; bottom: 0; z-index: 1; pointer-events: none; user-select: none;
+  font-family: 'Playfair Display', serif; font-size: clamp(120px, 20vw, 280px); font-weight: 900;
+  color: rgba(255,255,255,0.03); line-height: 0.7; text-align: right;
 }
 @keyframes heroIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 .hero-content > * { opacity: 0; animation: heroIn 0.8s ease forwards; }
@@ -182,23 +206,10 @@ img { max-width: 100%; display: block; }
 .hero-content > :nth-child(2) { animation-delay: 0.2s; }
 .hero-content > :nth-child(3) { animation-delay: 0.3s; }
 .hero-content > :nth-child(4) { animation-delay: 0.4s; }
+.hero-content > :nth-child(5) { animation-delay: 0.5s; }
 @media (max-width: 768px) {
-  .hero { min-height: 70vh; }
-  .hero-mark { display: none; }
-}
-/* Scroll indicator */
-.hero-scroll {
-  position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%); z-index: 2;
-  display: flex; flex-direction: column; align-items: center; gap: 6px;
-  color: rgba(255,255,255,0.4); font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
-}
-.hero-scroll-line {
-  width: 1px; height: 40px; background: linear-gradient(180deg, rgba(255,255,255,0.5), transparent);
-  animation: scrollPulse 2s ease-in-out infinite;
-}
-@keyframes scrollPulse {
-  0%, 100% { transform: scaleY(1); opacity: 1; }
-  50% { transform: scaleY(0.6); opacity: 0.3; }
+  .hero { height: 90vh; }
+  .hero-brand-mark { display: none; }
 }
 
 
@@ -619,15 +630,20 @@ img { max-width: 100%; display: block; }
     <img src="/static/store-interior.png" alt="WakeCup Cafe Interior" loading="lazy" decoding="async">
   </div>
   <div class="hero-overlay"></div>
-  <div class="hero-mark">WakeCup</div>
+  <div class="hero-brand-mark">WakeCup</div>
   <div class="container" style="position:relative;z-index:2;">
     <div class="hero-content">
       <div class="tag">✦ Theni's Favorite Cafe</div>
-      <h1>Where Every <span class="hl">Sip</span> Feels Like Home</h1>
-      <p>Specialty coffee, handcrafted sandwiches, and indulgent desserts — served with love in NRT Nagar, Theni. Managed by Anjana.</p>
+      <h1>WakeCup <span class="hl">Cafe</span></h1>
+      <p>Specialty coffee, handcrafted sandwiches & indulgent desserts — served with love in NRT Nagar, Theni. Managed by Anjana.</p>
+      <div class="hero-meta">
+        <span class="hero-meta-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> NRT Nagar, Theni</span>
+        <span class="hero-meta-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 4 PM — 10 PM</span>
+        <span class="hero-meta-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> @wakecup.ind</span>
+      </div>
       <div class="hero-buttons">
         <a href="#menu" class="btn btn-primary">Explore Menu</a>
-        <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="btn btn-outline">DM @wakecup.ind</a>
+        <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="btn btn-outline" style="border-color:rgba(255,255,255,0.25);color:white;">DM @wakecup.ind</a>
       </div>
     </div>
   </div>
@@ -670,6 +686,7 @@ img { max-width: 100%; display: block; }
   <div class="container">
     <div class="section-header reveal">
       <span class="tag">What We Serve</span>
+      <div class="section-divider"></div>
       <h2>Our Menu</h2>
       <p>Fresh ingredients, bold flavors, and a little love in every dish.</p>
     </div>
@@ -713,6 +730,7 @@ img { max-width: 100%; display: block; }
   <div class="container">
     <div class="section-header reveal">
       <span class="tag">Cakes</span>
+      <div class="section-divider"></div>
       <h2>Our Special Cakes</h2>
       <p>Handcrafted with love — perfect for every celebration.</p>
     </div>
@@ -772,6 +790,7 @@ img { max-width: 100%; display: block; }
   <div class="container">
     <div class="section-header reveal">
       <span class="tag">Event</span>
+      <div class="section-divider"></div>
       <h2>Our First Ever Floral Sip & Paint</h2>
       <p>A beautiful evening of art, flowers, and good vibes.</p>
     </div>
@@ -805,6 +824,7 @@ img { max-width: 100%; display: block; }
       </div>
       <div class="about-content reveal-right">
         <span class="tag">Our Story</span>
+        <div class="section-divider" style="margin:0 0 16px;"></div>
         <h2>From Bean to Cup,<br>a Labor of Love</h2>
         <p>Founded with a passion for great coffee and good company, WakeCup Cafe in Theni is a cozy corner where every visit feels like home. Managed by Anjana, we serve specialty coffee, handcrafted sandwiches, and indulgent desserts made with love.</p>
         <p>Located in NRT Nagar, our space is designed for connection — whether you're catching up with friends, hosting a celebration, or joining our creative workshops.</p>
@@ -824,6 +844,7 @@ img { max-width: 100%; display: block; }
   <div class="container">
     <div class="section-header reveal">
       <span class="tag">Our Services</span>
+      <div class="section-divider"></div>
       <h2>Experience WakeCup</h2>
       <p>More than just a cafe — a space for every occasion.</p>
     </div>
@@ -857,6 +878,7 @@ img { max-width: 100%; display: block; }
   <div class="container">
     <div class="section-header reveal">
       <span class="tag">Events</span>
+      <div class="section-divider"></div>
       <h2>What's Happening at WakeCup</h2>
       <p>From live music to creative workshops — there's always something brewing.</p>
     </div>
@@ -897,6 +919,7 @@ img { max-width: 100%; display: block; }
   <div class="container">
     <div class="section-header reveal">
       <span class="tag">Testimonials</span>
+      <div class="section-divider"></div>
       <h2>What Our Customers Say</h2>
     </div>
     <div class="testimonial-slider" id="testimonialSlider">
@@ -978,6 +1001,7 @@ img { max-width: 100%; display: block; }
   <div class="container">
     <div class="section-header reveal">
       <span class="tag">Follow Us</span>
+      <div class="section-divider"></div>
       <h2>@wakecup.ind</h2>
       <p>Follow us on Instagram for the latest updates, menu specials, and behind-the-scenes content.</p>
     </div>
@@ -1007,6 +1031,7 @@ img { max-width: 100%; display: block; }
   <div class="container">
     <div class="section-header reveal">
       <span class="tag">Get in Touch</span>
+      <div class="section-divider"></div>
       <h2>Contact Us</h2>
       <p>Questions, feedback, or want to collaborate? Send us a message.</p>
     </div>
