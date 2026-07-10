@@ -616,27 +616,27 @@ img { max-width: 100%; display: block; }
         </div>
       </div>
       <div class="hero-boxes">
-        <div class="hero-box">
+        <a href="#menu" class="hero-box" data-filter="Dessert">
           <img src="/static/classic-tiramisu.jpg" alt="Signature Tiramisu" loading="lazy">
           <div class="hero-box-body">
             <h4>Signature Tiramisu</h4>
             <p>Our most-loved dessert</p>
           </div>
-        </div>
-        <div class="hero-box">
+        </a>
+        <a href="#menu" class="hero-box" data-filter="Sandwich">
           <img src="/static/chicken-marinara.jpg" alt="Chicken Marinara" loading="lazy">
           <div class="hero-box-body">
             <h4>Chicken Marinara</h4>
             <p>Handcrafted sandwich</p>
           </div>
-        </div>
-        <div class="hero-box hero-box-wide">
+        </a>
+        <a href="#about" class="hero-box hero-box-wide">
           <img src="/static/store-interior.png" alt="Cafe Interior" loading="lazy">
           <div class="hero-box-body">
             <h4>📍 NRT Nagar, Theni · 4-10 PM · @wakecup.ind</h4>
             <p>Dine-in · Takeaway · Pre-orders · Parties</p>
           </div>
-        </div>
+        </a>
       </div>
     </div>
   </div>
@@ -1264,6 +1264,20 @@ document.querySelectorAll('.insta-grid a').forEach(link => {
     if (img) {
       document.getElementById('lightboxImg').src = img.src;
       document.getElementById('lightbox').classList.add('open');
+    }
+  });
+});
+
+// HERO BOX CLICK — scroll + filter
+document.querySelectorAll('.hero-box[data-filter]').forEach(box => {
+  box.addEventListener('click', function(e) {
+    e.preventDefault();
+    const filter = this.dataset.filter;
+    const section = document.getElementById('menu');
+    if (section) section.scrollIntoView({ behavior: 'smooth' });
+    if (filter) {
+      const tabs = document.querySelectorAll('.filter-tab');
+      tabs.forEach(t => { if (t.dataset.filter === filter) t.click(); });
     }
   });
 });
