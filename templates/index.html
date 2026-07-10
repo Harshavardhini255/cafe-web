@@ -211,6 +211,12 @@ img { max-width: 100%; display: block; }
 .hero-content > :nth-child(3) { animation-delay: 0.3s; }
 .hero-content > :nth-child(4) { animation-delay: 0.4s; }
 .hero-content > :nth-child(5) { animation-delay: 0.5s; }
+/* Hero-to-content wave transition */
+.hero-wave {
+  position: absolute; bottom: -1px; left: 0; right: 0; z-index: 2; line-height: 0; pointer-events: none;
+}
+.hero-wave svg { width: 100%; height: auto; display: block; }
+.hero-wave svg path { fill: var(--card); }
 @media (max-width: 768px) {
   .hero { height: auto; min-height: 85vh; padding: 100px 0 60px; }
   .hero-brand-mark { display: none; }
@@ -365,12 +371,17 @@ img { max-width: 100%; display: block; }
 .services .section-header h2 { color: white; }
 .services .section-header p { color: rgba(255,255,255,0.7); }
 .services .tag { background: rgba(255,255,255,0.15); color: white; }
-.services-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
-.service-card { background: rgba(255,255,255,0.06); backdrop-filter: blur(12px); border-radius: var(--radius); padding: 40px 28px; text-align: center; border: 1px solid rgba(255,255,255,0.08); transition: all 0.4s ease; }
-.service-card:hover { background: rgba(255,255,255,0.12); transform: translateY(-6px); }
-.service-card .icon { width: 64px; height: 64px; border-radius: 50%; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
-.service-card h3 { color: white; font-size: 18px; margin-bottom: 8px; }
-.service-card p { font-size: 14px; opacity: 0.7; line-height: 1.6; }
+.services-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.service-card {
+  background: rgba(255,255,255,0.06); backdrop-filter: blur(12px); border-radius: var(--radius);
+  padding: 36px 24px; text-align: center;
+  border: 1px solid rgba(255,255,255,0.06); transition: all 0.4s ease;
+}
+.service-card:hover { background: rgba(255,255,255,0.1); transform: translateY(-4px); border-color: rgba(255,255,255,0.15); }
+.service-card .icon { width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; transition: background 0.3s; }
+.service-card:hover .icon { background: rgba(255,255,255,0.15); }
+.service-card h3 { color: white; font-size: 17px; margin-bottom: 8px; }
+.service-card p { font-size: 13px; opacity: 0.6; line-height: 1.6; }
 @media (max-width: 900px) { .services-grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 500px) { .services-grid { grid-template-columns: 1fr; } }
 
@@ -390,14 +401,33 @@ img { max-width: 100%; display: block; }
 
 /* TESTIMONIALS */
 .testimonials { padding: 60px 0; background: var(--bg); text-align: center; }
-.testimonial-slider { max-width: 650px; margin: 0 auto; position: relative; min-height: 250px; }
-.testimonial-card { position: absolute; width: 100%; opacity: 0; transition: opacity 0.6s ease; padding: 48px 40px; background: var(--card); border-radius: 20px; box-shadow: var(--shadow); border: 1px solid rgba(0,0,0,0.03); }
-.testimonial-card.active { opacity: 1; position: relative; }
-.testimonial-card .avatar { width: 64px; height: 64px; border-radius: 50%; margin: 0 auto 16px; overflow: hidden; }
-.testimonial-card .avatar img { width: 100%; height: 100%; object-fit: cover; }
-.testimonial-card .stars { color: var(--gold); font-size: 20px; margin-bottom: 16px; }
-.testimonial-card blockquote { font-size: 18px; line-height: 1.7; color: var(--heading); font-style: italic; margin-bottom: 16px; }
-.testimonial-card cite { font-style: normal; font-weight: 600; color: var(--primary); font-size: 15px; }
+.testimonial-slider { max-width: 600px; margin: 0 auto; position: relative; min-height: 280px; }
+.testimonial-card {
+  position: absolute; width: 100%; opacity: 0; transition: opacity 0.5s ease, transform 0.5s ease;
+  padding: 40px; background: var(--card); border-radius: 20px; box-shadow: var(--shadow);
+  transform: scale(0.95);
+}
+.testimonial-card.active { opacity: 1; position: relative; transform: scale(1); }
+.testimonial-card .avatar {
+  width: 56px; height: 56px; border-radius: 50%; margin: 0 auto 12px; overflow: hidden;
+  border: 2px solid var(--accent); padding: 2px;
+}
+.testimonial-card .avatar img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+.testimonial-card .stars { color: var(--gold); font-size: 16px; margin-bottom: 12px; letter-spacing: 3px; }
+.testimonial-card blockquote {
+  font-size: clamp(16px, 2vw, 18px); line-height: 1.7; color: var(--heading);
+  margin-bottom: 16px; font-weight: 400;
+}
+.testimonial-card cite {
+  font-style: normal; font-weight: 600; color: var(--primary); font-size: 14px;
+  display: block;
+}
+.testimonial-card cite::before { content: '— '; }
+.testimonial-dots { display: flex; gap: 8px; justify-content: center; margin-top: 24px; }
+.testimonial-dot {
+  width: 8px; height: 8px; border-radius: 50%; background: rgba(0,0,0,0.1); border: none; cursor: pointer; transition: all 0.3s; padding: 0;
+}
+.testimonial-dot.active { background: var(--primary); width: 24px; border-radius: 4px; }
 
 /* COUNTDOWN */
 .countdown-banner { padding: 60px 0; text-align: center; background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%); color: white; }
@@ -694,6 +724,9 @@ img { max-width: 100%; display: block; }
   <div class="hero-scroll">
     <span>Scroll</span>
     <div class="hero-scroll-line"></div>
+  </div>
+  <div class="hero-wave">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none"><path d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z"/></svg>
   </div>
 </section>
 
@@ -1003,6 +1036,7 @@ img { max-width: 100%; display: block; }
       </div>
       {% endif %}
     </div>
+    <div class="testimonial-dots" id="testimonialDots"></div>
     <div class="review-form-area reveal">
       <h3>Leave a Review</h3>
       <form class="review-form" id="reviewForm">
@@ -1213,12 +1247,14 @@ gsap.ticker.lagSmoothing(0);
 const navbar = document.getElementById('navbar');
 
 // SCROLL REVEAL
-function setupReveal(selector) {
+function setupReveal(selector, delay = 0) {
   const els = document.querySelectorAll(selector);
   if (!els.length) return;
   ScrollTrigger.batch(els, {
     start: 'top 85%',
-    onEnter: (batch) => batch.forEach(el => el.classList.add('visible'))
+    onEnter: (batch) => batch.forEach((el, i) => {
+      setTimeout(() => el.classList.add('visible'), i * 100);
+    })
   });
 }
 setupReveal('.reveal');
@@ -1290,12 +1326,25 @@ if (cakeFilterTabs.length && cakeCards.length) {
 // TESTIMONIAL SLIDER
 let tIndex = 0;
 const tCards = document.querySelectorAll('#testimonialSlider .testimonial-card');
-function nextTestimonial() {
-  tCards.forEach(c => c.classList.remove('active'));
-  tIndex = (tIndex + 1) % tCards.length;
-  tCards[tIndex].classList.add('active');
+const dotsContainer = document.getElementById('testimonialDots');
+if (tCards.length && dotsContainer) {
+  tCards.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'testimonial-dot' + (i === 0 ? ' active' : '');
+    dot.addEventListener('click', () => { tIndex = i; updateTestimonial(); });
+    dotsContainer.appendChild(dot);
+  });
 }
-if (tCards.length) setInterval(nextTestimonial, 4500);
+function updateTestimonial() {
+  tCards.forEach(c => c.classList.remove('active'));
+  tCards[tIndex].classList.add('active');
+  document.querySelectorAll('.testimonial-dot').forEach((d, i) => d.classList.toggle('active', i === tIndex));
+}
+function nextTestimonial() {
+  tIndex = (tIndex + 1) % tCards.length;
+  updateTestimonial();
+}
+if (tCards.length) { updateTestimonial(); setInterval(nextTestimonial, 5000); }
 
 // COUNTDOWN
 function startCountdown() {
