@@ -136,33 +136,83 @@ img { max-width: 100%; display: block; }
   .navbar { top: 0; }
 }
 
-/* PAGE HEADER (Bakingo-style) */
-.page-header {
-  padding: 130px 0 30px; background: var(--card); text-align: center;
+/* HERO — unique editorial full-width */
+.hero {
+  position: relative; min-height: 85vh; display: flex; align-items: center;
+  overflow: hidden; background: var(--heading);
 }
-.page-header h1 {
-  font-size: clamp(30px, 4vw, 44px); color: var(--heading); margin-bottom: 8px;
+.hero-bg {
+  position: absolute; inset: 0;
 }
-.page-header p {
-  font-size: 15px; color: var(--body); max-width: 500px; margin: 0 auto 20px;
+.hero-bg img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  opacity: 0.4;
 }
-.page-header .breadcrumb {
-  font-size: 13px; color: var(--body); opacity: 0.6; margin-bottom: 4px;
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(45,27,46,0.85) 0%, rgba(45,27,46,0.4) 50%, rgba(212,90,158,0.3) 100%);
 }
+.hero-content {
+  position: relative; z-index: 2; max-width: 640px;
+}
+.hero-content .tag {
+  display: inline-block; padding: 4px 14px; border-radius: 50px;
+  background: var(--primary); color: white; font-size: 11px;
+  font-weight: 600; letter-spacing: 0.5px; margin-bottom: 16px;
+}
+.hero-content h1 {
+  font-size: clamp(36px, 5vw, 56px); color: white; line-height: 1.05; font-weight: 700; margin-bottom: 12px;
+}
+.hero-content h1 .hl { color: var(--primary); }
+.hero-content p {
+  font-size: clamp(15px, 1.3vw, 17px); color: rgba(255,255,255,0.7); line-height: 1.7; margin-bottom: 28px; max-width: 480px;
+}
+.hero-buttons { display: flex; gap: 12px; flex-wrap: wrap; }
+.hero-buttons .btn-outline { border-color: rgba(255,255,255,0.3); color: white; }
+.hero-buttons .btn-outline:hover { background: white; color: var(--heading); border-color: white; }
+/* Floating brand mark */
+.hero-mark {
+  position: absolute; right: 5%; bottom: 10%; z-index: 2; text-align: right;
+  color: rgba(255,255,255,0.08); font-family: 'Playfair Display', serif;
+  font-size: clamp(80px, 12vw, 160px); font-weight: 800; line-height: 0.8; pointer-events: none; user-select: none;
+}
+@keyframes heroIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+.hero-content > * { opacity: 0; animation: heroIn 0.8s ease forwards; }
+.hero-content > :nth-child(1) { animation-delay: 0.1s; }
+.hero-content > :nth-child(2) { animation-delay: 0.2s; }
+.hero-content > :nth-child(3) { animation-delay: 0.3s; }
+.hero-content > :nth-child(4) { animation-delay: 0.4s; }
 @media (max-width: 768px) {
-  .page-header { padding: 100px 0 20px; }
+  .hero { min-height: 70vh; }
+  .hero-mark { display: none; }
+}
+/* Scroll indicator */
+.hero-scroll {
+  position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%); z-index: 2;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  color: rgba(255,255,255,0.4); font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+}
+.hero-scroll-line {
+  width: 1px; height: 40px; background: linear-gradient(180deg, rgba(255,255,255,0.5), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+@keyframes scrollPulse {
+  0%, 100% { transform: scaleY(1); opacity: 1; }
+  50% { transform: scaleY(0.6); opacity: 0.3; }
 }
 
 
 
 /* TRUST BADGES */
-.trust-section { padding: 40px 0; background: var(--card); border-top: 1px solid rgba(254,129,212,0.06); }
-.trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
-.trust-item { text-align: center; padding: 20px; }
-.trust-item .icon { width: 56px; height: 56px; border-radius: 50%; background: #faacbf; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
-.trust-item h4 { font-size: 16px; margin-bottom: 4px; font-family: 'Inter', sans-serif; }
-.trust-item p { font-size: 13px; opacity: 0.7; }
-@media (max-width: 768px) { .trust-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; } }
+.trust-section { padding: 40px 0; background: var(--card); }
+.trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
+.trust-item { text-align: center; padding: 28px 20px; position: relative; }
+.trust-item + .trust-item { border-left: 1px solid rgba(0,0,0,0.04); }
+.trust-item .icon { width: 48px; height: 48px; border-radius: 50%; background: var(--primary); display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; }
+.trust-item .icon svg { stroke: white; }
+.trust-item h4 { font-size: 14px; margin-bottom: 2px; font-family: 'Inter', sans-serif; color: var(--heading); }
+.trust-item p { font-size: 12px; opacity: 0.5; }
+@media (max-width: 768px) { .trust-grid { grid-template-columns: repeat(2, 1fr); } .trust-item:nth-child(2) { border-left: none; } .trust-item:nth-child(3) { border-left: none; } }
 @media (max-width: 400px) { .trust-grid { grid-template-columns: 1fr; } }
 
 /* PRODUCT GRID (Bakingo style) */
@@ -189,18 +239,18 @@ img { max-width: 100%; display: block; }
 }
 .product-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
 .product-card-image { position: relative; overflow: hidden; aspect-ratio: 4/3; }
-.product-card-image img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; }
-.product-card:hover .product-card-image img { transform: scale(1.06); }
+.product-card-image img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s ease; }
+.product-card:hover .product-card-image img { transform: scale(1.08); }
 .product-card-overlay {
   position: absolute; inset: 0; z-index: 2;
-  background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center;
+  background: rgba(212,90,158,0.85); display: flex; align-items: center; justify-content: center;
   opacity: 0; transition: opacity 0.3s ease;
 }
 .product-card:hover .product-card-overlay { opacity: 1; }
 .product-card-overlay span {
-  color: white; font-size: 13px; font-weight: 600;
-  padding: 10px 24px; border: 1.5px solid rgba(255,255,255,0.5); border-radius: 50px;
-  backdrop-filter: blur(4px);
+  color: white; font-size: 13px; font-weight: 600; letter-spacing: 0.5px;
+  padding: 12px 28px; border: 1.5px solid rgba(255,255,255,0.3); border-radius: 50px;
+  backdrop-filter: blur(4px); text-transform: uppercase;
 }
 .product-card-body { padding: 16px 20px 20px; }
 .product-card-body .cat {
@@ -264,7 +314,7 @@ img { max-width: 100%; display: block; }
   position: absolute; bottom: 24px; left: 24px;
   background: var(--primary); color: white; padding: 16px 24px;
   border-radius: 12px; text-align: center; line-height: 1.3;
-  box-shadow: 0 4px 20px rgba(254,129,212,0.3);
+  box-shadow: 0 8px 30px rgba(212,90,158,0.4);
 }
 .about-image .exp strong { font-size: 28px; display: block; font-family: 'Playfair Display', serif; }
 .about-image .exp span { font-size: 13px; opacity: 0.9; }
@@ -330,7 +380,7 @@ img { max-width: 100%; display: block; }
 .insta-grid-item { position: relative; border-radius: 12px; overflow: hidden; cursor: pointer; aspect-ratio: 1; }
 .insta-grid-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
 .insta-grid-item:hover img { transform: scale(1.08); }
-.insta-grid-item .overlay { position: absolute; inset: 0; background: rgba(254,129,212,0.3); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.4s ease; color: white; }
+.insta-grid-item .overlay { position: absolute; inset: 0; background: rgba(212,90,158,0.6); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.4s ease; color: white; font-size: 28px; }
 .insta-grid-item:hover .overlay { opacity: 1; }
 @media (max-width: 600px) { .insta-grid { grid-template-columns: repeat(2, 1fr); } }
 .insta-highlights { display:flex; justify-content:center; gap:24px; flex-wrap:wrap; margin-bottom:40px; }
@@ -456,13 +506,13 @@ img { max-width: 100%; display: block; }
 .back-top {
   position: fixed; bottom: 70px; right: 20px; z-index: 998;
   width: 44px; height: 44px; border-radius: 50%;
-  background: var(--primary); color: white; border: none; cursor: pointer;
+  background: var(--heading); color: white; border: none; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   opacity: 0; pointer-events: none; transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(254,129,212,0.3);
+  box-shadow: 0 4px 20px rgba(45,27,46,0.3);
 }
 .back-top.visible { opacity: 1; pointer-events: auto; }
-.back-top:hover { background: var(--dark); transform: translateY(-2px); }
+.back-top:hover { background: var(--primary); transform: translateY(-3px); }
 @media (max-width: 767px) { .back-top { bottom: 80px; } }
 /* LIGHTBOX */
 .lightbox {
@@ -563,14 +613,27 @@ img { max-width: 100%; display: block; }
   <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="insta-link">📷 DM @wakecup.ind</a>
 </div>
 
-<!-- HERO / PAGE HEADER (Bakingo-style) -->
-<section class="page-header" id="hero">
-  <div class="container">
-    <div class="breadcrumb">Home / Menu</div>
-    <h1>WakeCup Cafe <span style="color:var(--primary);">Menu</span></h1>
-    <p>Specialty coffee, handcrafted sandwiches & indulgent desserts — served with love in NRT Nagar.</p>
-    <a href="#menu" class="btn btn-primary">Explore Menu</a>
-    <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="btn btn-outline" style="margin-left:10px;">DM to Order</a>
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg">
+    <img src="/static/store-interior.png" alt="WakeCup Cafe Interior" loading="lazy" decoding="async">
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-mark">WakeCup</div>
+  <div class="container" style="position:relative;z-index:2;">
+    <div class="hero-content">
+      <div class="tag">✦ Theni's Favorite Cafe</div>
+      <h1>Where Every <span class="hl">Sip</span> Feels Like Home</h1>
+      <p>Specialty coffee, handcrafted sandwiches, and indulgent desserts — served with love in NRT Nagar, Theni. Managed by Anjana.</p>
+      <div class="hero-buttons">
+        <a href="#menu" class="btn btn-primary">Explore Menu</a>
+        <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="btn btn-outline">DM @wakecup.ind</a>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="hero-scroll-line"></div>
   </div>
 </section>
 
@@ -799,7 +862,7 @@ img { max-width: 100%; display: block; }
     </div>
     <div class="events-grid">
       <div class="event-card reveal-scale">
-        <video src="/static/sip-event.mp4" autoplay muted loop playsinline></video>
+        <video src="/static/sip-event.mp4" autoplay loop playsinline controls></video>
         <div class="event-card-body">
           <div class="date">Monthly</div>
           <h3>Floral Sip & Paint</h3>
@@ -808,7 +871,7 @@ img { max-width: 100%; display: block; }
         </div>
       </div>
       <div class="event-card reveal-scale">
-        <video src="/static/birthday-event.mp4" autoplay muted loop playsinline></video>
+        <video src="/static/birthday-event.mp4" autoplay loop playsinline controls></video>
         <div class="event-card-body">
           <div class="date">By Booking</div>
           <h3>Private Birthday Parties</h3>
@@ -817,7 +880,7 @@ img { max-width: 100%; display: block; }
         </div>
       </div>
       <div class="event-card reveal-scale">
-        <video src="/static/weekend-event.mp4" autoplay muted loop playsinline></video>
+        <video src="/static/weekend-event.mp4" autoplay loop playsinline controls></video>
         <div class="event-card-body">
           <div class="date">Every Weekend</div>
           <h3>Weekend Special Menu</h3>
