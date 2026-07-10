@@ -198,17 +198,28 @@ img { max-width: 100%; display: block; }
 .hero-box {
   background: var(--card); border-radius: 16px; overflow: hidden;
   box-shadow: 0 8px 30px rgba(254,129,212,0.08);
-  transition: all 0.4s ease; position: relative;
+  transition: all 0.4s ease; position: relative; display: block; color: inherit;
 }
 .hero-box:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(254,129,212,0.15); }
 .hero-box img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; }
+.hero-box-badge {
+  position: absolute; top: 10px; left: 10px; z-index: 2;
+  background: var(--gold); color: var(--heading);
+  font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 50px;
+  letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(255,184,0,0.3);
+}
 .hero-box-body { padding: 14px 16px 16px; }
 .hero-box-body h4 { font-size: 14px; font-family: 'Inter', sans-serif; font-weight: 600; color: var(--heading); margin-bottom: 2px; }
-.hero-box-body p { font-size: 12px; color: var(--body); opacity: 0.7; max-width: 100%; margin: 0; }
-.hero-box-wide { grid-column: 1 / -1; }
+.hero-box-body p { font-size: 12px; color: var(--body); opacity: 0.7; margin: 0; }
+.hero-box-wide { grid-column: 1 / -1; position: relative; }
 .hero-box-wide img { aspect-ratio: 5/2; }
-.hero-box-wide .hero-box-body { padding: 16px 20px; }
-.hero-box-wide .hero-box-body h4 { font-size: 16px; }
+.hero-box-wide .hero-box-body {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: linear-gradient(0deg, rgba(74,26,58,0.7) 0%, transparent 100%);
+  padding: 40px 20px 18px; border-radius: 0;
+}
+.hero-box-wide .hero-box-body h4 { color: white; font-size: 16px; text-shadow: 0 1px 8px rgba(0,0,0,0.3); }
+.hero-box-wide .hero-box-body p { color: rgba(255,255,255,0.75); font-size: 13px; }
 @keyframes heroFadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 .hero-content > * { opacity: 0; animation: heroFadeIn 0.7s ease forwards; }
 .hero-content > :nth-child(1) { animation-delay: 0.1s; }
@@ -618,6 +629,7 @@ img { max-width: 100%; display: block; }
       <div class="hero-boxes">
         <a href="#menu" class="hero-box" data-filter="Dessert">
           <img src="/static/classic-tiramisu.jpg" alt="Signature Tiramisu" loading="lazy">
+          <div class="hero-box-badge">⭐ Signature</div>
           <div class="hero-box-body">
             <h4>Signature Tiramisu</h4>
             <p>Our most-loved dessert</p>
