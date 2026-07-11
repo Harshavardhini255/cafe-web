@@ -272,6 +272,7 @@ img { max-width: 100%; display: block; }
 .cake-card-image { width: 100%; position: relative; overflow: hidden; }
 .cake-card-image img,
 .cake-card-image video { width: 100%; height: auto; display: block; transition: transform 0.6s ease; }
+.cake-card-image .vid-unmute { bottom:12px; right:12px; }
 .cake-card:hover .cake-card-image img,
 .cake-card:hover .cake-card-image video { transform: scale(1.05); }
 .cake-card-overlay {
@@ -891,39 +892,39 @@ img { max-width: 100%; display: block; }
     </div>
     <div class="cakes-grid">
       <div class="cake-card reveal-scale" data-cake-filter="Celebration">
-        <div class="cake-card-image"><img src="/static/cake-1.jpg" alt="Cake" loading="lazy" decoding="async"><a href="https://www.instagram.com/wakecup.ind" target="_blank" class="cake-card-overlay"><span>DM to Order</span></a></div>
+        <div class="cake-card-image"><img src="/static/cake-1.jpg" alt="Celebration Cake" loading="lazy" decoding="async"><a href="https://www.instagram.com/wakecup.ind" target="_blank" class="cake-card-overlay"><span>DM to Order</span></a></div>
         <div class="cake-card-body"><h3>Celebration Cake</h3><p class="sub">DM to Order</p></div>
       </div>
       <div class="cake-card reveal-scale" data-cake-filter="Designer">
-        <div class="cake-card-image"><img src="/static/product-1.png" alt="Designer Cake" loading="lazy"><a href="https://www.instagram.com/wakecup.ind" target="_blank" class="cake-card-overlay"><span>DM to Order</span></a></div>
+        <div class="cake-card-image"><video src="/static/cake-2.mp4" autoplay muted loop playsinline preload="none" poster="/static/cake-1.jpg"></video><button class="vid-unmute" onclick="toggleMute(this)" aria-label="Unmute"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button><a href="https://www.instagram.com/wakecup.ind" target="_blank" class="cake-card-overlay"><span>DM to Order</span></a></div>
         <div class="cake-card-body"><h3>Designer Cake</h3><p class="sub">DM to Order</p></div>
       </div>
       <div class="cake-card reveal-scale" data-cake-filter="Designer">
-        <div class="cake-card-image"><img src="/static/product-2.png" alt="Special Cake" loading="lazy"><a href="https://www.instagram.com/wakecup.ind" target="_blank" class="cake-card-overlay"><span>DM to Order</span></a></div>
+        <div class="cake-card-image"><video src="/static/cake-3.mp4" autoplay muted loop playsinline preload="none" poster="/static/cake-1.jpg"></video><button class="vid-unmute" onclick="toggleMute(this)" aria-label="Unmute"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button><a href="https://www.instagram.com/wakecup.ind" target="_blank" class="cake-card-overlay"><span>DM to Order</span></a></div>
         <div class="cake-card-body"><h3>Special Cake</h3><p class="sub">DM to Order</p></div>
       </div>
       <div class="cake-card reveal-scale" data-cake-filter="Premium">
-        <div class="cake-card-image"><img src="/static/product-3.png" alt="Premium Cake" loading="lazy"><a href="https://www.instagram.com/wakecup.ind" target="_blank" class="cake-card-overlay"><span>DM to Order</span></a></div>
+        <div class="cake-card-image"><video src="/static/cake-4.mp4" autoplay muted loop playsinline preload="none" poster="/static/cake-1.jpg"></video><button class="vid-unmute" onclick="toggleMute(this)" aria-label="Unmute"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button><a href="https://www.instagram.com/wakecup.ind" target="_blank" class="cake-card-overlay"><span>DM to Order</span></a></div>
         <div class="cake-card-body"><h3>Premium Cake</h3><p class="sub">DM to Order</p></div>
       </div>
       <div class="cake-card reveal-scale" data-cake-filter="Celebration">
-        <div class="cake-card-image"><img src="/static/product-4.png" alt="Festive Cake" loading="lazy"><a href="https://www.instagram.com/wakecup.ind" target="_blank" class="cake-card-overlay"><span>DM to Order</span></a></div>
+        <div class="cake-card-image"><video src="/static/cake-5.mp4" autoplay muted loop playsinline preload="none" poster="/static/cake-1.jpg"></video><button class="vid-unmute" onclick="toggleMute(this)" aria-label="Unmute"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button><a href="https://www.instagram.com/wakecup.ind" target="_blank" class="cake-card-overlay"><span>DM to Order</span></a></div>
         <div class="cake-card-body"><h3>Festive Cake</h3><p class="sub">DM to Order</p></div>
       </div>
       <div class="cake-card reveal-scale" data-cake-filter="Artisan">
-        <div class="cake-card-image"><img src="/static/product-5.png" alt="Artisan Cake" loading="lazy"><a href="https://www.instagram.com/wakecup.ind" target="_blank" class="cake-card-overlay"><span>DM to Order</span></a></div>
+        <div class="cake-card-image"><video src="/static/cake-6.mp4" autoplay muted loop playsinline preload="none" poster="/static/cake-1.jpg"></video><button class="vid-unmute" onclick="toggleMute(this)" aria-label="Unmute"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button><a href="https://www.instagram.com/wakecup.ind" target="_blank" class="cake-card-overlay"><span>DM to Order</span></a></div>
         <div class="cake-card-body"><h3>Artisan Cake</h3><p class="sub">DM to Order</p></div>
       </div>
       <div class="cake-card reveal-scale" data-cake-filter="Artisan">
-        <div class="cake-card-image"><img src="/static/product-6.png" alt="Bespoke Cake" loading="lazy"><a href="https://www.instagram.com/wakecup.ind" target="_blank" class="cake-card-overlay"><span>DM to Order</span></a></div>
+        <div class="cake-card-image"><video src="/static/cake-8.mp4" autoplay muted loop playsinline preload="none" poster="/static/cake-1.jpg"></video><button class="vid-unmute" onclick="toggleMute(this)" aria-label="Unmute"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button><a href="https://www.instagram.com/wakecup.ind" target="_blank" class="cake-card-overlay"><span>DM to Order</span></a></div>
         <div class="cake-card-body"><h3>Bespoke Cake</h3><p class="sub">DM to Order</p></div>
       </div>
       <div class="cake-card reveal-scale" data-cake-filter="Premium">
-        <div class="cake-card-image"><img src="/static/insta-1.png" alt="Luxury Cake" loading="lazy"><a href="https://www.instagram.com/wakecup.ind" target="_blank" class="cake-card-overlay"><span>DM to Order</span></a></div>
+        <div class="cake-card-image"><video src="/static/cake-9.mp4" autoplay muted loop playsinline preload="none" poster="/static/cake-1.jpg"></video><button class="vid-unmute" onclick="toggleMute(this)" aria-label="Unmute"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button><a href="https://www.instagram.com/wakecup.ind" target="_blank" class="cake-card-overlay"><span>DM to Order</span></a></div>
         <div class="cake-card-body"><h3>Luxury Cake</h3><p class="sub">DM to Order</p></div>
       </div>
       <div class="cake-card reveal-scale" data-cake-filter="Artisan">
-        <div class="cake-card-image"><img src="/static/insta-2.png" alt="Signature Cake" loading="lazy"><a href="https://www.instagram.com/wakecup.ind" target="_blank" class="cake-card-overlay"><span>DM to Order</span></a></div>
+        <div class="cake-card-image"><video src="/static/cake-10.mp4" autoplay muted loop playsinline preload="none" poster="/static/cake-1.jpg"></video><button class="vid-unmute" onclick="toggleMute(this)" aria-label="Unmute"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button><a href="https://www.instagram.com/wakecup.ind" target="_blank" class="cake-card-overlay"><span>DM to Order</span></a></div>
         <div class="cake-card-body"><h3>Signature Cake</h3><p class="sub">DM to Order</p></div>
       </div>
     </div>
