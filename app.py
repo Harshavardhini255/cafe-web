@@ -22,6 +22,11 @@ def get_menu():
     items = MenuItem.query.filter_by(available=True).all()
     return jsonify([item.to_dict() for item in items])
 
+@app.route('/api/order/<int:order_id>', methods=['GET'])
+def get_order(order_id):
+    order = Order.query.get_or_404(order_id)
+    return jsonify(order.to_dict())
+
 @app.route('/api/order', methods=['POST'])
 def place_order():
     data = request.json

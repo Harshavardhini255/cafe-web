@@ -13,9 +13,10 @@ body { font-family:'Inter',sans-serif; background:#FAF8FF; color:#333; }
 .header a { color:rgba(255,255,255,0.8); text-decoration:none; font-size:14px; }
 .header a:hover { color:white; }
 .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px; padding:24px 32px; }
-.card { background:white; border-radius:12px; padding:20px; box-shadow:0 2px 12px rgba(0,0,0,0.04); }
+.card { background:white; border-radius:12px; padding:20px; box-shadow:0 2px 12px rgba(0,0,0,0.04); position:relative; }
 .card .num { font-size:32px; font-weight:700; color:#6C4EFF; font-family:'Playfair Display',serif; }
 .card .label { font-size:13px; color:#888; margin-top:4px; }
+.card .badge-new { position:absolute; top:-6px; right:-6px; background:#e74c3c; color:white; font-size:11px; font-weight:600; padding:2px 8px; border-radius:20px; }
 .tabs { display:flex; gap:8px; padding:0 32px; flex-wrap:wrap; }
 .tab { padding:10px 20px; border-radius:8px 8px 0 0; background:#E9DFFF; cursor:pointer; font-size:13px; font-weight:500; transition:all 0.2s; border:none; }
 .tab.active { background:white; color:#6C4EFF; font-weight:600; }
@@ -50,12 +51,12 @@ td { padding:12px 8px; border-bottom:1px solid #f0f0f0; vertical-align:top; }
 </div>
 
 <div class="grid">
-  <div class="card"><div class="num">{{ orders|length }}</div><div class="label">Total Orders</div></div>
-  <div class="card"><div class="num">{{ reservations|length }}</div><div class="label">Reservations</div></div>
+  <div class="card"><div class="num">{{ orders|length }}</div><div class="label">Total Orders</div>{% set pending_orders = orders|selectattr('status','equalto','pending')|list %}{% if pending_orders %}<span class="badge-new">{{ pending_orders|length }}</span>{% endif %}</div>
+  <div class="card"><div class="num">{{ reservations|length }}</div><div class="label">Reservations</div>{% set pending_res = reservations|selectattr('status','equalto','pending')|list %}{% if pending_res %}<span class="badge-new">{{ pending_res|length }}</span>{% endif %}</div>
   <div class="card"><div class="num">{{ menu_items|length }}</div><div class="label">Menu Items</div></div>
   <div class="card"><div class="num">{{ reviews|length }}</div><div class="label">Reviews</div></div>
   <div class="card"><div class="num">{{ subscribers|length }}</div><div class="label">Subscribers</div></div>
-  <div class="card"><div class="num">{{ contacts|length }}</div><div class="label">Messages</div></div>
+  <div class="card"><div class="num">{{ contacts|length }}</div><div class="label">Messages</div>{% set unread = contacts|selectattr('read','equalto',false)|list %}{% if unread %}<span class="badge-new">{{ unread|length }}</span>{% endif %}</div>
 </div>
 
 <div class="tabs">
@@ -69,13 +70,13 @@ td { padding:12px 8px; border-bottom:1px solid #f0f0f0; vertical-align:top; }
 
 <div id="panel-orders" class="panel active">
   <table>
-    <tr><th>#</th><th>Customer</th><th>Phone</th><th>Items</th><th>Total</th><th>Type</th><th>Status</th><th>Date</th></tr>
+    <tr><th>#</th><th>Customer</th><th>Phone</th><th>Items</th><th>Total</th><th>Type</th><th>Status</th><th>Date</th><th></th></tr>
     {% for o in orders %}
     <tr>
       <td>{{ o.id }}</td>
       <td>{{ o.customer_name }}</td>
       <td>{{ o.customer_phone }}</td>
-      <td style="font-size:12px;">{{ o.items[:100] }}{% if o.items|length > 100 %}...{% endif %}</td>
+      <td style="font-size:12px;">{{ o.items[:80] }}{% if o.items|length > 80 %}...{% endif %}</td>
       <td>₹{{ o.total }}</td>
       <td>{{ o.order_type }}</td>
       <td>
@@ -87,11 +88,30 @@ td { padding:12px 8px; border-bottom:1px solid #f0f0f0; vertical-align:top; }
         </select>
       </td>
       <td style="font-size:12px;">{{ o.created_at.strftime('%d %b, %I:%M %p') }}</td>
+      <td><button class="btn-approve" onclick="viewOrder({{ o.id }})">View</button></td>
     </tr>
     {% else %}
-    <tr><td colspan="8" class="empty">No orders yet</td></tr>
+    <tr><td colspan="9" class="empty">No orders yet</td></tr>
     {% endfor %}
   </table>
+</div>
+
+<!-- Order Detail Modal -->
+<div id="orderModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:200;align-items:center;justify-content:center;" onclick="if(event.target===this)document.getElementById('orderModal').style.display='none'">
+  <div style="background:white;border-radius:16px;padding:32px;width:520px;max-width:90vw;max-height:80vh;overflow-y:auto;">
+    <h3 style="margin-bottom:16px;">Order #<span id="orderDetailId"></span></h3>
+    <div style="font-size:14px;line-height:2;">
+      <p><strong>Customer:</strong> <span id="orderDetailName"></span></p>
+      <p><strong>Phone:</strong> <span id="orderDetailPhone"></span></p>
+      <p><strong>Type:</strong> <span id="orderDetailType"></span></p>
+      <p><strong>Notes:</strong> <span id="orderDetailNotes"></span></p>
+      <p><strong>Date:</strong> <span id="orderDetailDate"></span></p>
+      <p><strong>Total:</strong> ₹<span id="orderDetailTotal"></span></p>
+      <p><strong>Items:</strong></p>
+      <div id="orderDetailItems" style="background:#FAF8FF;border-radius:8px;padding:12px;margin-top:4px;font-size:13px;"></div>
+    </div>
+    <button onclick="document.getElementById('orderModal').style.display='none'" style="margin-top:16px;padding:10px 20px;border:none;background:#eee;border-radius:8px;cursor:pointer;">Close</button>
+  </div>
 </div>
 
 <div id="panel-reservations" class="panel">
@@ -235,6 +255,22 @@ function updateReservation(id, status) {
     method:'POST', headers:{'Content-Type':'application/json'},
     body:JSON.stringify({status:status})
   });
+}
+function viewOrder(id) {
+  fetch('/api/order/' + id)
+    .then(r => r.json())
+    .then(o => {
+      document.getElementById('orderDetailId').textContent = o.id;
+      document.getElementById('orderDetailName').textContent = o.customer_name;
+      document.getElementById('orderDetailPhone').textContent = o.customer_phone;
+      document.getElementById('orderDetailType').textContent = o.order_type;
+      document.getElementById('orderDetailNotes').textContent = o.notes || '-';
+      document.getElementById('orderDetailDate').textContent = new Date(o.created_at).toLocaleString();
+      document.getElementById('orderDetailTotal').textContent = o.total;
+      let itemsHtml = o.items.map(i => `<div style="padding:4px 0;border-bottom:1px solid rgba(0,0,0,0.04);">${i.name} × ${i.qty} — ₹${i.price || '?'}</div>`).join('');
+      document.getElementById('orderDetailItems').innerHTML = itemsHtml || '<em>No items</em>';
+      document.getElementById('orderModal').style.display = 'flex';
+    });
 }
 function approveReview(id, btn) {
   fetch('/admin/review/' + id + '/approve', {
