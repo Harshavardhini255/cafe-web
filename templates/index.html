@@ -141,7 +141,13 @@ img { max-width: 100%; display: block; }
   box-shadow: 0 20px 60px rgba(0,0,0,0.12);
   aspect-ratio: 4/5; max-height: 520px; width: 100%;
 }
-.hero-image-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.hero-image-frame img { width: 100%; height: 100%; object-fit: cover; display: block; transition: opacity 0.6s ease; }
+.hero-img-overlay { position:absolute; inset:0; background:rgba(0,0,0,0.08); transition:opacity 0.6s ease; pointer-events:none; }
+.hero-arrow { position:absolute; top:50%; transform:translateY(-50%); z-index:3; background:rgba(255,255,255,0.2); border:none; color:white; width:36px; height:36px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; opacity:0; transition:all 0.3s; backdrop-filter:blur(4px); }
+.hero-image-frame:hover .hero-arrow { opacity:1; }
+.hero-arrow:hover { background:rgba(255,255,255,0.35); }
+.hero-arrow-left { left:12px; }
+.hero-arrow-right { right:12px; }
 .hero-text { position: relative; z-index: 2; color: white; }
 .hero-text .tag {
   display: inline-flex; align-items: center; gap: 6px;
@@ -747,8 +753,11 @@ img { max-width: 100%; display: block; }
   <div class="container">
     <div class="hero-inner">
       <div class="hero-image">
-        <div class="hero-image-frame">
-          <img src="/static/classic-tiramisu.jpg" alt="Signature Classic Tiramisu" loading="lazy" decoding="async">
+        <div class="hero-image-frame" id="heroFrame">
+          <img id="heroImg" src="/static/classic-tiramisu.jpg" alt="WakeCup Cafe" fetchpriority="high" decoding="async">
+          <div class="hero-img-overlay" id="heroImgOverlay"></div>
+          <button class="hero-arrow hero-arrow-left" onclick="switchHero((heroIdx - 1 + heroImages.length) % heroImages.length)" aria-label="Previous"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg></button>
+          <button class="hero-arrow hero-arrow-right" onclick="switchHero((heroIdx + 1) % heroImages.length)" aria-label="Next"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></button>
         </div>
       </div>
       <div class="hero-text">
@@ -1432,6 +1441,36 @@ ScrollTrigger.create({
   start: 'top 80px',
   onUpdate: (self) => navbar.classList.toggle('scrolled', self.progress > 0)
 });
+
+// HERO CAROUSEL
+const heroImages = [
+  '/static/classic-tiramisu.jpg',
+  '/static/store-interior.png',
+  '/static/product-1.png',
+  '/static/herbed-rice-chicken.jpg'
+];
+let heroIdx = 0;
+let heroTimer = null;
+function switchHero(idx) {
+  heroIdx = idx;
+  const img = document.getElementById('heroImg');
+  const overlay = document.getElementById('heroImgOverlay');
+  if (overlay) overlay.style.opacity = '1';
+  setTimeout(() => {
+    img.src = heroImages[idx];
+    if (overlay) overlay.style.opacity = '0';
+  }, 300);
+  document.querySelectorAll('.hero-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+  resetHeroTimer();
+}
+function resetHeroTimer() {
+  if (heroTimer) clearInterval(heroTimer);
+  heroTimer = setInterval(() => { switchHero((heroIdx + 1) % heroImages.length); }, 5000);
+}
+document.querySelectorAll('.hero-dot').forEach(dot => {
+  dot.addEventListener('click', () => switchHero(parseInt(dot.dataset.hero)));
+});
+resetHeroTimer();
 
 // SCROLL REVEAL
 function setupReveal(selector, delay = 0) {
