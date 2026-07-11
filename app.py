@@ -182,11 +182,16 @@ def add_menu_item():
     if not session.get('admin'):
         return jsonify({'error': 'Unauthorized'}), 401
     data = request.json
+    if not data or not data.get('name'):
+        return jsonify({'error': 'Name is required'}), 400
+    price = data.get('price', 0)
+    if price is None or (isinstance(price, float) and price != price):
+        price = 0
     item = MenuItem(
         name=data['name'],
         category=data.get('category', 'Main'),
         description=data.get('description', ''),
-        price=data['price'],
+        price=price,
         image=data.get('image', 'product-1.png'),
         available=True
     )

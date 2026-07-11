@@ -315,13 +315,20 @@ function approveReview(id, btn) {
     .then(r => r.json()).then(data => { btn.textContent = data.approved ? 'Approved' : 'Approve'; btn.classList.toggle('approved'); });
 }
 function addMenuItem() {
+  const name = document.getElementById('itemName').value.trim();
+  if (!name) { alert('Item name is required'); return; }
+  const price = parseFloat(document.getElementById('itemPrice').value);
+  if (isNaN(price)) { alert('Valid price is required'); return; }
   fetch('/admin/menu/add', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({
-    name: document.getElementById('itemName').value,
-    price: parseFloat(document.getElementById('itemPrice').value),
+    name: name,
+    price: price,
     category: document.getElementById('itemCategory').value,
     image: document.getElementById('itemImage').value || 'product-1.png',
     description: document.getElementById('itemDesc').value
-  })}).then(r => r.json()).then(() => location.reload());
+  })}).then(r => r.json()).then(data => {
+    if (data.error) { alert('Error: ' + data.error); return; }
+    location.reload();
+  });
 }
 function deleteItem(id) {
   if (!confirm('Delete this item?')) return;
@@ -338,13 +345,20 @@ function editItem(id, name, price, category, image, desc) {
 }
 function closeEdit() { document.getElementById('editModal').style.display = 'none'; }
 function saveEdit() {
+  const name = document.getElementById('editName').value.trim();
+  if (!name) { alert('Item name is required'); return; }
+  const price = parseFloat(document.getElementById('editPrice').value);
+  if (isNaN(price)) { alert('Valid price is required'); return; }
   fetch('/admin/menu/' + document.getElementById('editId').value + '/edit', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({
-    name: document.getElementById('editName').value,
-    price: parseFloat(document.getElementById('editPrice').value),
+    name: name,
+    price: price,
     category: document.getElementById('editCategory').value,
     image: document.getElementById('editImage').value || 'product-1.png',
     description: document.getElementById('editDesc').value
-  })}).then(r => r.json()).then(() => location.reload());
+  })}).then(r => r.json()).then(data => {
+    if (data.error) { alert('Error: ' + data.error); return; }
+    location.reload();
+  });
 }
 </script>
 </body>
