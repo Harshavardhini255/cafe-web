@@ -3,6 +3,7 @@ import json
 from datetime import datetime
 from flask import Flask, render_template, request, jsonify, redirect, url_for, session
 from flask_cors import CORS
+from werkzeug.utils import secure_filename
 from config import Config
 from models import db, MenuItem, Order, Reservation, Review, Subscriber, ContactMessage
 
@@ -226,6 +227,37 @@ def edit_menu_item(item_id):
 def admin_logout():
     session.pop('admin', None)
     return redirect(url_for('admin_login'))
+
+ALLOWED_EXTENSIONS = {'png','jpg','jpeg','gif','webp','mp4'}
+def allowed_file(name):
+    return '.' in name and name.rsplit('.',1)[1].lower() in ALLOWED_EXTENSIONS
+
+@app.route('/admin/images', methods=['GET'])
+def list_images():
+    if not session.get('admin'):
+        return jsonify({'error': 'Unauthorized'}), 401
+    static_dir = os.path.join(app.root_path, 'static')
+    files = []
+    for f in os.listdir(static_dir):
+        if allowed_file(f):
+            files.append(f)
+    return jsonify(sorted(files))
+
+@app.route('/admin/upload', methods=['POST'])
+def upload_image():
+    if not session.get('admin'):
+        return jsonify({'error': 'Unauthorized'}), 401
+    if 'file' not in request.files:
+        return jsonify({'error': 'No file provided'}), 400
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({'error': 'No file selected'}), 400
+    if not allowed_file(file.filename):
+        return jsonify({'error': 'Allowed: png, jpg, jpeg, gif, webp, mp4'}), 400
+    filename = secure_filename(file.filename)
+    static_dir = os.path.join(app.root_path, 'static')
+    file.save(os.path.join(static_dir, filename))
+    return jsonify({'success': True, 'filename': filename})
 
 _init_done = False
 

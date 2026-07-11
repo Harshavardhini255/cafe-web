@@ -131,8 +131,14 @@ td { padding:12px 8px; border-bottom:1px solid #FFF5F8; vertical-align:top; font
     <input id="itemName" placeholder="Item name" required>
     <input id="itemPrice" placeholder="Price (₹)" type="number" required>
     <input id="itemCategory" placeholder="Category (e.g. Sandwich)" required>
-    <input id="itemImage" placeholder="Image filename (e.g. product-2.png)">
-    <textarea id="itemDesc" placeholder="Description" rows="2" style="width:300px;"></textarea>
+    <div style="display:flex;gap:8px;align-items:center;width:100%;">
+      <select id="itemImageSelect" style="flex:1;padding:10px 12px;border:1px solid #FCDAE6;border-radius:8px;font-size:13px;outline:none;font-family:'Inter',sans-serif;" onchange="document.getElementById('itemImage').value=this.value">
+        <option value="">— Pick image —</option>
+      </select>
+      <input id="itemImage" placeholder="Or type filename" style="flex:1;padding:10px 12px;border:1px solid #FCDAE6;border-radius:8px;font-size:13px;outline:none;">
+      <label style="padding:10px 16px;background:#FCDAE6;color:#2D1B2E;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;white-space:nowrap;">Upload<input type="file" accept="image/*,video/mp4" style="display:none;" onchange="uploadImage(this, 'itemImage', 'itemImageSelect')"></label>
+    </div>
+    <textarea id="itemDesc" placeholder="Description" rows="2" style="width:100%;"></textarea>
     <button onclick="addMenuItem()">Add Item</button>
   </div>
   <div class="table-wrap">
@@ -254,7 +260,13 @@ td { padding:12px 8px; border-bottom:1px solid #FFF5F8; vertical-align:top; font
       <input id="editName" placeholder="Name" style="padding:10px 12px;border:1px solid #FCDAE6;border-radius:8px;font-size:13px;outline:none;">
       <input id="editPrice" placeholder="Price" type="number" style="padding:10px 12px;border:1px solid #FCDAE6;border-radius:8px;font-size:13px;outline:none;">
       <input id="editCategory" placeholder="Category" style="padding:10px 12px;border:1px solid #FCDAE6;border-radius:8px;font-size:13px;outline:none;">
-      <input id="editImage" placeholder="Image filename" style="padding:10px 12px;border:1px solid #FCDAE6;border-radius:8px;font-size:13px;outline:none;">
+      <div style="display:flex;gap:8px;align-items:center;">
+        <select id="editImageSelect" style="flex:1;padding:10px 12px;border:1px solid #FCDAE6;border-radius:8px;font-size:13px;outline:none;font-family:'Inter',sans-serif;" onchange="document.getElementById('editImage').value=this.value">
+          <option value="">— Pick image —</option>
+        </select>
+        <input id="editImage" placeholder="Or type filename" style="flex:1;padding:10px 12px;border:1px solid #FCDAE6;border-radius:8px;font-size:13px;outline:none;">
+        <label style="padding:10px 16px;background:#FCDAE6;color:#2D1B2E;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;white-space:nowrap;">Upload<input type="file" accept="image/*,video/mp4" style="display:none;" onchange="uploadImage(this, 'editImage', 'editImageSelect')"></label>
+      </div>
       <textarea id="editDesc" placeholder="Description" rows="2" style="padding:10px 12px;border:1px solid #FCDAE6;border-radius:8px;font-size:13px;outline:none;font-family:'Inter',sans-serif;"></textarea>
       <div style="display:flex;gap:8px;margin-top:8px;">
         <button onclick="saveEdit()" style="flex:1;padding:10px;background:#F4A7BB;color:white;border:none;border-radius:8px;cursor:pointer;">Save</button>
@@ -314,6 +326,42 @@ function approveReview(id, btn) {
   fetch('/admin/review/' + id + '/approve', { method:'POST', headers:{'Content-Type':'application/json'} })
     .then(r => r.json()).then(data => { btn.textContent = data.approved ? 'Approved' : 'Approve'; btn.classList.toggle('approved'); });
 }
+// IMAGE PICKER — load available images
+function loadImagePicker() {
+  fetch('/admin/images').then(r => r.json()).then(files => {
+    ['itemImageSelect','editImageSelect'].forEach(id => {
+      const sel = document.getElementById(id);
+      if (!sel) return;
+      sel.innerHTML = '<option value="">— Pick image —</option>';
+      files.forEach(f => {
+        const opt = document.createElement('option');
+        opt.value = f; opt.textContent = f;
+        sel.appendChild(opt);
+      });
+    });
+  }).catch(() => {});
+}
+// IMAGE UPLOAD
+function uploadImage(input, inputId, selectId) {
+  const file = input.files[0];
+  if (!file) return;
+  const form = new FormData();
+  form.append('file', file);
+  fetch('/admin/upload', { method:'POST', body:form })
+    .then(r => r.json())
+    .then(data => {
+      if (data.error) { alert('Upload error: ' + data.error); return; }
+      document.getElementById(inputId).value = data.filename;
+      const sel = document.getElementById(selectId);
+      if (sel) {
+        const opt = document.createElement('option');
+        opt.value = data.filename; opt.textContent = data.filename; opt.selected = true;
+        sel.prepend(opt);
+      }
+    }).catch(() => alert('Upload failed'));
+}
+loadImagePicker();
+
 function addMenuItem() {
   const name = document.getElementById('itemName').value.trim();
   if (!name) { alert('Item name is required'); return; }
@@ -340,6 +388,7 @@ function editItem(id, name, price, category, image, desc) {
   document.getElementById('editPrice').value = price;
   document.getElementById('editCategory').value = category;
   document.getElementById('editImage').value = image;
+  if (document.getElementById('editImageSelect')) document.getElementById('editImageSelect').value = image;
   document.getElementById('editDesc').value = desc;
   document.getElementById('editModal').style.display = 'flex';
 }
