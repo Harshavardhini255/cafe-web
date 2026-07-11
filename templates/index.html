@@ -582,6 +582,48 @@ img { max-width: 100%; display: block; }
 @media (max-width:768px) { .reservation-grid { grid-template-columns:1fr; gap:24px; } .cart-sidebar { width:100%; max-width:100vw; } .checkout-box { padding:24px; } .checkout-form .form-row { flex-direction:column; gap:8px; } }
 @media (max-width:480px) { .cart-sidebar { border-radius:16px 16px 0 0; } }
 
+/* CONFIRMATION MODAL */
+.confirm-modal { position:fixed; inset:0; z-index:10001; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity 0.3s; }
+.confirm-modal.open { opacity:1; pointer-events:auto; }
+.confirm-modal .overlay { position:absolute; inset:0; background:rgba(0,0,0,0.4); }
+.confirm-box { position:relative; background:var(--card); border-radius:20px; padding:40px; width:380px; max-width:90vw; text-align:center; box-shadow:0 20px 60px rgba(0,0,0,0.15); }
+.confirm-box .icon { width:56px; height:56px; border-radius:50%; background:#D4F5E9; display:flex; align-items:center; justify-content:center; margin:0 auto 16px; }
+.confirm-box .icon svg { stroke:#1a8a5c; }
+.confirm-box h3 { font-size:20px; margin-bottom:4px; }
+.confirm-box p { font-size:14px; color:var(--body); opacity:0.6; margin-bottom:8px; }
+.confirm-box .id { font-size:13px; color:var(--primary); font-weight:600; margin-bottom:20px; }
+.confirm-box .btn { margin-top:8px; }
+
+/* LOADING SKELETON */
+.skeleton { background:linear-gradient(90deg,#f0f0f0 25%,#e8e8e8 50%,#f0f0f0 75%); background-size:200% 100%; animation:shimmer 1.5s infinite; border-radius:8px; }
+@keyframes shimmer { 0% { background-position:200% 0; } 100% { background-position:-200% 0; } }
+.menu-grid.loading .menu-card { display:none; }
+.skeleton-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
+.skeleton-card { background:var(--card); border-radius:16px; overflow:hidden; border:1px solid rgba(0,0,0,0.04); }
+.skeleton-card .sk-img { aspect-ratio:1/1; }
+.skeleton-card .sk-body { padding:14px 16px 18px; }
+.skeleton-card .sk-line { height:14px; margin-bottom:8px; width:70%; }
+.skeleton-card .sk-line.short { width:40%; }
+@media (max-width:900px) { .skeleton-grid { grid-template-columns:repeat(3,1fr); } }
+@media (max-width:600px) { .skeleton-grid { grid-template-columns:repeat(2,1fr); gap:12px; } }
+
+/* FORM VALIDATION */
+.form-error { border-color:#e74c3c !important; background:#FFF5F5; }
+.form-error-msg { font-size:12px; color:#e74c3c; margin-top:-4px; display:none; }
+.form-error-msg.show { display:block; }
+
+/* INSTAGRAM DM FLOATING BUTTON */
+.ig-dm-btn {
+  position:fixed; bottom:86px; right:24px; z-index:997;
+  width:52px; height:52px; border-radius:50%;
+  background:linear-gradient(135deg,#833AB4,#FD1D1D,#FCAF45); color:white; border:none; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 4px 20px rgba(131,58,180,0.3);
+  transition:all 0.3s ease; text-decoration:none;
+}
+.ig-dm-btn:hover { transform:scale(1.1); box-shadow:0 6px 25px rgba(131,58,180,0.4); }
+@media (max-width:767px) { .ig-dm-btn { bottom:140px; right:16px; width:46px; height:46px; } }
+
 /* STICKY DM BAR (mobile) */
 .dm-bar {
   position: fixed; bottom: 0; left: 0; right: 0; z-index: 999;
@@ -771,7 +813,17 @@ img { max-width: 100%; display: block; }
       <button class="menu-filter-btn" data-filter="Dessert">Desserts</button>
       <button class="menu-filter-btn" data-filter="Beverage">Beverages</button>
     </div>
-    <div class="menu-grid" id="productGrid">
+    <div class="skeleton-grid" id="menuSkeleton">
+      <div class="skeleton-card"><div class="skeleton sk-img"></div><div class="sk-body"><div class="skeleton sk-line"></div><div class="skeleton sk-line short"></div></div></div>
+      <div class="skeleton-card"><div class="skeleton sk-img"></div><div class="sk-body"><div class="skeleton sk-line"></div><div class="skeleton sk-line short"></div></div></div>
+      <div class="skeleton-card"><div class="skeleton sk-img"></div><div class="sk-body"><div class="skeleton sk-line"></div><div class="skeleton sk-line short"></div></div></div>
+      <div class="skeleton-card"><div class="skeleton sk-img"></div><div class="sk-body"><div class="skeleton sk-line"></div><div class="skeleton sk-line short"></div></div></div>
+      <div class="skeleton-card"><div class="skeleton sk-img"></div><div class="sk-body"><div class="skeleton sk-line"></div><div class="skeleton sk-line short"></div></div></div>
+      <div class="skeleton-card"><div class="skeleton sk-img"></div><div class="sk-body"><div class="skeleton sk-line"></div><div class="skeleton sk-line short"></div></div></div>
+      <div class="skeleton-card"><div class="skeleton sk-img"></div><div class="sk-body"><div class="skeleton sk-line"></div><div class="skeleton sk-line short"></div></div></div>
+      <div class="skeleton-card"><div class="skeleton sk-img"></div><div class="sk-body"><div class="skeleton sk-line"></div><div class="skeleton sk-line short"></div></div></div>
+    </div>
+    <div class="menu-grid" id="productGrid" style="display:none;">
       {% for item in menu_items %}
       <div class="menu-card reveal-scale" data-category="{{ item.category }}">
         <div class="menu-card-img">
@@ -1212,8 +1264,8 @@ img { max-width: 100%; display: block; }
     <p class="sub">We'll DM you on Instagram to confirm.</p>
     <form class="checkout-form" id="checkoutForm" onsubmit="placeOrder(event)">
       <div class="form-row">
-        <input type="text" id="orderName" placeholder="Your Name" required>
-        <input type="tel" id="orderPhone" placeholder="Phone Number" required>
+        <div style="flex:1;"><input type="text" id="orderName" placeholder="Your Name" required><span class="form-error-msg">Name is required</span></div>
+        <div style="flex:1;"><input type="tel" id="orderPhone" placeholder="Phone Number" required><span class="form-error-msg">Phone is required</span></div>
       </div>
       <select id="orderType">
         <option value="takeaway">Takeaway</option>
@@ -1227,15 +1279,28 @@ img { max-width: 100%; display: block; }
   </div>
 </div>
 
+<!-- CONFIRMATION MODAL -->
+<div class="confirm-modal" id="confirmModal">
+  <div class="overlay" onclick="closeConfirm()"></div>
+  <div class="confirm-box">
+    <div class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+    <h3 id="confirmTitle">Order Placed!</h3>
+    <p id="confirmMsg">We'll DM you on Instagram to confirm your order.</p>
+    <div class="id" id="confirmId"></div>
+    <a href="https://www.instagram.com/wakecup.ind" target="_blank" class="btn btn-primary" style="margin-top:8px;">DM @wakecup.ind</a>
+    <button onclick="closeConfirm()" class="btn btn-outline btn-sm" style="margin-top:8px;width:100%;">Done</button>
+  </div>
+</div>
+
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox" onclick="this.classList.remove('open')">
   <button class="lightbox-close" onclick="document.getElementById('lightbox').classList.remove('open')">&times;</button>
   <img class="lightbox-img" id="lightboxImg" src="" alt="">
 </div>
 
-<!-- WHATSAPP -->
-<a class="whatsapp-btn" href="https://wa.me/919999999999?text=Hi%20WakeCup!%20I%20want%20to%20order" target="_blank" aria-label="WhatsApp">
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+<!-- INSTAGRAM DM FLOATING BUTTON -->
+<a class="ig-dm-btn" href="https://www.instagram.com/wakecup.ind" target="_blank" aria-label="DM on Instagram">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5"/></svg>
 </a>
 
 <!-- BACK TO TOP -->
@@ -1313,6 +1378,11 @@ img { max-width: 100%; display: block; }
 // PAGE LOADER
 window.addEventListener('load', () => {
   setTimeout(() => document.getElementById('pageLoader')?.classList.add('hidden'), 300);
+  setTimeout(() => {
+    const sk = document.getElementById('menuSkeleton');
+    const grid = document.getElementById('productGrid');
+    if (sk && grid) { sk.style.display = 'none'; grid.style.display = ''; }
+  }, 500);
 });
 
 // LENIS
@@ -1622,8 +1692,43 @@ function openCheckout() {
   document.getElementById('checkoutModal').classList.add('open');
 }
 function closeCheckout() { document.getElementById('checkoutModal').classList.remove('open'); }
+function showConfirm(title, msg, id) {
+  document.getElementById('confirmTitle').textContent = title;
+  document.getElementById('confirmMsg').textContent = msg;
+  document.getElementById('confirmId').textContent = id;
+  document.getElementById('confirmModal').classList.add('open');
+}
+function closeConfirm() { document.getElementById('confirmModal').classList.remove('open'); }
+
+// FORM VALIDATION
+function validateField(el) {
+  const err = el.parentElement?.querySelector('.form-error-msg');
+  if (!el.checkValidity()) {
+    el.classList.add('form-error');
+    if (err) err.classList.add('show');
+    return false;
+  }
+  el.classList.remove('form-error');
+  if (err) err.classList.remove('show');
+  return true;
+}
+document.querySelectorAll('.checkout-form input[required], .checkout-form select[required], .reservation-form input[required], .reservation-form select[required]').forEach(el => {
+  el.addEventListener('blur', () => validateField(el));
+  el.addEventListener('input', () => { if (el.classList.contains('form-error')) validateField(el); });
+});
+// Set min date for reservation date picker
+const resDate = document.getElementById('resDate');
+if (resDate) {
+  const today = new Date();
+  resDate.min = today.toISOString().split('T')[0];
+}
+
 async function placeOrder(e) {
   e.preventDefault();
+  const form = e.target;
+  let valid = true;
+  form.querySelectorAll('input[required], select[required]').forEach(el => { if (!validateField(el)) valid = false; });
+  if (!valid) return;
   const btn = e.target.querySelector('button');
   const status = document.getElementById('orderStatus');
   btn.disabled = true; btn.textContent = 'Placing Order...';
@@ -1643,6 +1748,8 @@ async function placeOrder(e) {
     status.textContent = data.message;
     status.style.color = 'green';
     cart = []; updateCart(); closeCheckout();
+    if (data.order_id) showConfirm('Order Placed!', data.message, 'Order #' + data.order_id);
+    else showConfirm('Order Placed!', data.message, '');
     setTimeout(() => { status.textContent = ''; }, 4000);
   } catch(e) { status.textContent = 'Error placing order'; status.style.color = 'red'; }
   btn.disabled = false; btn.textContent = 'Place Order';
@@ -1650,6 +1757,9 @@ async function placeOrder(e) {
 // RESERVATION FORM
 document.getElementById('reservationForm')?.addEventListener('submit', async function(e) {
   e.preventDefault();
+  let valid = true;
+  this.querySelectorAll('input[required], select[required]').forEach(el => { if (!validateField(el)) valid = false; });
+  if (!valid) return;
   const btn = this.querySelector('button');
   const status = document.getElementById('resStatus');
   btn.disabled = true; btn.textContent = 'Submitting...';
@@ -1670,6 +1780,8 @@ document.getElementById('reservationForm')?.addEventListener('submit', async fun
     status.textContent = data.message;
     status.style.color = 'green';
     this.reset();
+    if (data.reservation_id) showConfirm('Reservation Booked!', data.message, 'Reservation #' + data.reservation_id);
+    else showConfirm('Reservation Booked!', data.message, '');
     setTimeout(() => { status.textContent = ''; }, 5000);
   } catch(e) { status.textContent = 'Error submitting reservation'; status.style.color = 'red'; }
   btn.disabled = false; btn.textContent = 'Request Reservation';

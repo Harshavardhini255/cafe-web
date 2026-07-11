@@ -45,6 +45,11 @@ def place_order():
     db.session.commit()
     return jsonify({'success': True, 'order_id': order.id, 'message': 'Order placed! We\'ll DM you shortly.'})
 
+@app.route('/api/reserve/<int:res_id>', methods=['GET'])
+def get_reservation(res_id):
+    res = Reservation.query.get_or_404(res_id)
+    return jsonify(res.to_dict())
+
 @app.route('/api/reserve', methods=['POST'])
 def make_reservation():
     data = request.json
