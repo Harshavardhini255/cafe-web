@@ -137,12 +137,13 @@ td { padding:12px 8px; border-bottom:1px solid #FFF5F8; vertical-align:top; font
     <input id="itemPrice" placeholder="Price (₹)" type="number" required>
     <input id="itemCategory" placeholder="Category (e.g. Sandwich)" required>
     <div style="display:flex;gap:8px;align-items:center;width:100%;">
-      <select id="itemImageSelect" style="flex:1;padding:10px 12px;border:1px solid #FCDAE6;border-radius:8px;font-size:13px;outline:none;font-family:'Inter',sans-serif;" onchange="document.getElementById('itemImage').value=this.value">
+      <select id="itemImageSelect" style="flex:1;padding:10px 12px;border:1px solid #FCDAE6;border-radius:8px;font-size:13px;outline:none;font-family:'Inter',sans-serif;" onchange="document.getElementById('itemImage').value=this.value;previewItemImg()">
         <option value="">— Pick image —</option>
       </select>
-      <input id="itemImage" placeholder="Or type filename" style="flex:1;padding:10px 12px;border:1px solid #FCDAE6;border-radius:8px;font-size:13px;outline:none;">
+      <input id="itemImage" placeholder="Or type filename" style="flex:1;padding:10px 12px;border:1px solid #FCDAE6;border-radius:8px;font-size:13px;outline:none;" oninput="previewItemImg()">
       <label style="padding:10px 16px;background:#FCDAE6;color:#2D1B2E;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;white-space:nowrap;">Upload<input type="file" accept="image/*,video/mp4" style="display:none;" onchange="uploadImage(this, 'itemImage', 'itemImageSelect')"></label>
     </div>
+    <div style="margin-top:8px;"><img id="itemImagePreview" src="" style="max-width:120px;max-height:80px;border-radius:8px;display:none;object-fit:cover;"></div>
     <textarea id="itemDesc" placeholder="Description" rows="2" style="width:100%;"></textarea>
     <button onclick="addMenuItem()">Add Item</button>
   </div>
@@ -152,7 +153,7 @@ td { padding:12px 8px; border-bottom:1px solid #FFF5F8; vertical-align:top; font
     {% for m in menu_items %}
     <tr>
       <td>{{ m.id }}</td>
-      <td style="font-size:11px;">{{ m.image }}</td>
+      <td style="font-size:11px;display:flex;align-items:center;gap:6px;"><img src="/uploads/{{ m.image }}" style="width:36px;height:36px;border-radius:6px;object-fit:cover;" onerror="this.style.display='none'"> {{ m.image }}</td>
       <td>{{ m.name }}</td>
       <td>{{ m.category }}</td>
       <td>{{ order_counts.get(m.name, 0) }}</td>
@@ -268,12 +269,13 @@ td { padding:12px 8px; border-bottom:1px solid #FFF5F8; vertical-align:top; font
       <input id="editPrice" placeholder="Price" type="number" style="padding:10px 12px;border:1px solid #FCDAE6;border-radius:8px;font-size:13px;outline:none;">
       <input id="editCategory" placeholder="Category" style="padding:10px 12px;border:1px solid #FCDAE6;border-radius:8px;font-size:13px;outline:none;">
       <div style="display:flex;gap:8px;align-items:center;">
-        <select id="editImageSelect" style="flex:1;padding:10px 12px;border:1px solid #FCDAE6;border-radius:8px;font-size:13px;outline:none;font-family:'Inter',sans-serif;" onchange="document.getElementById('editImage').value=this.value">
+        <select id="editImageSelect" style="flex:1;padding:10px 12px;border:1px solid #FCDAE6;border-radius:8px;font-size:13px;outline:none;font-family:'Inter',sans-serif;" onchange="document.getElementById('editImage').value=this.value;previewEditImg()">
           <option value="">— Pick image —</option>
         </select>
-        <input id="editImage" placeholder="Or type filename" style="flex:1;padding:10px 12px;border:1px solid #FCDAE6;border-radius:8px;font-size:13px;outline:none;">
+        <input id="editImage" placeholder="Or type filename" style="flex:1;padding:10px 12px;border:1px solid #FCDAE6;border-radius:8px;font-size:13px;outline:none;" oninput="previewEditImg()">
         <label style="padding:10px 16px;background:#FCDAE6;color:#2D1B2E;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;white-space:nowrap;">Upload<input type="file" accept="image/*,video/mp4" style="display:none;" onchange="uploadImage(this, 'editImage', 'editImageSelect')"></label>
       </div>
+      <div style="margin-top:8px;"><img id="editImagePreview" src="" style="max-width:120px;max-height:80px;border-radius:8px;display:none;object-fit:cover;"></div>
       <textarea id="editDesc" placeholder="Description" rows="2" style="padding:10px 12px;border:1px solid #FCDAE6;border-radius:8px;font-size:13px;outline:none;font-family:'Inter',sans-serif;"></textarea>
       <div style="display:flex;gap:8px;margin-top:8px;">
         <button onclick="saveEdit()" style="flex:1;padding:10px;background:#F4A7BB;color:white;border:none;border-radius:8px;cursor:pointer;">Save</button>
@@ -377,6 +379,18 @@ function uploadImage(input, inputId, selectId) {
 }
 loadImagePicker();
 
+function previewItemImg() {
+  const v = document.getElementById('itemImage').value;
+  const p = document.getElementById('itemImagePreview');
+  if (v) { p.src = '/uploads/' + v; p.style.display = 'block'; }
+  else { p.style.display = 'none'; }
+}
+function previewEditImg() {
+  const v = document.getElementById('editImage').value;
+  const p = document.getElementById('editImagePreview');
+  if (v) { p.src = '/uploads/' + v; p.style.display = 'block'; }
+  else { p.style.display = 'none'; }
+}
 function addMenuItem() {
   const name = document.getElementById('itemName').value.trim();
   if (!name) { alert('Item name is required'); return; }
@@ -405,6 +419,7 @@ function editItem(id, name, price, category, image, desc) {
   document.getElementById('editImage').value = image;
   if (document.getElementById('editImageSelect')) document.getElementById('editImageSelect').value = image;
   document.getElementById('editDesc').value = desc;
+  previewEditImg();
   document.getElementById('editModal').style.display = 'flex';
 }
 function closeEdit() { document.getElementById('editModal').style.display = 'none'; }
