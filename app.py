@@ -185,6 +185,20 @@ def delete_menu_item(item_id):
     db.session.commit()
     return jsonify({'success': True})
 
+@app.route('/admin/menu/<int:item_id>/edit', methods=['POST'])
+def edit_menu_item(item_id):
+    if not session.get('admin'):
+        return jsonify({'error': 'Unauthorized'}), 401
+    item = MenuItem.query.get_or_404(item_id)
+    data = request.json
+    item.name = data.get('name', item.name)
+    item.price = data.get('price', item.price)
+    item.category = data.get('category', item.category)
+    item.image = data.get('image', item.image)
+    item.description = data.get('description', item.description)
+    db.session.commit()
+    return jsonify({'success': True, 'item': item.to_dict()})
+
 @app.route('/admin/logout')
 def admin_logout():
     session.pop('admin', None)

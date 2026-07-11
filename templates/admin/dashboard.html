@@ -131,6 +131,24 @@ td { padding:12px 8px; border-bottom:1px solid #f0f0f0; vertical-align:top; }
     <textarea id="itemDesc" placeholder="Description" rows="2" style="width:300px;"></textarea>
     <button onclick="addMenuItem()">Add Item</button>
   </div>
+  <!-- Edit Modal -->
+  <div id="editModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:200;align-items:center;justify-content:center;" onclick="if(event.target===this)closeEdit()">
+    <div style="background:white;border-radius:16px;padding:32px;width:420px;max-width:90vw;">
+      <h3 style="margin-bottom:16px;">Edit Menu Item</h3>
+      <input id="editId" type="hidden">
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <input id="editName" placeholder="Name" style="padding:10px 12px;border:1px solid #E9DFFF;border-radius:8px;font-size:13px;outline:none;">
+        <input id="editPrice" placeholder="Price" type="number" style="padding:10px 12px;border:1px solid #E9DFFF;border-radius:8px;font-size:13px;outline:none;">
+        <input id="editCategory" placeholder="Category" style="padding:10px 12px;border:1px solid #E9DFFF;border-radius:8px;font-size:13px;outline:none;">
+        <input id="editImage" placeholder="Image filename" style="padding:10px 12px;border:1px solid #E9DFFF;border-radius:8px;font-size:13px;outline:none;">
+        <textarea id="editDesc" placeholder="Description" rows="2" style="padding:10px 12px;border:1px solid #E9DFFF;border-radius:8px;font-size:13px;outline:none;font-family:'Inter',sans-serif;"></textarea>
+        <div style="display:flex;gap:8px;margin-top:8px;">
+          <button onclick="saveEdit()" style="flex:1;padding:10px;background:#6C4EFF;color:white;border:none;border-radius:8px;cursor:pointer;">Save</button>
+          <button onclick="closeEdit()" style="flex:1;padding:10px;background:#eee;border:none;border-radius:8px;cursor:pointer;">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <table>
     <tr><th>#</th><th>Image</th><th>Name</th><th>Price</th><th>Category</th><th>Available</th><th></th></tr>
     {% for m in menu_items %}
@@ -141,7 +159,10 @@ td { padding:12px 8px; border-bottom:1px solid #f0f0f0; vertical-align:top; }
       <td>₹{{ m.price }}</td>
       <td>{{ m.category }}</td>
       <td>{{ '✓' if m.available else '✗' }}</td>
-      <td><button class="btn-approve" onclick="deleteItem({{ m.id }})">Delete</button></td>
+      <td style="display:flex;gap:4px;">
+        <button class="btn-approve" onclick="editItem({{ m.id }},'{{ m.name }}',{{ m.price }},'{{ m.category }}','{{ m.image }}','{{ m.description or '' }}')">Edit</button>
+        <button class="btn-approve" style="background:#e74c3c;" onclick="deleteItem({{ m.id }})">Delete</button>
+      </td>
     </tr>
     {% else %}
     <tr><td colspan="7" class="empty">Menu is empty</td></tr>
@@ -240,6 +261,30 @@ function deleteItem(id) {
   if (!confirm('Delete this item?')) return;
   fetch('/admin/menu/' + id, { method:'DELETE' })
     .then(r => r.json()).then(() => location.reload());
+}
+function editItem(id, name, price, category, image, desc) {
+  document.getElementById('editId').value = id;
+  document.getElementById('editName').value = name;
+  document.getElementById('editPrice').value = price;
+  document.getElementById('editCategory').value = category;
+  document.getElementById('editImage').value = image;
+  document.getElementById('editDesc').value = desc;
+  document.getElementById('editModal').style.display = 'flex';
+}
+function closeEdit() { document.getElementById('editModal').style.display = 'none'; }
+function saveEdit() {
+  const id = document.getElementById('editId').value;
+  const data = {
+    name: document.getElementById('editName').value,
+    price: parseFloat(document.getElementById('editPrice').value),
+    category: document.getElementById('editCategory').value,
+    image: document.getElementById('editImage').value || 'product-1.png',
+    description: document.getElementById('editDesc').value
+  };
+  fetch('/admin/menu/' + id + '/edit', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(data)
+  }).then(r => r.json()).then(() => location.reload());
 }
 </script>
 </body>
