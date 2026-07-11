@@ -235,24 +235,24 @@ def init_db():
     if _init_done:
         return
     db.create_all()
-    if not MenuItem.query.filter_by(name='Classic Tiramisu').first():
-        MenuItem.query.delete()
-        db.session.commit()
-        items = [
-            MenuItem(name='Chicken Marinara Sandwich', category='Sandwich', description='Slow-simmered in our in-house marinara, juicy chicken & melted cheese — just how it should be.', price=200, image='chicken-marinara.jpg'),
-            MenuItem(name='Golden Crunch Chicken Burger', category='Burger', description='Crispy golden chicken burger with premium toppings.', price=220, image='golden-crunch-burger.jpg'),
-            MenuItem(name='Butterfly Chicken Bites', category='Snack', description='Crispy butterfly-cut chicken bites — golden, crunchy & perfect for sharing!', price=180, image='potato-chicken-skewers.jpg'),
-            MenuItem(name='Bread Pudding', category='Dessert', description='Warm, soft bread pudding baked to perfection — comfort in every bite.', price=0, image='bread-pudding.jpg'),
-            MenuItem(name='Buttery Herbed Rice with Spicy Honey Glazed Chicken', category='Main', description='Hot, buttery herbed rice served with juicy, flavourful spicy honey glazed chicken — so comforting yet filling.', price=250, image='herbed-rice-chicken.jpg'),
-            MenuItem(name='Classic Tiramisu', category='Dessert', description='Coffee, cream, cocoa — layers of perfection.', price=250, image='classic-tiramisu.jpg'),
-            MenuItem(name='Pistachio Tiramisu', category='Dessert', description='Layers of love & pistachio — a nutty twist on the classic.', price=280, image='pistachio-tiramisu.jpg'),
-            MenuItem(name='Choco Hazelnut Tiramisu', category='Dessert', description='Rich chocolate & hazelnut layered tiramisu.', price=280, image='choco-hazelnut-tiramisu.jpg'),
-            MenuItem(name='Mini Blueberry Bliss', category='Dessert', description='Delightful mini blueberry dessert — sweet & tangy.', price=200, image='mini-blueberry-bliss.jpg'),
-            MenuItem(name='Caramel Crunch', category='Dessert', description='Irresistible caramel crunch dessert.', price=220, image='caramel-crunch.jpg'),
-            MenuItem(name='Classic Affogato', category='Beverage', description='Espresso poured over vanilla ice cream — a classic Italian finish.', price=180, image='classic-affogato.jpg'),
-            MenuItem(name='Cold Kaapi Scoop', category='Beverage', description='Refreshing cold coffee scoop — perfect pick-me-up.', price=160, image='cold-kaapi-scoop.jpg'),
-        ]
-        db.session.add_all(items)
+    existing_names = {item.name for item in MenuItem.query.with_entities(MenuItem.name).all()}
+    seeds = [
+        MenuItem(name='Chicken Marinara Sandwich', category='Sandwich', description='Slow-simmered in our in-house marinara, juicy chicken & melted cheese — just how it should be.', price=200, image='chicken-marinara.jpg'),
+        MenuItem(name='Golden Crunch Chicken Burger', category='Burger', description='Crispy golden chicken burger with premium toppings.', price=220, image='golden-crunch-burger.jpg'),
+        MenuItem(name='Butterfly Chicken Bites', category='Snack', description='Crispy butterfly-cut chicken bites — golden, crunchy & perfect for sharing!', price=180, image='potato-chicken-skewers.jpg'),
+        MenuItem(name='Bread Pudding', category='Dessert', description='Warm, soft bread pudding baked to perfection — comfort in every bite.', price=0, image='bread-pudding.jpg'),
+        MenuItem(name='Buttery Herbed Rice with Spicy Honey Glazed Chicken', category='Main', description='Hot, buttery herbed rice served with juicy, flavourful spicy honey glazed chicken — so comforting yet filling.', price=250, image='herbed-rice-chicken.jpg'),
+        MenuItem(name='Classic Tiramisu', category='Dessert', description='Coffee, cream, cocoa — layers of perfection.', price=250, image='classic-tiramisu.jpg'),
+        MenuItem(name='Pistachio Tiramisu', category='Dessert', description='Layers of love & pistachio — a nutty twist on the classic.', price=280, image='pistachio-tiramisu.jpg'),
+        MenuItem(name='Choco Hazelnut Tiramisu', category='Dessert', description='Rich chocolate & hazelnut layered tiramisu.', price=280, image='choco-hazelnut-tiramisu.jpg'),
+        MenuItem(name='Mini Blueberry Bliss', category='Dessert', description='Delightful mini blueberry dessert — sweet & tangy.', price=200, image='mini-blueberry-bliss.jpg'),
+        MenuItem(name='Caramel Crunch', category='Dessert', description='Irresistible caramel crunch dessert.', price=220, image='caramel-crunch.jpg'),
+        MenuItem(name='Classic Affogato', category='Beverage', description='Espresso poured over vanilla ice cream — a classic Italian finish.', price=180, image='classic-affogato.jpg'),
+        MenuItem(name='Cold Kaapi Scoop', category='Beverage', description='Refreshing cold coffee scoop — perfect pick-me-up.', price=160, image='cold-kaapi-scoop.jpg'),
+    ]
+    new_items = [s for s in seeds if s.name not in existing_names]
+    if new_items:
+        db.session.add_all(new_items)
         db.session.commit()
     _init_done = True
 
