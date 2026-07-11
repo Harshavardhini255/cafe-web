@@ -45,6 +45,14 @@ def place_order():
     db.session.commit()
     return jsonify({'success': True, 'order_id': order.id, 'message': 'Order placed! We\'ll DM you shortly.'})
 
+@app.route('/api/order/lookup', methods=['GET'])
+def order_lookup():
+    phone = request.args.get('phone', '').strip()
+    if not phone:
+        return jsonify({'error': 'Phone number required'}), 400
+    orders = Order.query.filter_by(customer_phone=phone).order_by(Order.created_at.desc()).limit(5).all()
+    return jsonify([o.to_dict() for o in orders])
+
 @app.route('/api/reserve/<int:res_id>', methods=['GET'])
 def get_reservation(res_id):
     res = Reservation.query.get_or_404(res_id)

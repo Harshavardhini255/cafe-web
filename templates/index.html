@@ -128,7 +128,7 @@ img { max-width: 100%; display: block; }
 .hero {
   position: relative; min-height: 100vh; padding: 120px 0 60px; overflow: hidden;
   display: flex; align-items: center;
-  background: #d45a9e;
+  background: linear-gradient(135deg, #E27B9A 0%, #F4A7BB 50%, #FCDAE6 100%);
 }
 .hero-inner {
   display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; width: 100%;
@@ -153,10 +153,10 @@ img { max-width: 100%; display: block; }
   font-size: clamp(36px, 4.8vw, 56px); color: white;
   line-height: 1.1; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.5px;
 }
-.hero-text h1 .hl { color: #fbc3c1; font-style: italic; }
+.hero-text h1 .hl { color: #FFF5F8; font-style: italic; }
 .hero-text .hero-sub {
   font-family: 'Playfair Display', serif; font-style: italic;
-  font-size: clamp(16px, 1.4vw, 20px); color: #fbc3c1;
+  font-size: clamp(16px, 1.4vw, 20px); color: #FFF5F8;
   margin-bottom: 16px; font-weight: 400;
 }
 .hero-text p {
@@ -172,8 +172,8 @@ img { max-width: 100%; display: block; }
 }
 .hero-meta-item svg { opacity: 0.5; flex-shrink: 0; stroke: white; }
 .hero-buttons { display: flex; gap: 12px; flex-wrap: wrap; }
-.hero-buttons .btn-primary { background: white; color: #d45a9e; }
-.hero-buttons .btn-primary:hover { background: #fbc3c1; color: #d45a9e; transform: translateY(-2px); }
+.hero-buttons .btn-primary { background: white; color: #E27B9A; }
+.hero-buttons .btn-primary:hover { background: #FFF5F8; color: #E27B9A; transform: translateY(-2px); }
 .hero-buttons .btn-outline { background: transparent; color: white; border: 2px solid rgba(255,255,255,0.3); }
 .hero-buttons .btn-outline:hover { background: rgba(255,255,255,0.1); border-color: white; transform: translateY(-2px); }
 /* Carousel dots */
@@ -568,6 +568,18 @@ img { max-width: 100%; display: block; }
 .checkout-summary .line { display:flex; justify-content:space-between; font-size:13px; padding:4px 0; }
 .checkout-summary .line.total { font-weight:700; font-size:16px; border-top:1px solid rgba(0,0,0,0.06); padding-top:8px; margin-top:4px; }
 
+/* ORDER LOOKUP */
+.order-lookup { padding:60px 0; background:var(--card); }
+.lookup-form { max-width:520px; margin:0 auto; }
+.lookup-row { display:flex; gap:12px; }
+.lookup-row input { flex:1; padding:14px 16px; border:2px solid rgba(0,0,0,0.06); border-radius:12px; font-size:14px; outline:none; font-family:'Inter',sans-serif; }
+.lookup-row input:focus { border-color:var(--primary); }
+.lookup-result { background:var(--bg); border-radius:12px; padding:16px; margin-top:16px; }
+.lookup-result .lr-item { padding:12px 0; border-bottom:1px solid rgba(0,0,0,0.04); }
+.lookup-result .lr-item:last-child { border-bottom:none; }
+.lookup-result .lr-id { font-weight:600; font-size:13px; color:var(--heading); }
+.lookup-result .lr-status { font-size:12px; margin-top:2px; }
+.lookup-result .lr-date { font-size:11px; color:var(--body); opacity:0.5; }
 /* RESERVATION SECTION */
 .reservation-section { padding:60px 0; background:var(--bg); }
 .reservation-grid { display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center; }
@@ -695,6 +707,7 @@ img { max-width: 100%; display: block; }
       <li><a href="#events">Events</a></li>
       <li><a href="#services">Services</a></li>
       <li><a href="#reservation">Reserve</a></li>
+      <li><a href="#orderlookup">Track Order</a></li>
       <li><a href="#about">About</a></li>
       <li><a href="#instagram">Gallery</a></li>
     </ul>
@@ -721,6 +734,7 @@ img { max-width: 100%; display: block; }
   <a href="#cakes">Cakes</a>
   <a href="#events">Events</a>
   <a href="#reservation">Reserve</a>
+  <a href="#orderlookup">Track Order</a>
   <a href="#services">Services</a>
   <a href="#about">About</a>
   <a href="#instagram">Gallery</a>
@@ -1004,6 +1018,25 @@ img { max-width: 100%; display: block; }
         <button type="submit" class="btn btn-primary" style="align-self:flex-start;">Request Reservation</button>
         <div id="resStatus" style="font-size:14px;"></div>
       </form>
+    </div>
+  </div>
+</section>
+
+<!-- ORDER LOOKUP -->
+<section class="order-lookup" id="orderlookup">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="tag">Track Your Order</span>
+      <div class="section-divider"></div>
+      <h2>Order Status</h2>
+      <p>Enter your phone number to check your order status.</p>
+    </div>
+    <div class="lookup-form reveal">
+      <div class="lookup-row">
+        <input type="tel" id="lookupPhone" placeholder="Enter your phone number" required>
+        <button class="btn btn-primary" onclick="lookupOrder()">Check Status</button>
+      </div>
+      <div id="lookupResults"></div>
     </div>
   </div>
 </section>
@@ -1339,6 +1372,8 @@ img { max-width: 100%; display: block; }
         <a href="#cakes">Cakes</a>
         <a href="#events">Events</a>
         <a href="#services">Services</a>
+        <a href="#reservation">Reserve</a>
+        <a href="#orderlookup">Track Order</a>
         <a href="#about">About</a>
         <a href="#instagram">Gallery</a>
       </div>
@@ -1624,6 +1659,26 @@ console.log('WakeCup Cafe || Theni — Bakingo-inspired design.');
 
 // CART STATE
 let cart = [];
+function flyToCart(btn) {
+  const cartIcon = document.querySelector('.cart-icon-btn');
+  if (!cartIcon) return;
+  const btnRect = btn.getBoundingClientRect();
+  const iconRect = cartIcon.getBoundingClientRect();
+  const card = btn.closest('.menu-card');
+  const img = card?.querySelector('img');
+  if (!img) return;
+  const clone = img.cloneNode();
+  clone.style.cssText = 'position:fixed;z-index:10002;border-radius:50%;width:48px;height:48px;object-fit:cover;pointer-events:none;';
+  clone.style.left = btnRect.left + 'px';
+  clone.style.top = btnRect.top + 'px';
+  document.body.appendChild(clone);
+  gsap.to(clone, {
+    x: iconRect.left - btnRect.left + iconRect.width/2 - 24,
+    y: iconRect.top - btnRect.top + iconRect.height/2 - 24,
+    scale: 0.3, duration: 0.6, ease: 'power3.inOut',
+    onComplete: () => { clone.remove(); gsap.fromTo(cartIcon, {scale:1.2}, {scale:1,duration:0.3}); }
+  });
+}
 function addToCart(btn) {
   const id = btn.dataset.id;
   const name = btn.dataset.name;
@@ -1633,6 +1688,7 @@ function addToCart(btn) {
   if (existing) { existing.qty++; }
   else { cart.push({ id, name, image, price, qty: 1 }); }
   updateCart();
+  flyToCart(btn);
   gsap.fromTo(btn, {scale:0.9}, {scale:1, duration:0.2});
 }
 function removeFromCart(id) {
@@ -1787,6 +1843,26 @@ document.getElementById('reservationForm')?.addEventListener('submit', async fun
   btn.disabled = false; btn.textContent = 'Request Reservation';
   ScrollTrigger.refresh();
 });
+
+// ORDER LOOKUP
+async function lookupOrder() {
+  const phone = document.getElementById('lookupPhone').value.trim();
+  const results = document.getElementById('lookupResults');
+  if (!phone) { results.innerHTML = '<div class="lookup-result" style="text-align:center;color:#e74c3c;">Please enter your phone number.</div>'; return; }
+  results.innerHTML = '<div class="lookup-result" style="text-align:center;">Checking...</div>';
+  try {
+    const res = await fetch('/api/order/lookup?phone=' + encodeURIComponent(phone));
+    const data = await res.json();
+    if (!data.length) { results.innerHTML = '<div class="lookup-result" style="text-align:center;color:var(--body);opacity:0.6;">No orders found for this number.</div>'; return; }
+    let html = '<div class="lookup-result">';
+    data.forEach(o => {
+      const statusClass = o.status === 'confirmed' ? '#1a8a5c' : o.status === 'completed' ? '#E27B9A' : o.status === 'cancelled' ? '#c0392b' : '#B8860B';
+      html += '<div class="lr-item"><div class="lr-id">Order #' + o.id + '</div><div class="lr-status" style="color:' + statusClass + ';font-weight:600;text-transform:capitalize;">' + o.status + '</div><div class="lr-date">' + new Date(o.created_at).toLocaleDateString() + ' · ' + (o.order_type || 'takeaway') + '</div></div>';
+    });
+    html += '</div>';
+    results.innerHTML = html;
+  } catch(e) { results.innerHTML = '<div class="lookup-result" style="text-align:center;color:#e74c3c;">Error looking up order.</div>'; }
+}
 </script>
 </body>
 </html>
