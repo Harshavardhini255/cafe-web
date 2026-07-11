@@ -70,14 +70,13 @@ td { padding:12px 8px; border-bottom:1px solid #f0f0f0; vertical-align:top; }
 
 <div id="panel-orders" class="panel active">
   <table>
-    <tr><th>#</th><th>Customer</th><th>Phone</th><th>Items</th><th>Total</th><th>Type</th><th>Status</th><th>Date</th><th></th></tr>
+    <tr><th>#</th><th>Customer</th><th>Phone</th><th>Items</th><th>Type</th><th>Status</th><th>Date</th><th></th></tr>
     {% for o in orders %}
     <tr>
       <td>{{ o.id }}</td>
       <td>{{ o.customer_name }}</td>
       <td>{{ o.customer_phone }}</td>
       <td style="font-size:12px;">{{ o.items[:80] }}{% if o.items|length > 80 %}...{% endif %}</td>
-      <td>₹{{ o.total }}</td>
       <td>{{ o.order_type }}</td>
       <td>
         <select class="select-status badge-{{ o.status }}" onchange="updateOrder({{ o.id }}, this.value)">
@@ -91,7 +90,7 @@ td { padding:12px 8px; border-bottom:1px solid #f0f0f0; vertical-align:top; }
       <td><button class="btn-approve" onclick="viewOrder({{ o.id }})">View</button></td>
     </tr>
     {% else %}
-    <tr><td colspan="9" class="empty">No orders yet</td></tr>
+    <tr><td colspan="8" class="empty">No orders yet</td></tr>
     {% endfor %}
   </table>
 </div>
@@ -106,7 +105,6 @@ td { padding:12px 8px; border-bottom:1px solid #f0f0f0; vertical-align:top; }
       <p><strong>Type:</strong> <span id="orderDetailType"></span></p>
       <p><strong>Notes:</strong> <span id="orderDetailNotes"></span></p>
       <p><strong>Date:</strong> <span id="orderDetailDate"></span></p>
-      <p><strong>Total:</strong> ₹<span id="orderDetailTotal"></span></p>
       <p><strong>Items:</strong></p>
       <div id="orderDetailItems" style="background:#FAF8FF;border-radius:8px;padding:12px;margin-top:4px;font-size:13px;"></div>
     </div>
@@ -266,8 +264,7 @@ function viewOrder(id) {
       document.getElementById('orderDetailType').textContent = o.order_type;
       document.getElementById('orderDetailNotes').textContent = o.notes || '-';
       document.getElementById('orderDetailDate').textContent = new Date(o.created_at).toLocaleString();
-      document.getElementById('orderDetailTotal').textContent = o.total;
-      let itemsHtml = o.items.map(i => `<div style="padding:4px 0;border-bottom:1px solid rgba(0,0,0,0.04);">${i.name} × ${i.qty} — ₹${i.price || '?'}</div>`).join('');
+      let itemsHtml = o.items.map(i => `<div style="padding:4px 0;border-bottom:1px solid rgba(0,0,0,0.04);">${i.name} × ${i.qty}</div>`).join('');
       document.getElementById('orderDetailItems').innerHTML = itemsHtml || '<em>No items</em>';
       document.getElementById('orderModal').style.display = 'flex';
     });

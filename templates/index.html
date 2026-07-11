@@ -548,7 +548,6 @@ img { max-width: 100%; display: block; }
 .cart-item-qty span { font-size:14px; font-weight:600; min-width:20px; text-align:center; }
 .cart-empty { text-align:center; padding:60px 20px; color:var(--body); opacity:0.5; font-size:14px; }
 .cart-footer { padding:20px 24px; border-top:1px solid rgba(0,0,0,0.04); }
-.cart-total { display:flex; justify-content:space-between; font-size:16px; font-weight:700; margin-bottom:12px; }
 .cart-checkout-btn { width:100%; padding:14px; border-radius:12px; border:none; background:var(--primary); color:white; font-size:15px; font-weight:600; cursor:pointer; transition:background 0.3s; }
 .cart-checkout-btn:hover { background:var(--dark); }
 .cart-count { position:absolute; top:-6px; right:-6px; width:20px; height:20px; border-radius:50%; background:var(--primary); color:white; font-size:11px; font-weight:600; display:flex; align-items:center; justify-content:center; }
@@ -1201,7 +1200,6 @@ img { max-width: 100%; display: block; }
     <div class="cart-empty">Your cart is empty. Browse the menu and add items!</div>
   </div>
   <div class="cart-footer" id="cartFooter" style="display:none;">
-    <div class="cart-total"><span>Total</span><span id="cartTotal">₹0</span></div>
     <button class="cart-checkout-btn" onclick="openCheckout()">Proceed to Order</button>
   </div>
 </div>
@@ -1223,7 +1221,7 @@ img { max-width: 100%; display: block; }
       </select>
       <textarea id="orderNotes" rows="2" placeholder="Any special instructions?"></textarea>
       <div class="checkout-summary" id="checkoutSummary"></div>
-      <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">Place Order — <span id="checkoutTotal">₹0</span></button>
+      <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">Place Order</button>
       <div id="orderStatus" style="font-size:14px;text-align:center;"></div>
     </form>
   </div>
@@ -1594,7 +1592,6 @@ function updateCart() {
     return;
   }
   let html = '';
-  let total = getTotalPrice();
   cart.forEach(item => {
     html += `<div class="cart-item">
       <img class="cart-item-img" src="/static/${item.image}" alt="${item.name}" loading="lazy">
@@ -1611,7 +1608,6 @@ function updateCart() {
   });
   container.innerHTML = html;
   footer.style.display = 'block';
-  document.getElementById('cartTotal').textContent = '₹' + total;
 }
 function openCart() { document.getElementById('cartOverlay').classList.add('open'); document.getElementById('cartSidebar').classList.add('open'); }
 function closeCart() { document.getElementById('cartOverlay').classList.remove('open'); document.getElementById('cartSidebar').classList.remove('open'); }
@@ -1619,13 +1615,10 @@ function openCheckout() {
   if (cart.length === 0) return;
   closeCart();
   let html = '';
-  let total = getTotalPrice();
   cart.forEach(item => {
-    html += `<div class="line"><span>${item.name} × ${item.qty}</span><span>₹${item.price * item.qty}</span></div>`;
+    html += `<div class="line"><span>${item.name} × ${item.qty}</span></div>`;
   });
-  html += `<div class="line total"><span>Total</span><span>₹${total}</span></div>`;
   document.getElementById('checkoutSummary').innerHTML = html;
-  document.getElementById('checkoutTotal').textContent = '₹' + total;
   document.getElementById('checkoutModal').classList.add('open');
 }
 function closeCheckout() { document.getElementById('checkoutModal').classList.remove('open'); }
