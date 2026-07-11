@@ -79,7 +79,7 @@ td { padding:12px 8px; border-bottom:1px solid #FFF5F8; vertical-align:top; font
       <td>{{ o.id }}</td>
       <td>{{ o.customer_name }}</td>
       <td>{{ o.customer_phone }}</td>
-      <td style="font-size:12px;">{{ o.items[:80] }}{% if o.items|length > 80 %}...{% endif %}</td>
+      <td style="font-size:12px;">{% set parsed = o.items|fromjson %}{% for i in parsed %}{{ i.name }} × {{ i.qty }}{% if not loop.last %}, {% endif %}{% endfor %}</td>
       <td>{{ o.order_type }}</td>
       <td><select class="select-status" onchange="updateOrder({{ o.id }}, this.value)">
         <option value="pending" {% if o.status=='pending' %}selected{% endif %}>Pending</option>
@@ -143,13 +143,14 @@ td { padding:12px 8px; border-bottom:1px solid #FFF5F8; vertical-align:top; font
   </div>
   <div class="table-wrap">
   <table>
-    <tr><th>#</th><th>Image</th><th>Name</th><th>Category</th><th>Available</th><th></th></tr>
+    <tr><th>#</th><th>Image</th><th>Name</th><th>Category</th><th>Ordered</th><th>Available</th><th></th></tr>
     {% for m in menu_items %}
     <tr>
       <td>{{ m.id }}</td>
       <td style="font-size:11px;">{{ m.image }}</td>
       <td>{{ m.name }}</td>
       <td>{{ m.category }}</td>
+      <td>{{ order_counts.get(m.name, 0) }}</td>
       <td>{{ '✓' if m.available else '✗' }}</td>
       <td style="display:flex;gap:4px;">
         <button class="btn-action" onclick="editItem({{ m.id }},'{{ m.name }}',{{ m.price }},'{{ m.category }}','{{ m.image }}','{{ m.description or '' }}')">Edit</button>
@@ -157,7 +158,7 @@ td { padding:12px 8px; border-bottom:1px solid #FFF5F8; vertical-align:top; font
       </td>
     </tr>
     {% else %}
-    <tr><td colspan="6" class="empty">Menu is empty</td></tr>
+    <tr><td colspan="7" class="empty">Menu is empty</td></tr>
     {% endfor %}
   </table>
   </div>

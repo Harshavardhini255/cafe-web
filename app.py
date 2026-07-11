@@ -12,6 +12,13 @@ app.config.from_object(Config)
 CORS(app)
 db.init_app(app)
 
+@app.template_filter('fromjson')
+def fromjson_filter(s):
+    try:
+        return json.loads(s)
+    except:
+        return []
+
 @app.route('/')
 def index():
     menu_items = MenuItem.query.filter_by(available=True).all()
@@ -146,10 +153,20 @@ def admin_dashboard():
     reviews = Review.query.order_by(Review.created_at.desc()).all()
     subscribers = Subscriber.query.order_by(Subscriber.created_at.desc()).all()
     contacts = ContactMessage.query.order_by(ContactMessage.created_at.desc()).all()
+    order_counts = {}
+    for o in orders:
+        try:
+            items = json.loads(o.items)
+            for i in items:
+                name = i.get('name', '')
+                order_counts[name] = order_counts.get(name, 0) + i.get('qty', 0)
+        except:
+            pass
     return render_template('admin/dashboard.html',
         orders=orders, reservations=reservations,
         menu_items=menu_items, reviews=reviews,
-        subscribers=subscribers, contacts=contacts)
+        subscribers=subscribers, contacts=contacts,
+        order_counts=order_counts)
 
 @app.route('/admin/order/<int:order_id>/status', methods=['POST'])
 def update_order_status(order_id):
