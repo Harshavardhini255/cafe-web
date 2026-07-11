@@ -272,7 +272,7 @@ img { max-width: 100%; display: block; }
 .cake-card-image { width: 100%; position: relative; overflow: hidden; }
 .cake-card-image img,
 .cake-card-image video { width: 100%; height: auto; display: block; transition: transform 0.6s ease; }
-.cake-card-image .vid-unmute { bottom:12px; right:12px; }
+
 .cake-card:hover .cake-card-image img,
 .cake-card:hover .cake-card-image video { transform: scale(1.05); }
 .cake-card-overlay {
@@ -302,10 +302,7 @@ img { max-width: 100%; display: block; }
 .sip-card-image img,
 .sip-card-image { position:relative; }
 .sip-card-image video { width: 100%; height: auto; display: block; }
-.vid-unmute { position:absolute; bottom:12px; right:12px; z-index:3; width:36px; height:36px; border-radius:50%; background:rgba(0,0,0,0.5); border:none; color:white; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.3s; backdrop-filter:blur(4px); }
-.vid-unmute:hover { background:rgba(0,0,0,0.7); }
-.vid-unmute.unmuted svg:first-child { display:none; }
-.vid-unmute svg { width:16px; height:16px; }
+
 @media (max-width: 900px) { .sip-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 500px) { .sip-grid { grid-template-columns: 1fr; } }
 
@@ -897,7 +894,7 @@ img { max-width: 100%; display: block; }
         <div class="cake-card-body"><h3>Celebration Cake</h3><p class="sub">DM to Order</p><button class="add-to-cart-btn" data-id="cake-1" data-name="Celebration Cake" data-image="cake-1.jpg" data-price="0" onclick="addToCart(this)">Add to Order</button></div>
       </div>
       <div class="cake-card reveal-scale" data-cake-filter="Designer">
-        <div class="cake-card-image"><video src="/static/cake-2.mp4" autoplay muted loop playsinline preload="none" poster="/static/cake-1.jpg"></video><button class="vid-unmute" onclick="toggleMute(this)" aria-label="Unmute"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button><a href="https://www.instagram.com/wakecup.ind" target="_blank" class="cake-card-overlay"><span>DM to Order</span></a></div>
+        <div class="cake-card-image"><video src="/static/cake-2.mp4" autoplay muted loop playsinline preload="none" poster="/static/cake-1.jpg"></video><a href="https://www.instagram.com/wakecup.ind" target="_blank" class="cake-card-overlay"><span>DM to Order</span></a></div>
         <div class="cake-card-body"><h3>Designer Cake</h3><p class="sub">DM to Order</p><button class="add-to-cart-btn" data-id="cake-2" data-name="Designer Cake" data-image="cake-1.jpg" data-price="0" onclick="addToCart(this)">Add to Order</button></div>
       </div>
       <div class="cake-card reveal-scale" data-cake-filter="Designer">
@@ -949,13 +946,13 @@ img { max-width: 100%; display: block; }
         <div class="sip-card-image"><img src="/static/sip-1.jpg" alt="Floral Sip & Paint" loading="lazy"></div>
       </div>
       <div class="sip-card reveal-scale">
-        <div class="sip-card-image"><video src="/static/sip-2.mp4" autoplay muted loop playsinline preload="none" poster="/static/flow-logo.png"></video><button class="vid-unmute" onclick="toggleMute(this)" aria-label="Unmute"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button></div>
+        <div class="sip-card-image"><video src="/static/sip-2.mp4" autoplay muted loop playsinline preload="none" poster="/static/flow-logo.png"></video></div>
       </div>
       <div class="sip-card reveal-scale">
-        <div class="sip-card-image"><video src="/static/sip-3.mp4" autoplay muted loop playsinline preload="none" poster="/static/flow-logo.png"></video><button class="vid-unmute" onclick="toggleMute(this)" aria-label="Unmute"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button></div>
+        <div class="sip-card-image"><video src="/static/sip-3.mp4" autoplay muted loop playsinline preload="none" poster="/static/flow-logo.png"></video></div>
       </div>
       <div class="sip-card reveal-scale">
-        <div class="sip-card-image"><video src="/static/sip-4.mp4" autoplay muted loop playsinline preload="none" poster="/static/flow-logo.png"></video><button class="vid-unmute" onclick="toggleMute(this)" aria-label="Unmute"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button></div>
+        <div class="sip-card-image"><video src="/static/sip-4.mp4" autoplay muted loop playsinline preload="none" poster="/static/flow-logo.png"></video></div>
       </div>
     </div>
   </div>
@@ -1102,7 +1099,7 @@ img { max-width: 100%; display: block; }
     </div>
     <div class="events-grid">
       <div class="event-card reveal-scale">
-        <video src="/static/sip-event.mp4" autoplay loop playsinline controls></video>
+        <video src="/static/sip-event.mp4" loop playsinline controls></video>
         <div class="event-card-body">
           <div class="date">Monthly</div>
           <h3>Floral Sip & Paint</h3>
@@ -1111,7 +1108,7 @@ img { max-width: 100%; display: block; }
         </div>
       </div>
       <div class="event-card reveal-scale">
-        <video src="/static/birthday-event.mp4" autoplay loop playsinline controls></video>
+        <video src="/static/birthday-event.mp4" loop playsinline controls></video>
         <div class="event-card-body">
           <div class="date">By Booking</div>
           <h3>Private Birthday Parties</h3>
@@ -1120,7 +1117,7 @@ img { max-width: 100%; display: block; }
         </div>
       </div>
       <div class="event-card reveal-scale">
-        <video src="/static/weekend-event.mp4" autoplay loop playsinline controls></video>
+        <video src="/static/weekend-event.mp4" loop playsinline controls></video>
         <div class="event-card-body">
           <div class="date">Every Weekend</div>
           <h3>Weekend Special Menu</h3>
@@ -1816,17 +1813,6 @@ function showConfirm(title, msg, id) {
   document.getElementById('confirmModal').classList.add('open');
 }
 function closeConfirm() { document.getElementById('confirmModal').classList.remove('open'); }
-
-// TOGGLE VIDEO SOUND
-function toggleMute(btn) {
-  const video = btn.previousElementSibling;
-  if (!video || !video.play) return;
-  video.muted = !video.muted;
-  btn.classList.toggle('unmuted', !video.muted);
-  btn.innerHTML = video.muted
-    ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>'
-    : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>';
-}
 
 // FORM VALIDATION
 function validateField(el) {
