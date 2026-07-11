@@ -110,6 +110,13 @@ class Subscriber(db.Model):
             'created_at': self.created_at.isoformat()
         }
 
+class UploadedImage(db.Model):
+    __tablename__ = 'uploaded_images'
+    filename = db.Column(db.String(200), primary_key=True)
+    data = db.Column(db.LargeBinary, nullable=False)
+    mimetype = db.Column(db.String(50), default='image/jpeg')
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
 class ContactMessage(db.Model):
     __tablename__ = 'contact_messages'
     id = db.Column(db.Integer, primary_key=True)

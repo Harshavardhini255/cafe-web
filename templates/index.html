@@ -854,7 +854,7 @@ img { max-width: 100%; display: block; }
       {% for item in menu_items %}
       <div class="menu-card reveal-scale" data-category="{{ item.category }}">
         <div class="menu-card-img">
-          <img src="/static/{{ item.image }}" alt="{{ item.name }}" loading="lazy" decoding="async" onerror="this.src='/static/product-1.png'">
+          <img src="/uploads/{{ item.image }}" alt="{{ item.name }}" loading="lazy" decoding="async" onerror="this.src='/static/product-1.png'">
         </div>
         <div class="menu-card-body">
           <h3>{{ item.name }}</h3>
@@ -1778,7 +1778,7 @@ function updateCart() {
   let html = '';
   cart.forEach(item => {
     html += `<div class="cart-item">
-      <img class="cart-item-img" src="/static/${item.image}" alt="${item.name}" loading="lazy">
+      <img class="cart-item-img" src="/uploads/${item.image}" alt="${item.name}" loading="lazy">
       <div class="cart-item-info">
         <h4>${item.name}</h4>
         <div class="cart-item-qty">

@@ -1,11 +1,11 @@
 import os
 import json
 from datetime import datetime
-from flask import Flask, render_template, request, jsonify, redirect, url_for, session
+from flask import Flask, render_template, request, jsonify, redirect, url_for, session, send_file
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 from config import Config
-from models import db, MenuItem, Order, Reservation, Review, Subscriber, ContactMessage
+from models import db, MenuItem, Order, Reservation, Review, Subscriber, ContactMessage, UploadedImage
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -264,10 +264,13 @@ def list_images():
     if not session.get('admin'):
         return jsonify({'error': 'Unauthorized'}), 401
     static_dir = os.path.join(app.root_path, 'static')
-    files = []
-    for f in os.listdir(static_dir):
-        if allowed_file(f):
-            files.append(f)
+    files = set()
+    if os.path.isdir(static_dir):
+        for f in os.listdir(static_dir):
+            if allowed_file(f):
+                files.add(f)
+    for img in UploadedImage.query.with_entities(UploadedImage.filename).all():
+        files.add(img.filename)
     return jsonify(sorted(files))
 
 @app.route('/admin/upload', methods=['POST'])
@@ -282,9 +285,33 @@ def upload_image():
     if not allowed_file(file.filename):
         return jsonify({'error': 'Allowed: png, jpg, jpeg, gif, webp, mp4'}), 400
     filename = secure_filename(file.filename)
+
+    mimetype = file.content_type or 'image/jpeg'
+    data = file.read()
+
+    existing = UploadedImage.query.get(filename)
+    if existing:
+        existing.data = data
+        existing.mimetype = mimetype
+    else:
+        db.session.add(UploadedImage(filename=filename, data=data, mimetype=mimetype))
+    db.session.commit()
+
+    file.seek(0)
     static_dir = os.path.join(app.root_path, 'static')
     file.save(os.path.join(static_dir, filename))
     return jsonify({'success': True, 'filename': filename})
+
+@app.route('/uploads/<path:filename>')
+def serve_upload(filename):
+    img = UploadedImage.query.get(filename)
+    if img and img.data:
+        mimetype = img.mimetype or 'image/jpeg'
+        return img.data, 200, {'Content-Type': mimetype}
+    static_path = os.path.join(app.root_path, 'static', filename)
+    if os.path.exists(static_path):
+        return send_file(static_path)
+    return '', 404
 
 _init_done = False
 
