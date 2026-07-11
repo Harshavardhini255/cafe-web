@@ -4,6 +4,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>WakeCup Cafe || Theni</title>
+<style>
+#preloader {
+  position: fixed; inset: 0; z-index: 99999;
+  background: #FAF8FF;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  font-family: 'Playfair Display', serif;
+  transition: opacity 0.6s ease;
+}
+#preloader.hide { opacity: 0; pointer-events: none; }
+#preloader img { width: 80px; height: 80px; border-radius: 50%; margin-bottom: 20px; }
+#preloader h2 { font-size: 36px; font-weight: 800; color: #6C4EFF; margin-bottom: 8px; }
+#preloader p { font-size: 16px; color: #666; font-weight: 400; }
+.loader-dot { width: 10px; height: 10px; border-radius: 50%; background: #6C4EFF; display: inline-block; margin: 24px 4px 0; animation: pulse 1.2s ease-in-out infinite; }
+.loader-dot:nth-child(2) { animation-delay: 0.2s; }
+.loader-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes pulse { 0%,100% { opacity: 0.3; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.2); } }
+</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -181,7 +198,7 @@ img { max-width: 100%; display: block; }
   display: flex; flex-direction: column; justify-content: center;
   height: 100%; align-items: center;
 }
-.hero-content h1 { font-size: clamp(36px, 7vw, 72px); color: white; margin-bottom: 16px; text-shadow: 0 2px 40px rgba(0,0,0,0.2); }
+.hero-content h1 { font-size: clamp(36px, 7vw, 72px); font-weight: 800; color: white; margin-bottom: 16px; text-shadow: 0 2px 40px rgba(0,0,0,0.2); }
 .hero-content p { font-size: clamp(16px, 2vw, 20px); margin-bottom: 32px; opacity: 0.9; font-weight: 300; line-height: 1.6; }
 .hero-content .tag { background: rgba(255,255,255,0.15); color: white; }
 .hero-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
@@ -411,6 +428,13 @@ img { max-width: 100%; display: block; }
 </style>
 </head>
 <body>
+
+<div id="preloader">
+  <img src="flow-logo.png" alt="WakeCup Cafe">
+  <h2>WakeCup Cafe</h2>
+  <p>|| Theni</p>
+  <div><span class="loader-dot"></span><span class="loader-dot"></span><span class="loader-dot"></span></div>
+</div>
 
 <div class="blob blob-1"></div>
 <div class="blob blob-2"></div>
@@ -898,6 +922,11 @@ function startCountdown() {
   setInterval(tick, 1000);
 }
 startCountdown();
+
+// PRELOADER
+window.addEventListener('load', () => {
+  setTimeout(() => document.getElementById('preloader').classList.add('hide'), 400);
+});
 
 // MOBILE MENU
 const hamburgerBtn = document.getElementById('hamburgerBtn');
