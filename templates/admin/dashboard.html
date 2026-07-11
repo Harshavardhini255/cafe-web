@@ -48,9 +48,14 @@ td { padding:12px 8px; border-bottom:1px solid #FFF5F8; vertical-align:top; font
 </head>
 <body>
 <div class="header">
-  <h1>☕ WakeCup Admin</h1>
-  <a href="/admin/logout">Logout</a>
+  <h1>☕ WakeCup — Admin</h1>
+  <a href="/">← View Site</a>
 </div>
+{% if db_type == 'sqlite' %}
+<div style="background:#FFF3CD;color:#856404;padding:10px 32px;font-size:13px;display:flex;align-items:center;gap:8px;">
+  <strong>⚠</strong> Using SQLite database — data will be lost on every deployment. Set up a PostgreSQL database on Render to persist your data permanently.
+</div>
+{% endif %}
 
 <div class="grid">
   <div class="card"><div class="num">{{ orders|length }}</div><div class="label">Total Orders</div>{% set pending_orders = orders|selectattr('status','equalto','pending')|list %}{% if pending_orders %}<span class="badge-new">{{ pending_orders|length }}</span>{% endif %}</div>

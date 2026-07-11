@@ -162,11 +162,12 @@ def admin_dashboard():
                 order_counts[name] = order_counts.get(name, 0) + i.get('qty', 0)
         except:
             pass
+    db_type = 'sqlite' if 'sqlite' in str(db.engine.url) else 'postgresql'
     return render_template('admin/dashboard.html',
         orders=orders, reservations=reservations,
         menu_items=menu_items, reviews=reviews,
         subscribers=subscribers, contacts=contacts,
-        order_counts=order_counts)
+        order_counts=order_counts, db_type=db_type)
 
 @app.route('/admin/order/<int:order_id>/status', methods=['POST'])
 def update_order_status(order_id):
