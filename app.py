@@ -169,6 +169,15 @@ def update_reservation_status(res_id):
     db.session.commit()
     return jsonify({'success': True})
 
+@app.route('/admin/message/<int:msg_id>/read', methods=['POST'])
+def toggle_message_read(msg_id):
+    if not session.get('admin'):
+        return jsonify({'error': 'Unauthorized'}), 401
+    msg = ContactMessage.query.get_or_404(msg_id)
+    msg.read = not msg.read
+    db.session.commit()
+    return jsonify({'success': True, 'read': msg.read})
+
 @app.route('/admin/review/<int:review_id>/approve', methods=['POST'])
 def approve_review(review_id):
     if not session.get('admin'):

@@ -199,18 +199,19 @@ td { padding:12px 8px; border-bottom:1px solid #FFF5F8; vertical-align:top; font
 <div id="panel-messages" class="panel">
   <div class="table-wrap">
   <table>
-    <tr><th>#</th><th>Name</th><th>Email</th><th>Subject</th><th>Message</th><th>Date</th></tr>
+    <tr><th>#</th><th>Name</th><th>Email</th><th>Subject</th><th>Message</th><th>Read</th><th>Date</th></tr>
     {% for c in contacts %}
-    <tr>
+    <tr style="{{ 'opacity:0.5' if c.read else '' }}">
       <td>{{ c.id }}</td>
       <td>{{ c.name }}</td>
       <td>{{ c.email }}</td>
       <td>{{ c.subject or '-' }}</td>
       <td style="max-width:300px;font-size:13px;">{{ c.message }}</td>
+      <td><button class="btn-action {{ 'approved' if c.read else '' }}" onclick="toggleRead({{ c.id }}, this)">{{ 'Read' if c.read else 'Unread' }}</button></td>
       <td style="font-size:12px;white-space:nowrap;">{{ c.created_at.strftime('%d %b, %I:%M %p') }}</td>
     </tr>
     {% else %}
-    <tr><td colspan="6" class="empty">No messages yet</td></tr>
+    <tr><td colspan="7" class="empty">No messages yet</td></tr>
     {% endfor %}
   </table>
   </div>
@@ -325,6 +326,14 @@ function viewReservation(id) {
 function approveReview(id, btn) {
   fetch('/admin/review/' + id + '/approve', { method:'POST', headers:{'Content-Type':'application/json'} })
     .then(r => r.json()).then(data => { btn.textContent = data.approved ? 'Approved' : 'Approve'; btn.classList.toggle('approved'); });
+}
+function toggleRead(id, btn) {
+  fetch('/admin/message/' + id + '/read', { method:'POST', headers:{'Content-Type':'application/json'} })
+    .then(r => r.json()).then(data => {
+      btn.textContent = data.read ? 'Read' : 'Unread';
+      btn.classList.toggle('approved');
+      btn.closest('tr').style.opacity = data.read ? '0.5' : '';
+    });
 }
 // IMAGE PICKER — load available images
 function loadImagePicker() {
